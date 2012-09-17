@@ -22,7 +22,7 @@ alias f='open -a Finder'
 alias fireworks="open -a '/Applications/Adobe Fireworks CS6/Adobe Fireworks CS6.app'"
 alias photoshop="open -a '/Applications/Adobe Photoshop CS6/Adobe Photoshop.app'"
 
-# shortcuts
+# general shortcuts
 alias pro="cd ~/projects"
 alias gh="open -a google\ chrome 'http://github.com/addyosmani'"
 alias bl="open -a google\ chrome 'http://browserling.com'"
@@ -82,6 +82,15 @@ alias whois="whois -h whois-servers.net"
 
 # Flush Directory Service cache
 alias flush="dscacheutil -flushcache"
+
+# npm
+alias npmp="sudo npm publish"
+alias npma="sudo npm adduser"
+alias npmi="sudo npm install"
+alias npmg="sudo npm install -g"
+alias npmu="sudo npm update"
+alias npmr="sudo npm uninstall"
+alias npmrg="sudo npm uninstall -g"
 
 # View HTTP traffic
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
