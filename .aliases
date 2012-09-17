@@ -7,10 +7,25 @@ alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
 # programs
-alias slt='open -a "Sublime Text 2"'
+alias st='open -a "Sublime Text 2"'
 # also/or do this:
 # ln -s "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" ~/bin/subl
+alias preview="open -a '$PREVIEW'"
+alias xcode="open -a '/Developer/Applications/Xcode.app'"
+alias filemerge="open -a '/Developer/Applications/Utilities/FileMerge.app'"
+alias safari="open -a safari"
+alias firefox="open -a firefox"
+alias chrome="open -a google\ chrome"
+alias chromium="open -a chromium"
+alias dashcode="open -a dashcode"
+alias f='open -a Finder'
+alias fireworks="open -a '/Applications/Adobe Fireworks CS6/Adobe Fireworks CS6.app'"
+alias photoshop="open -a '/Applications/Adobe Photoshop CS6/Adobe Photoshop.app'"
 
+# shortcuts
+alias pro="cd ~/projects"
+alias gh="open -a google\ chrome 'http://github.com/addyosmani'"
+alias bl="open -a google\ chrome 'http://browserling.com'"
 
 # be nice
 alias please=sudo
@@ -32,7 +47,6 @@ alias l="ls -l ${colorflag}"
 
 # List all files colorized in long format, including dot files
 alias la="ls -la ${colorflag}"
-
 
 # List only directories
 alias lsd='ls -l | grep "^d"'
