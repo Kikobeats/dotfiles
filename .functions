@@ -10,13 +10,6 @@ function f() {
 }
 
 
-# lets toss an image onto my server and pbcopy that bitch.
-function scpp() {
-    scp "$1" aurgasm@aurgasm.us:~/paulirish.com/i;
-    echo "http://paulirish.com/i/$1" | pbcopy;
-    echo "Copied to clipboard: http://paulirish.com/i/$1"
-}
-
 # Start an HTTP server from a directory, optionally specifying the port
 function server() {
 	local port="${1:-8000}"
@@ -63,14 +56,16 @@ function json() {
 	fi
 }
 
+# prune a set of empty directories
+function prunedir () { 
+   find $* -type d -empty -print0 | xargs -0r rmdir -p ; 
+}
 
 # take this repo and copy it to somewhere else minus the .git stuff.
 function gitexport(){
 	mkdir -p "$1"
 	git archive master | tar -x -C "$1"
 }
-
-
 
 # get gzipped size
 function gz() {
