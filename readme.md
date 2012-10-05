@@ -6,7 +6,7 @@ This repo contains my personal dotfiles and are heavily based on [paul](https://
 
 * Dropbox via the command-line support
 * Browserstack shortcuts e.g `win7ie8 "http://google.com"`, `ipad3 "http://google.com"` etc.
-* Some more application and npm shortcuts
+* Some more application and npm shortcuts e.g `chrome`, `safari`, `opera`, `firefox`, `chromium` and others.
 
 
 ## install the neccessary apps
