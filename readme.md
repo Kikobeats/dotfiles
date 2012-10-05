@@ -4,9 +4,10 @@ This repo contains my personal dotfiles and are heavily based on [paul](https://
 
 ## Some differences
 
-* Dropbox via the command-line support
+* Dropbox via the command-line support (upload, download etc.)
 * Browserstack shortcuts e.g `win7ie8 "http://google.com"`, `ipad3 "http://google.com"` etc.
-* Some more application and npm shortcuts e.g `chrome`, `safari`, `opera`, `firefox`, `chromium` and others.
+* Some more application and npm aliases e.g `chrome`, `safari`, `opera`, `firefox`, `chromium` and others.
+* Launch all browsers with a specific URL `browsers "http://google.com"`
 
 
 ## install the neccessary apps
