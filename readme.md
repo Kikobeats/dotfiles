@@ -2,6 +2,13 @@
 
 This repo contains my personal dotfiles and are heavily based on [paul](https://github.com/paulirish/dotfiles/) and [mathias](https://github.com/mathiasbynens/dotfiles/)'s.
 
+## Some differences
+
+* Dropbox via the command-line support
+* Browserstack shortcuts e.g `win7ie8 "http://google.com"`, `ipad3 "http://google.com"` etc.
+* Some more application and npm shortcuts
+
+
 ## install the neccessary apps
 
 My basic setup is captured in `install-deps.sh` which adds homebrew, z, nave, etc.
@@ -98,7 +105,7 @@ I recommend getting a [`.jshintrc`](https://github.com/jshint/node-jshint/blob/m
 ## Installation
 
 ```bash
-git clone https://github.com/paulirish/dotfiles.git && cd dotfiles && ./sync.sh
+git clone https://github.com/addyosmani/dotfiles.git && cd dotfiles && ./sync.sh
 ```
 
 To update later on, just run the sync again.
