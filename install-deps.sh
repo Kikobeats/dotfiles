@@ -30,10 +30,11 @@ chmod +x ~/code/z/z.sh
 # add this to the bash_profile file if it aint there.
 #   . ~/code/z/z.sh
 
-
 cd ~/code
 git clone git://github.com/dronir/SpotifyControl.git
 
+# add DropBox uploader
+git clone git://github.com/andreafabrizi/Dropbox-Uploader.git
 
 
 # my magic photobooth symlink -> dropbox. I love it.

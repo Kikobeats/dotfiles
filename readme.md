@@ -4,11 +4,11 @@ This repo contains my personal dotfiles and are heavily based on [paul](https://
 
 ## Some differences
 
-* Dropbox via the command-line support (upload, download etc.)
-* Browserstack shortcuts e.g `win7ie8 "http://google.com"`, `ipad3 "http://google.com"` etc.
+* Dropbox via the command-line support `dropbox upload {localFile} {remoteFile}`, `dropbox download {remoteFile} {localFile}`, `dropbox list` etc.
+* Browserstack shortcuts e.g `win7ie8 "http://google.com"`, `ipad3 "http://google.com"`
 * Some more application and npm aliases e.g `chrome`, `safari`, `opera`, `firefox`, `chromium` and others.
 * Launch all browsers with a specific URL `browsers "http://google.com"`
-
+* My Sublime Text build files (Grunt, Yeoman, r.js, SASS, Less and a few others included)
 
 ## install the neccessary apps
 
