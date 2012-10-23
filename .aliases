@@ -22,6 +22,8 @@ alias dashcode="open -a dashcode"
 alias f='open -a Finder'
 alias fireworks="open -a '/Applications/Adobe Fireworks CS6/Adobe Fireworks CS6.app'"
 alias photoshop="open -a '/Applications/Adobe Photoshop CS6/Adobe Photoshop.app'"
+alias gpr="~/code/gpr $1"
+
 
 # general shortcuts
 alias pro="cd ~/projects"
