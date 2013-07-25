@@ -19,6 +19,14 @@ function server() {
 	python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port"
 }
 
+# git clone and cd into the local directory for the clone
+function lazyclone {
+    url=$1;
+    reponame=$(echo $url | awk -F/ '{print $NF}' | sed -e 's/.git$//');
+    git clone $url $reponame;
+    cd $reponame;
+}
+
 # git log with per-commit cmd-clickable GitHub URLs (iTerm)
 function gf() {
   local remote="$(git remote -v | awk '/^origin.*\(push\)$/ {print $2}')"
