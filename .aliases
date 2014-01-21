@@ -7,7 +7,7 @@ alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
 # programs
-alias st='open -a "Sublime Text 2"'
+alias sbl='open -a "Sublime Text 2"'
 # also/or do this:
 # ln -s "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" ~/bin/subl
 alias preview="open -a '$PREVIEW'"
@@ -26,8 +26,8 @@ alias gpr="~/code/gpr $1"
 
 
 # general shortcuts
-alias pro="cd ~/projects"
-alias gh="open -a google\ chrome 'http://github.com/addyosmani'"
+alias pro="cd ~/Projects"
+alias gh="open -a google\ chrome 'http://github.com/Kikobeats'"
 alias bl="open -a google\ chrome 'http://browserling.com'"
 
 # be nice
@@ -35,8 +35,6 @@ alias please=sudo
 
 # handy things
 alias bunyip='node ~/code/bunyip/cli.js'
-alias spotify="osascript ~/code/SpotifyControl/SpotifyControl.scpt"
-
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`

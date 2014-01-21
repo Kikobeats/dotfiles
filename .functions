@@ -25,7 +25,7 @@ function server() {
 # Based on https://github.com/stephenplusplus/dots/blob/master/.bash_profile#L68 by @stephenplusplus
 #
 # Note: subl is already setup as a shortcut to Sublime. Replace with your own editor if different
-# 
+#
 # - arg 1 - url|username|repo remote endpoint, username on github, or name of
 #           repository.
 # - arg 2 - (optional) name of repo
@@ -47,8 +47,8 @@ function server() {
 #     .. subl .
 
 function clone {
-  # customize username to your own 
-  local username="addyosmani"
+  # customize username to your own
+  local username="kikobeats"
 
   local url=$1;
   local repo=$2;
@@ -109,8 +109,8 @@ function json() {
 }
 
 # prune a set of empty directories
-function prunedir () { 
-   find $* -type d -empty -print0 | xargs -0r rmdir -p ; 
+function prunedir () {
+   find $* -type d -empty -print0 | xargs -0r rmdir -p ;
 }
 
 # take this repo and copy it to somewhere else minus the .git stuff.
@@ -152,7 +152,7 @@ function browsers(){
 	chrome $1
 	opera $1
 	firefox $1
-	safari $1	
+	safari $1
 }
 
 # Browserstack shortcuts, now with added hotness thanks to the Browserstack team.
@@ -162,7 +162,7 @@ function browsers(){
 # For local server running on port 3000, use like this
 # Usage: ipad3 "http://localhost:3000" "localhost,3000,0", win7ie8 "http://localhost:3000" "localhost,3000,0" etc.
 
-# For local server running on apache with ssl as staging.example.com and https://staging.example.com 
+# For local server running on apache with ssl as staging.example.com and https://staging.example.com
 # Usage: ipad3 "http://staging.example.com" "staging.example.com,80,0,staging.example.com,443,1", win7ie8 "http://staging.example.com" "staging.example.com,80,0,staging.example.com,443,1" etc.
 
 function openurl(){

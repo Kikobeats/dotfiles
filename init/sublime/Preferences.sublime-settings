@@ -1,0 +1,69 @@
+{
+	"auto_complete_commit_on_tab": false,
+	"bold_folder_labels": true,
+	"color_scheme": "Packages/Theme - Flatland/Flatland Dark.tmTheme",
+	"file_exclude_patterns":
+	[
+		".DS_Store",
+		".tags*",
+		"*.pyc",
+		"*.pyo",
+		"*.exe",
+		"*.dll",
+		"*.obj",
+		"*.o",
+		"*.a",
+		"*.lib",
+		"*.log",
+		"*.so",
+		"*.dylib",
+		"*.ncb",
+		"*.sdf",
+		"*.suo",
+		"*.pdb",
+		"*.idb",
+		"*.class",
+		"*.psd",
+		"*.db",
+		"*.pdf"
+	],
+	"flatland_sidebar_tree_small": true,
+	"flatland_square_tabs": true,
+	"font_face": "Ubuntu Mono",
+	"font_size": 15.0,
+	"highlight_line": true,
+	"highlight_modified_tabs": true,
+	"hot_exit": false,
+	"ignored_packages":
+	[
+		"AdvancedNewFile",
+		"Bootstrap 3 Snippets",
+		"Vanilla lodash Snippets",
+		"Jedi - Python autocompletion",
+		"Emmet",
+		"TrailingSpaces",
+		"Emmet Css Snippets",
+		"JsFormat",
+		"Lo-Dash Snippets for CoffeeScript"
+	],
+	"match_brackets_angle": true,
+	"open_files_in_new_window": false,
+	"save_on_focus_lost": true,
+	"scroll_speed": 2.0,
+	"shift_tab_unindent": true,
+	"tab_size": 2,
+	"theme": "Flatland Dark.sublime-theme",
+	"todo":
+	{
+		"patterns":
+		{
+			"CHANGED": "CHANGED[\\s]*?:+(?P<changed>\\S.*)$",
+			"FIXME": "FIXME[\\s]*?:+(?P<fixme>.*)$",
+			"NOTE": "NOTE[\\s]*?:+(?P<note>.*)$",
+			"TODO": "TODO[\\s]*?:+(?P<todo>.*)$",
+			"WARNING": "WARNING[\\s]*?:+(?P<warning>.*)$"
+		}
+	},
+	"translate_tabs_to_spaces": true,
+	"trim_trailing_white_space_on_save": true
+}

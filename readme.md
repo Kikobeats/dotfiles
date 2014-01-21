@@ -1,37 +1,33 @@
-# Addy's dotfiles.
+# Kiko's dotfiles.
+===
+based on [addy](https://github.com/addyosmani)'s.
 
-This repo contains my personal dotfiles and are heavily based on [paul](https://github.com/paulirish/dotfiles/) and [mathias](https://github.com/mathiasbynens/dotfiles/)'s.
+## Installation
 
-## Some differences
+1. Copying files to the $HOME path.
+2. run `install-deps.sh` for main dependencies.
+3. execute `./.osx` for new osx installation settings up.
 
-* Browserstack shortcuts which will launch the service and automatically load up a specific OS/Browser pair with your URL. e.g `win7ie8 "http://google.com"`, `ipad3 "http://google.com"`, `ipad3ios6 "http://google.com"`,`androidnexus "http://google.com"` etc. If you would prefer to work locally similarly use `ipad3 "http://localhost:3000"`
-* Dropbox via the command-line support `dropbox upload {localFile} {remoteFile}`, `dropbox download {remoteFile} {localFile}`, `dropbox list` etc.
-* Browser and npm aliases e.g `chrome`, `safari`, `opera`, `firefox`, `chromium` and others.
-* Launch all browsers with a specific URL `browsers "http://google.com"`
-* My Sublime Text build files (Grunt, Yeoman, r.js, SASS, Less and a few others included)
-* [@cowboy](http://github.com/cowboy)'s GitHub Pull Request Helper
 
-## install the neccessary apps
+## Private Settings
 
-My basic setup is captured in `install-deps.sh` which adds homebrew, z, nave, etc.
+Create a file `.extra` in `$HOME` and put here your private settings.
 
-## private config
+Example:
 
-Toss it into a file called `.extra` which you do not commit to this repo and just keep in your `~/`
-
-I do something nice with my `PATH` there:
-
-```shell
-# PATH like a bawss
-      PATH=/opt/local/bin
-PATH=$PATH:/opt/local/sbin
-PATH=$PATH:/bin
-PATH=$PATH:~/.rvm/bin
-PATH=$PATH:~/code/git-friendly
-# ...
-
-export PATH
-```
+   	# Git credentials
+	# Not in the repository, to prevent people from accidentally committing under my name
+	GIT_AUTHOR_NAME="Mathias Bynens"
+	GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
+	git config --global user.name "$GIT_AUTHOR_NAME"
+	GIT_AUTHOR_EMAIL="mathias@mailinator.com"
+	GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
+	git config --global user.email "$GIT_AUTHOR_EMAIL"
+	
+	export PATH="$HOME/utils:$PATH"
+	
+	....
+	
 
 ## Syntax highlighting
 
