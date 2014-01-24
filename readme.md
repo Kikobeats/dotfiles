@@ -4,9 +4,11 @@ based on [addy](https://github.com/addyosmani)'s.
 
 ## Installation
 
-1. Copying files to the $HOME path.
-2. run `install-deps.sh` for main dependencies.
-3. execute `./.osx` for new osx installation settings up.
+```bash
+git clone https://github.com/addyosmani/dotfiles.git && cd dotfiles && ./sync.sh
+```
+
+To update later on, just run the sync again.
 
 
 ## Private Settings
@@ -100,10 +102,3 @@ I recommend getting a [`.jshintrc`](https://github.com/jshint/node-jshint/blob/m
 * `.inputrc` - config for bash readline
 
 
-## Installation
-
-```bash
-git clone https://github.com/addyosmani/dotfiles.git && cd dotfiles && ./sync.sh
-```
-
-To update later on, just run the sync again.
