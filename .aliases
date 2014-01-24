@@ -67,7 +67,7 @@ alias c='pygmentize -O style=monokai -f console256 -g'
 # GIT STUFF
 
 # Undo a `git push`
-alias undopush="git push -f origin HEAD^:master"
+alias undopush=git" push -f origin HEAD^:master"
 
 
 # git root
@@ -125,6 +125,9 @@ alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; rm -rfv ~/.Trash"
 # Hide/show all desktop icons (useful when presenting)
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+
+# Run DropboxUploader if you have it installed
+alias dropbox="~/code/Dropbox-Uploader/dropbox_uploader.sh $1"
 
 # PlistBuddy alias, because sometimes `defaults` just doesn’t cut it
 alias plistbuddy="/usr/libexec/PlistBuddy"
