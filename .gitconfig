@@ -1,4 +1,5 @@
 [alias]
+	a = add --all
 	c = commit -am
 	up = pull
 	p = push
