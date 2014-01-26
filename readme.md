@@ -26,7 +26,7 @@ Example:
 	GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
 	git config --global user.email "$GIT_AUTHOR_EMAIL"
 	
-	export PATH="$HOME/utils:$PATH"
+	export PATH="$HOME/dotfiles/utils:$PATH"
 	
 	....
 	
