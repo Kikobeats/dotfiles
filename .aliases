@@ -140,7 +140,10 @@ alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && 
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
 
 # Run DropboxUploader if you have it installed
-alias dropbox="~/code/Dropbox-Uploader/dropbox_uploader.sh $1"
+alias dropbox="~/dotfiles/utils/dropbox-uploader.sh $1"
+
+# Run Nodev
+alias nodev="~/dotfiles/utils/nodev.sh $1"
 
 # Merge PDF files
 # Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`

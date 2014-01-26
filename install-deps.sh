@@ -24,9 +24,8 @@ ruby <(curl -fsSkL raw.github.com/mxcl/homebrew/go)
 
 # https://github.com/rupa/z
 # z, oh how i love you
-mkdir -p ~/code/z
-curl https://raw.github.com/rupa/z/master/z.sh > ~/code/z/z.sh
-chmod +x ~/code/z/z.sh
+curl https://raw.github.com/rupa/z/master/z.sh > ~/dotfiles/utils/z.sh
+chmod +x ~/dotfiles/utils/z.sh
 
 # add this to the bash_profile file if it aint there.
 #   . ~/code/z/z.sh
@@ -35,10 +34,12 @@ chmod +x ~/code/z/z.sh
 # git clone git://github.com/dronir/SpotifyControl.git
 
 # add Dropbox uploader
-cd ~/utils && curl --remote-name https://raw2.github.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploader.sh
+curl https://raw2.github.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploader.sh > ~/dotfiles/utils/dropbox-uploader.sh
+chmod +x ~/dotfiles/utils/dropbox-uploader.sh
 
 # add nodev
-cd ~/utils && curl --remote-name https://raw2.github.com/Kikobeats/nodev/master/nodev
+curl https://raw2.github.com/Kikobeats/nodev/master/nodev > ~/dotfiles/utils/nodev.sh
+chmod +x ~/dotfiles/utils/nodev.sh
 
 # my magic photobooth symlink -> dropbox. I love it.
 # first move Photo Booth folder out of Pictures and into dropbox/public
