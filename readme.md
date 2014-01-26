@@ -5,10 +5,10 @@ based on [addy](https://github.com/addyosmani)'s.
 ## Installation
 
 ```bash
-git clone https://github.com/addyosmani/dotfiles.git && cd dotfiles && ./sync.sh
+git clone https://github.com/Kikobeats/dotfiles  && cd dotfiles && ./sync-local.sh
 ```
 
-To update later on, just run the sync again.
+To update later on, just run `sync-remote.sh` the sync again.
 
 
 ## Private Settings
