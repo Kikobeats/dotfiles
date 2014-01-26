@@ -11,7 +11,6 @@ alias db="cd ~/Dropbox"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 
-
 # programs
 alias sbl='open -a "Sublime Text 2"'
 # also/or do this:
@@ -28,8 +27,6 @@ alias dashcode="open -a dashcode"
 alias f='open -a Finder'
 alias fireworks="open -a '/Applications/Adobe Fireworks CS6/Adobe Fireworks CS6.app'"
 alias photoshop="open -a '/Applications/Adobe Photoshop CS6/Adobe Photoshop.app'"
-alias gpr="~/code/gpr $1"
-
 
 # general shortcuts
 alias pro="cd ~/Projects"
@@ -141,9 +138,6 @@ alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && k
 
 # Run DropboxUploader if you have it installed
 alias dropbox="~/dotfiles/utils/dropbox_uploader.sh"
-
-# Run Nodev
-alias nodev="~/dotfiles/utils/nodev"
 
 # Merge PDF files
 # Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
