@@ -29,8 +29,8 @@ alias f='open -a Finder'
 alias fireworks="open -a '/Applications/Adobe Fireworks CS6/Adobe Fireworks CS6.app'"
 alias photoshop="open -a '/Applications/Adobe Photoshop CS6/Adobe Photoshop.app'"
 
-alias gcc="/usr/local/Cellar/gcc49/4.9-20140119/bin/x86_64-apple-darwin13.0.0-gcc-4.9"
-alias g++="/usr/local/Cellar/gcc49/4.9-20140119/bin/x86_64-apple-darwin13.0.0-g++-4.9"
+alias gcc="/usr/local/Cellar/gcc48/4.8.2/bin/x86_64-apple-darwin13.0.0-gcc-4.8.2"
+alias g++="/usr/local/Cellar/gcc48/4.8.2/bin/x86_64-apple-darwin13.0.0-g++-4.8"
 
 # general shortcuts
 alias pro="cd ~/Projects"
