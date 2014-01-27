@@ -27,7 +27,11 @@
 	added = yellow
 	changed = green
 	untracked = cyan
+[mergetool "sublime"]
+	cmd = subl -w $MERGED
+	trustExitCode = false
 [merge]
+	tool = sublime
 	log = true
 [url "git@github.com:"]
 	insteadOf = "gh:"
@@ -44,5 +48,5 @@
 
 # Any GitHub repo with my username should be checked out r/w by default
 # http://rentzsch.tumblr.com/post/564806957/public-but-hackable-git-submodules
-[url "git@github.com:addyosmani/"]
-  insteadOf = "git://github.com/addyosmani/"
+[url "git@github.com:kikobeats/"]
+  insteadOf = "git://github.com/kikobeats/"
