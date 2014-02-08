@@ -2,6 +2,7 @@
 
     BASEDIR=`dirname $0`
     CONFIG=$BASEDIR/configfile
+    [[ ! -e $CONFIG ]] && touch $CONFIG
     GLOBAL_SELECTOR=`cat $CONFIG`
 
     ###########
@@ -10,7 +11,6 @@
 
     # kill all services
     stopped_service(){
-
         killall $1
         [[ $? -eq 0 ]] && echo " $1 was stopped."
     }
@@ -122,7 +122,6 @@
 
         elif [[ $1 == "debug" ]]; then
             if [[ $# == 2 ]]; then
-                echo entramos
                 debugging $2
             else
                 debugging

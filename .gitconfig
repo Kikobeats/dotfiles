@@ -1,6 +1,7 @@
 [alias]
 	a = add --all
 	c = commit -am
+	ac = !git add --all && git commit -am
 	up = pull
 	p = push
 	s = status -s
@@ -28,7 +29,7 @@
 	changed = green
 	untracked = cyan
 [mergetool "sublime"]
-	cmd = subl -w $MERGED
+	cmd = sublime -w $MERGED
 	trustExitCode = false
 [merge]
 	tool = sublime
