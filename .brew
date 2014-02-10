@@ -27,6 +27,11 @@ brew install ack
 brew install git
 brew install rename
 brew install tree
+brew install gist
+
+# sitespeed
+brew tap tobli/browsertime
+brew install sitespeedio/sitespeedio/sitespeed.io
 
 # wbench
 gem install wbench
