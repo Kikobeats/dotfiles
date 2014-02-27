@@ -137,6 +137,9 @@ alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; rm -rfv ~/.Trash"
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
 
+alias createRamDisk="chmod 755 ~/dotfiles/utils/MoveTempFoldersToRamDisk.sh && ~/dotfiles/utils/MoveTempFoldersToRamDisk.sh && echo reboot pls"
+alias deleteRamDisk="sudo rm -rf /System/Library/StartupItems/RamFS"
+
 # Run DropboxUploader if you have it installed
 alias dropbox="~/dotfiles/utils/dropbox_uploader.sh"
 
