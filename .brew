@@ -29,13 +29,14 @@ brew install rename
 brew install tree
 brew install gist
 
-# sitespeed
-brew tap tobli/browsertime
-brew install sitespeedio/sitespeedio/sitespeed.io
-
 # wbench
 gem install wbench
 brew install chromedriver
 
 # Remove outdated versions from the cellar
 brew cleanup
+
+# install bash
+sudo -v
+rm /bin/bash
+ln -s /usr/local/bin/bash /bin/bash
