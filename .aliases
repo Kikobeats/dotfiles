@@ -143,6 +143,9 @@ alias deleteRamDisk="sudo rm -rf /System/Library/StartupItems/RamFS"
 # Run DropboxUploader if you have it installed
 alias dropbox="~/dotfiles/utils/dropbox_uploader.sh"
 
+# soleol
+alias soleol="/Applications/SolEol/SolEol\ Extras/SolEol_CLI"
+
 # Merge PDF files
 # Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
 alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'

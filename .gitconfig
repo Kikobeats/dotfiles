@@ -32,7 +32,7 @@
 	cmd = sublime -w $MERGED
 	trustExitCode = false
 [merge]
-	tool = sublime
+	tool = Kaleidoscope
 	log = true
 [url "git@github.com:"]
 	insteadOf = "gh:"
@@ -51,3 +51,14 @@
 # http://rentzsch.tumblr.com/post/564806957/public-but-hackable-git-submodules
 [url "git@github.com:kikobeats/"]
   insteadOf = "git://github.com/kikobeats/"
+[difftool "Kaleidoscope"]
+	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[diff]
+	tool = Kaleidoscope
+[difftool]
+	prompt = false
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	trustExitCode = true
+[mergetool]
+	prompt = false

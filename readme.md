@@ -1,6 +1,8 @@
 # Kiko's dotfiles.
-===
-based on [addy](https://github.com/addyosmani)'s.
+
+![image](http://xaharts.org/funny/i/gitopuss/ironman_octocat.jpg)
+
+based on [addyosmani dotfiles](https://github.com/addyosmani/dotfiles).Thank you!
 
 ## Installation
 
@@ -31,30 +33,10 @@ Example:
 	....
 	
 
-## Syntax highlighting
+## Edit files Syntax highlighting
 
-…is really important. even for these files.
 
-add the below to this file: `~/Library/Application Support/Sublime Text 2/Packages/ShellScript/Shell-Unix-Generic.tmLanguage`
-
-```xml
-<string>.aliases</string>
-<string>.bash_profile</string>
-<string>.bash_prompt</string>
-<string>.bashrc</string>
-<string>.brew</string>
-<string>.exports</string>
-<string>.functions</string>
-<string>.git</string>
-<string>.gitattributes</string>
-<string>.gitconfig</string>
-<string>.gitignore</string>
-<string>.inputrc</string>
-<string>.osx</string>
-<string>.vim</string>
-<string>.vimrc</string>
-```
-
+To edit the files, I recommend [this](https://github.com/mattbanks/dotfiles-syntax-highlighting-st2) bundle for **Sublime Text**
 
 
 ### Sensible OS X defaults
