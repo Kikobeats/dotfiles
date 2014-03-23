@@ -140,9 +140,6 @@ alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && k
 alias createRamDisk="chmod 755 ~/dotfiles/utils/MoveTempFoldersToRamDisk.sh && ~/dotfiles/utils/MoveTempFoldersToRamDisk.sh && echo reboot pls"
 alias deleteRamDisk="sudo rm -rf /System/Library/StartupItems/RamFS"
 
-# Run DropboxUploader if you have it installed
-alias dropbox="~/dotfiles/utils/dropbox_uploader.sh"
-
 # soleol
 alias soleol="/Applications/SolEol/SolEol\ Extras/SolEol_CLI"
 
