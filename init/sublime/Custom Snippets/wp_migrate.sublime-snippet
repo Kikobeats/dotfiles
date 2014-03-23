@@ -1,0 +1,26 @@
+<snippet>
+  <content><![CDATA[
+
+  ####
+  Pattern: 'http://www.oldurl', 'http://www.newurl')
+  ####
+
+  [ WEB to LOCAL]
+
+  UPDATE ${1:wp}_options SET option_value = replace(option_value, 'http://${2}', 'http://${3}') WHERE option_name = 'home' OR option_name = 'siteurl';
+  UPDATE ${1:wp}_posts SET guid = REPLACE (guid, 'http://${2}', 'http://${3}');
+  UPDATE ${1:wp}_posts SET post_content = REPLACE (post_content, 'http://${2}', 'http://${3}');
+  UPDATE ${1:wp}_postmeta SET meta_value = REPLACE (meta_value, 'http://${2}','http://${3}');
+
+  [ LOCAL to WEB ]
+
+  UPDATE ${1:wp}_options SET option_value = replace(option_value, 'http://${3}', 'http://${2}') WHERE option_name = 'home' OR option_name = 'siteurl';
+  UPDATE ${1:wp}_posts SET guid = REPLACE (guid, 'http://${3}', 'http://${2}');
+  UPDATE ${1:wp}_posts SET post_content = REPLACE (post_content, 'http://${3}', 'http://${2}');
+  UPDATE ${1:wp}_postmeta SET meta_value = REPLACE (meta_value, 'http://${3}','http://${2}');
+]]></content>
+  <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+  <tabTrigger>wp_migrate</tabTrigger>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope>source.python</scope> -->
+</snippet>

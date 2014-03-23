@@ -1,6 +1,7 @@
 # files downloading
 utils/z.sh
 utils/dropbox-uploader.sh
+utils/configfile
 
 # Compiled Python files
 *.pyc

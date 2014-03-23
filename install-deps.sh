@@ -33,7 +33,7 @@ curl https://raw.github.com/rupa/z/master/z.sh > ~/dotfiles/utils/z.sh
 # git clone git://github.com/dronir/SpotifyControl.git
 
 # add Dropbox uploader
-curl https://raw2.github.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploader.sh > ~/dotfiles/utils/dropbox_uploader.sh
+curl https://raw2.github.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploader.sh > ~/dotfiles/utils/dropbox
 
 # add nodev
 curl https://raw2.github.com/Kikobeats/nodev/master/nodev > ~/dotfiles/utils/nodev
