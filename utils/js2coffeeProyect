@@ -28,5 +28,5 @@ do
         echo "File: {$1} does not exist!"
     fi
 
-    [ "$delete" == true -a "$error" == false ] && rm $FILE
+    [ "$delete" == true ] && rm $FILE
 done

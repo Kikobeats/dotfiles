@@ -28,6 +28,7 @@ brew install git
 brew install rename
 brew install tree
 brew install gist
+brew install youtube-dl
 
 # wbench
 gem install wbench
