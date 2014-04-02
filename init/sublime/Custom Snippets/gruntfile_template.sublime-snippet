@@ -1,0 +1,222 @@
+<snippet>
+  <content><![CDATA[
+module.exports = (grunt) ->
+  grunt.initConfig
+    # =============
+    # SETUP
+    # =============
+    # pkg         : grunt.file.readJSON './package.json'
+    # conf        : grunt.file.readYAML './config.yml'
+
+    # components:
+    #   js        : [ '<%= conf.src_assets %>/slider-menu/**/*' ]
+    #   theme     : '<%= conf.src_assets %>/flat-theme'
+    #   img       : '<%= conf.src_assets %>/flat-icons/dist'
+    #   assets    : '<%= conf.src_assets %>/assets'
+
+    # source:
+    #   core      : []
+    #   app       : []
+    #   spec      : []
+    #   doc       : []
+
+    # meta:
+    #   build     : 'build',
+    #   bower     : 'bower',
+    #   extensions: 'extensions',
+    #   version   : '',
+    #   banner    : '/* <%= pkg.name %> v<%= grunt.template.today("0.mm.dd") %>\n' +
+    #             '   <%= pkg.homepage %>\n' +
+    #             '   Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>' +
+    #             ' - Licensed <%= _.pluck(pkg.license, "type").join(", ") %> */\n'
+
+    # =============
+    # TASKS
+    # =============
+    # bgShell:
+    #   mongo   : cmd: 'mongod', bg: true
+    #   redis   : cmd: 'redis-server', bg: true
+    #   deploy  : cmd: 'git push heroku master'
+    #   start   : cmd: 'mkdir -p logs && ./node_modules/forever/bin/forever start -o logs/out.log -e logs/err.log -a <%= pkg.main %>'
+    #   restart : cmd: 'forever restart yoi.js'
+    #   stop    : cmd: 'forever stop yoi.js'
+
+    # coffee:
+    #   core:
+    #     expand: true,
+    #     flatten: true,
+    #     cwd: 'src',
+    #     src: ['*.coffee'],
+    #     dest: 'dest',
+    #     ext: '.js'
+
+    # less:
+    #   theme   : files: '<%= conf.dst_assets %>/css/components.theme.css': '<%= bower.theme %>/flat-ui.less'
+
+    # autoprefixer:
+    #   main    : src: '<%= conf.dst_assets %>/css/components.css'
+    #   theme   : src: '<%= conf.dst_assets %>/css/components.theme.css'
+
+    # concat:
+    #   options : stripBanners: true
+    #   js      : src: ['<%= bower.js %>', '<%= components.js %>'], dest: '<%= conf.dst_assets %>/js/components.js'
+    #   css     : files: '<%= conf.dst_assets %>/css/components.css': '<%= bower.css %>'
+
+    # uglify:
+    #   options    : compress: false, banner: '<%=meta.banner%>', report: 'gzip', preserveComments: false
+    #   components : files: '<%= conf.dst_assets %>/js/components.js': '<%= conf.dst_assets %>/js/components.js'
+
+    # cssmin:
+    #   options    :  banner: '<%=meta.banner%>', report: 'gzip'
+    #   theme      : files: '<%= conf.dst_assets %>/css/components.theme.css': '<%= conf.dst_assets %>/css/components.theme.css'
+
+    # copy:
+    #   fonts:
+    #     expand: true, src: '**/*'
+    #     cwd: '<%= bower.fonts %>/'
+    #     dest: '<%= conf.dst_assets %>/fonts'
+    #   theme:
+    #     expand: true, src: '**/*'
+    #     cwd: '<%= components.theme %>/'
+    #     dest: '<%= bower.theme %>'
+    #   img:
+    #     expand: true, src: '**/*'
+    #     cwd: '<%= components.img %>'
+    #     dest: '<%= conf.dst_assets %>/img'
+    #   assets:
+    #     expand: true, src: '**/*'
+    #     cwd: '<%= components.assets %>/'
+    #     dest: '<%= conf.dst_assets %>'
+
+    # responsive_images:
+    #   options:
+    #     engine: 'gm'
+    #     separator: ''
+    #     sizes: [
+    #       name: '@2x'
+    #       width: '200%'
+    #     ]
+    #   files:
+    #     expand: true
+
+    #     cwd: '<%= components.img %>'
+    #     src: ['**/*.{jpg,gif,png}']
+    #     dest: '<%= conf.dst_assets %>/img/'
+
+    # imagemin:
+    #   files:
+    #     expand: true
+    #     cwd: '<%= conf.dst_assets %>/img'
+    #     src: ['**/*.{jpg,gif,png}']
+    #     dest: '<%= conf.dst_assets %>/img'
+
+    # clean:
+    #   cache:
+    #     ['.cache/']
+    #   default:
+    #     ['<%= conf.dst_assets %>', '.cache/']
+    #   all:
+    #     ['<%= conf.dest_app %>', '<%= conf.dst_assets %>', 'node_modules', 'docs']
+
+    # watch:
+    #   coffee:
+    #     files: ['src/**/*.coffee']
+    #     tasks: ['coffee:core']
+    #   js:
+    #     files: ['<%= bower.js %>', '<%= components.js %>']
+    #     tasks: ['concat:js', 'uglify']
+    #   css:
+    #     files: ['<%= bower.css %>']
+    #     tasks: ['concat:css', 'cssmin']
+    #   less:
+    #     files: '<%= components.theme %>**/*'
+    #     tasks: ['less', 'cssmin:theme']
+    #   img:
+    #     files: '<%= components.img %>/**/*'
+    #     tasks: ['img']
+
+    # nodemon:
+    #   development:
+    #     script: '<%= pkg.main %>'
+    #     options:
+    #       cwd: __dirname
+    #       ignoredFiles: ['node_modules','assets']
+    #       ext: 'yml, coffee',
+    #       watch: ['yoi.yml', 'endpoints', 'environments']
+
+    # concurrent:
+    #   development:
+    #     tasks: ['server', 'watch']
+    #     options: logConcurrentOutput: true
+
+    # pagespeed:
+    #     prod:
+    #       options:
+    #         url: 'http://zombeats.es',
+    #         locale: 'en_GB',
+    #         strategy: 'desktop',
+    #         threshold: 80
+    #     paths:
+    #       options:
+    #           paths: ['/speed/docs/insights/v1/getting_started', '/speed/docs/about'],
+    #           locale: 'en_GB',
+    #           strategy: 'desktop',
+    #           threshold: 80
+    #     options:
+    #       key: 'AIzaSyBQdvDh5FyjJ_hCPvvttk337yDwLjRkFCE',
+    #       url: 'https://developers.google.com'
+
+    # newer: options: cache: '.cache/'
+    # availabletasks: tasks: {}
+
+  # =============
+  # DEPENDENCIES
+  # =============
+  # grunt.loadNpmTasks 'grunt-responsive-images'
+  # grunt.loadNpmTasks 'grunt-contrib-imagemin'
+  # grunt.loadNpmTasks 'grunt-available-tasks'
+  # grunt.loadNpmTasks 'grunt-contrib-uglify'
+  # grunt.loadNpmTasks 'grunt-contrib-concat'
+  # grunt.loadNpmTasks 'grunt-contrib-cssmin'
+  # grunt.loadNpmTasks 'grunt-contrib-coffee'
+  # grunt.loadNpmTasks 'grunt-contrib-clean'
+  # grunt.loadNpmTasks 'grunt-contrib-watch'
+  # grunt.loadNpmTasks 'grunt-contrib-less'
+  # grunt.loadNpmTasks 'grunt-contrib-copy'
+  # grunt.loadNpmTasks 'grunt-autoprefixer'
+  # grunt.loadNpmTasks 'grunt-concurrent'
+  # grunt.loadNpmTasks 'grunt-pagespeed'
+  # grunt.loadNpmTasks 'grunt-bg-shell'
+  # grunt.loadNpmTasks 'grunt-nodemon'
+  # grunt.loadNpmTasks 'grunt-newer'
+
+  # =============
+  # REGISTER
+  # =============
+  # development
+  # grunt.registerTask 'production', ['build', 'forever:start']
+  # grunt.registerTask 'development', ['build', 'concurrent']
+  # grunt.registerTask 'deploy', ['bgShell:deploy']
+  # grunt.registerTask 'server', ['bgShell:mongo', 'bgShell:redis', 'nodemon']
+  # grunt.registerTask 'build', ['bgShell:bower', 'js', 'css', 'fonts', 'img', 'assets']
+
+  # # production
+  # grunt.registerTask 'forever:start', 'bgShell:start'
+  # grunt.registerTask 'forever:stop', 'bgShell:stop'
+  # grunt.registerTask 'forever:restart', 'bgShell:restart'
+
+  # # subtask
+  # grunt.registerTask 'js', ['newer:concat:js', 'newer:uglify'] # js task
+  # grunt.registerTask 'css', ['css_theme', 'newer:concat:css', 'newer:autoprefixer', 'newer:cssmin'] # css task
+  # grunt.registerTask 'css_theme', ['newer:copy:theme', 'newer:less']
+  # grunt.registerTask 'fonts', ['newer:copy:fonts'] # font task
+  # grunt.registerTask 'img', ['newer:copy:img', 'newer:responsive_images', 'newer:imagemin'] # img task
+  # grunt.registerTask 'assets', ['newer:copy:assets'] # assets task
+  # grunt.registerTask 'tasks', 'availabletasks'
+  # grunt.registerTask 'default', ''
+]]></content>
+  <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+  <tabTrigger>grunt</tabTrigger>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <scope>source.coffee</scope>
+</snippet>
