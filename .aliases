@@ -141,8 +141,8 @@ alias deleteRamDisk="sudo rm -rf /System/Library/StartupItems/RamFS"
 alias soleol="/Applications/SolEol/SolEol\ Extras/SolEol_CLI"
 
 # youtube downloader
-alias yt-video="youtube-dl --write-auto-sub --write-sub --sub-lang en,es"
-alias yt-audio="youtube-dl -x --audio-format mp3 --audio-quality 192k"
+alias yt-video="youtube-dl -citk --max-quality mp4 --write-auto-sub --write-sub --sub-lang en,es"
+alias yt-audio="youtube-dl -citk --max-quality mp3 --audio-format mp3 --extract-audio --audio-format mp3 --audio-quality 192k"
 
 # Merge PDF files
 # Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
