@@ -29,6 +29,7 @@ brew install rename
 brew install tree
 brew install gist
 brew install youtube-dl
+brew install speedtest-cli
 
 # wbench
 gem install wbench
