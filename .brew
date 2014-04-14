@@ -31,7 +31,14 @@ brew install gcc49
 sudo ln -s /usr/local/bin/gcc-4.9 /usr/local/bin/gcc
 sudo ln -s /usr/local/bin/g++-4.9 /usr/local/bin/g++
 
+# Databases
+brew install redis
+brew install mongodb
+
 # Install everything else
+brew install imagemagick
+brew install graphicsmagick
+brew install ctags
 brew install ack
 brew install git
 brew install rename
@@ -48,6 +55,7 @@ npm install -g csslint
 gem install rubocop
 npm install -g coffeelint
 gem install scss-lint
+brew install cabal-install
 echo "for install shellcheck follow this instructions: https://sublime.wbond.net/packages/SublimeLinter-shellcheck"
 read -p "Press enter when shellceck is installed..."
 
