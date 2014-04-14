@@ -1,34 +1,32 @@
 # up to you (me) if you want to run this as a file or copy paste at your leisure
+sudo chmod -R +x ~/dotfiles
 
+# node and NPM
+echo "Download and install node and npm from http://nodejs.org/download/"
+read -p "Press enter when node and npm is installed..."
 
 # https://github.com/jamiew/git-friendly
 # the `push` command which copies the github compare URL to my clipboard is heaven
-sudo bash < <( curl https://raw.github.com/jamiew/git-friendly/master/install.sh)
-
+bash < <( curl https://raw.github.com/jamiew/git-friendly/master/install.sh)
 
 # https://rvm.io
 # rvm for the rubiess
-curl -L https://get.rvm.io | bash -s stable --ruby
-
+curl -sSL https://get.rvm.io | bash -s stable --ruby
 
 # https://github.com/isaacs/nave
 # needs npm, obviously.
 # TODO: I think i'd rather curl down the nave.sh, symlink it into /bin and use that for initial node install.
 npm install -g nave
 
-
 # homebrew!
 # you need the code CLI tools YOU FOOL.
 ruby <(curl -fsSkL raw.github.com/mxcl/homebrew/go)
-
 
 # https://github.com/rupa/z
 # z, oh how i love you
 curl https://raw.github.com/rupa/z/master/z.sh > ~/dotfiles/utils/z.sh
 
-# add this to the bash_profile file if it aint there.
-#   . ~/code/z/z.sh
-
+# I don't use Spotify... and you? :-)
 # cd ~/code
 # git clone git://github.com/dronir/SpotifyControl.git
 
@@ -38,8 +36,11 @@ curl https://raw2.github.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploa
 # add nodev
 curl https://raw2.github.com/Kikobeats/nodev/master/nodev > ~/dotfiles/utils/nodev
 
+# Ubuntu font (for Sublime Text and iTerm)
+wget -P /tmp/ http://font.ubuntu.com/download/ubuntu-font-family-0.80.zip
+tar -xvf /tmp/ubuntu-font-family-0.80.zip
+sudo mv ubuntu-font-family-0.80/*.ttf ~/Library/Fonts/
 
-chmod -R +x ~/dotfiles/utils
 # my magic photobooth symlink -> dropbox. I love it.
 # first move Photo Booth folder out of Pictures and into dropbox/public
 # then:

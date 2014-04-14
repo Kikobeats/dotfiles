@@ -9,10 +9,14 @@ brew upgrade
 # Install GNU core utilities (those that come with OS X are outdated)
 brew install coreutils
 echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
+
 # Install GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
 brew install findutils
-# Install Bash 4
+
+# Install Bash 4 and link
 brew install bash
+sudo rm /bin/bash
+sudo ln -s /usr/local/bin/bash /bin/bash
 
 # Install wget with IRI support
 brew install wget --enable-iri
@@ -37,8 +41,3 @@ brew install chromedriver
 
 # Remove outdated versions from the cellar
 brew cleanup
-
-# install bash
-sudo -v
-rm /bin/bash
-ln -s /usr/local/bin/bash /bin/bash
