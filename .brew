@@ -35,6 +35,17 @@ brew install gist
 brew install youtube-dl
 brew install speedtest-cli
 
+# Install linters dependencies
+npm install -g jshint
+sudo pip install cpplint
+brew install cppcheck
+npm install -g csslint
+gem install rubocop
+npm install -g coffeelint
+gem install scss-lint
+echo "for install shellcheck follow this instructions: https://sublime.wbond.net/packages/SublimeLinter-shellcheck"
+read -p "Press enter when shellceck is installed..."
+
 # wbench
 gem install wbench
 brew install chromedriver
