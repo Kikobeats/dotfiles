@@ -1,12 +1,17 @@
 [alias]
 	a = add --all
-	c = commit -am
+	cm = commit -am
+	co = checkout
 	ac = !git add --all && git commit -am
 	up = pull
 	p = push
 	s = status -s
 	df = diff --color --color-words --abbrev
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+	# Show verbose output about tags, branches or remotes
+	remotes = remote -v
+	branches = branch -a
+	tags = tag -l
 [color]
 	ui = always
 [apply]
