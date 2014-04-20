@@ -89,7 +89,7 @@ function gitio() {
 
 function clone {
   # customize username to your own
-  local username="kikobeats"
+  local username="addyosmani"
 
   local url=$1;
   local repo=$2;
@@ -111,6 +111,11 @@ function clone {
   git clone $url $repo && cd $repo && subl .;
 }
 
+# simple git log
+# usage glr v0.2.2 v0.2.3
+function glr() {
+    git log $1 $2 --pretty=format:'* %h %s' --date=short --no-merges
+}
 
 # git log with per-commit cmd-clickable GitHub URLs (iTerm)
 function gf() {
@@ -229,9 +234,21 @@ EOF
 # Install Grunt plugins and add them as `devDependencies` to `package.json`
 # Usage: `gi contrib-watch contrib-uglify zopfli`
 function gi() {
-        local IFS=,
-        eval npm install --save-dev grunt-{"$*"}
+        npm install --save-dev ${*/#/grunt-}
 }
+
+# Install Gulp plugins and add them as `devDependencies` to `package.json`
+# Usage: `gp uglify clean cache csso`
+function gp() {
+        npm install --save-dev ${*/#/gulp-}
+}
+
+# Install Yeoman generators
+# Usage: `yi webapp gruntfile angular`
+function yi() {
+        npm install --save-dev ${*/#/generator-}
+}
+
 
 # `m` with no arguments opens the current directory in TextMate, otherwise
 # opens the given location
@@ -281,6 +298,22 @@ function browsers(){
   opera $1
   firefox $1
   safari $1
+}
+
+# Create animated GIFs from any video
+# Uses http://gist.github.com/SlexAxton/4989674
+gifify() {
+  if [[ -n "$1" ]]; then
+    if [[ $2 == '--good' ]]; then
+      ffmpeg -i $1 -r 10 -vcodec png out-static-%05d.png
+      time convert -verbose +dither -layers Optimize -resize 600x600\> out-static*.png  GIF:- | gifsicle --colors 128 --delay=5 --loop --optimize=3 --multifile - > $1.gif
+      rm out-static*.png
+    else
+      ffmpeg -i $1 -s 600x400 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > $1.gif
+    fi
+  else
+    echo "proper usage: gifify <input_movie.mov>. You DO need to include an extension."
+  fi
 }
 
 # Browserstack shortcuts, now with added hotness thanks to the Browserstack team.
@@ -359,4 +392,34 @@ function win7chrome(){
 function win7ff(){
   local url="http://www.browserstack.com/start#os=Windows&os_version=7&browser=Firefox&browser_version=16.0&zoom_to_fit=true&resolution=1024x768&speed=1&url=$1&start=true"
   openurl $url $2
+}
+
+# GitHub URL for current repo.
+function gurl() {
+  local remotename="${@:-origin}"
+  local remote="$(git remote -v | awk '/^'"$remotename"'.*\(push\)$/ {print $2}')"
+  [[ "$remote" ]] || return
+  local user_repo="$(echo "$remote" | perl -pe 's/.*://;s/\.git$//')"
+  echo "https://github.com/$user_repo"
+}
+
+# open all changed files (that still actually exist) in the editor
+# credit: @cowboy
+function ged() {
+  local files=()
+  for f in $(git diff --name-only "$@"); do
+    [[ -e "$f" ]] && files=("${files[@]}" "$f")
+  done
+  local n=${#files[@]}
+  echo "Opening $n $([[ "$@" ]] || echo "modified ")file$([[ $n != 1 ]] && \
+    echo s)${@:+ modified in }$@"
+  q "${files[@]}"
+}
+
+# open last commit in GitHub, in the browser.
+# credit: @cowboy
+function gfu() {
+  local n="${@:-1}"
+  n=$((n-1))
+  open $(git log -n 1 --skip=$n --pretty=oneline | awk "{printf \"$(gurl)/commit/%s\", substr(\$1,1,7)}")
 }

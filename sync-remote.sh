@@ -1,8 +1,19 @@
 #!/bin/bash
 cd "$(dirname "$0")"
-git pull
+git pull origin master
 function doIt() {
-	rsync --exclude ".git/" --exclude ".gitignore" --exclude "install-deps.sh" --exclude ".DS_Store" --exclude "sync-remote.sh" --exclude "sync-local.sh" --exclude "readme.md" --exclude "init" --exclude "utils" --exclude "sync.sh" -av . ~
+	rsync --exclude ".git/" \
+        --exclude ".gitignore" \
+        --exclude "install-deps.sh" \
+        --exclude ".DS_Store" \
+        --exclude "sync-remote.sh" \
+        --exclude "sync-local.sh" \
+        --exclude "readme.md" \
+        --exclude "init" \
+        --exclude "utils" \
+        --exclude "sync.sh" \
+        -av --no-perms . ~
+  source ~/.bash_profile
 }
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
 	doIt
@@ -14,4 +25,3 @@ else
 	fi
 fi
 unset doIt
-source ~/.bash_profile
