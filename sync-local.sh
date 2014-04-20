@@ -11,6 +11,7 @@ function doIt() {
         --exclude "init" \
         --exclude "utils" \
         --exclude "sync.sh" \
+        --exclude "Caskfile" \
         -av --no-perms . ~
   source ~/.bash_profile
 }
