@@ -25,6 +25,13 @@ shopt -s cdspell
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US"
 
+# Enable some Bash 4 features when possible:
+# * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
+# * Recursive globbing, e.g. `echo **/*.txt`
+for option in autocd globstar; do
+  shopt -s "$option" 2> /dev/null
+done
+
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
 
