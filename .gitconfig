@@ -20,6 +20,7 @@
 	excludesfile = ~/.gitignore
 	attributesfile = ~/.gitattributes
 	whitespace = fix,space-before-tab,tab-in-indent,trailing-space
+	editor = open -a 'Sublime Text'
 [color "branch"]
 	current = yellow reverse
 	local = yellow
