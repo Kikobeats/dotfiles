@@ -36,6 +36,10 @@ brew install redis
 brew install mongodb
 wget -P ~/Downloads https://github.com/jimbojsb/launchrocket/releases/download/v0.6/LaunchRocket.prefPane.zip
 
+# Caskfile manager
+brew tap phinze/cask
+brew install brew-cask
+
 # Install everything else
 brew install imagemagick
 brew install graphicsmagick
