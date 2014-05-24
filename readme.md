@@ -1,5 +1,6 @@
 ![image](http://xaharts.org/funny/i/gitopuss/ironman_octocat.jpg)
-# Kikobeats dotfiles.
+
+# Kikobeats dotfiles
 
 based on [addyosmani dotfiles](https://github.com/addyosmani/dotfiles). Thank you!
 
@@ -8,10 +9,10 @@ based on [addyosmani dotfiles](https://github.com/addyosmani/dotfiles). Thank yo
 ![Imgur](http://i.imgur.com/1sNnJVK.gif)
 
 
-* Shortcuts for finder, git, browsers, main Apps,....
+* Shortcuts for finder, git, browsers, install main apps,....
 * Control Dropbox or download youtube audio/videos from terminal.
 * Manage virtual RAM Disk for Temporaly files, mount/unmount EFI.
-* Extras: Sublime Text Setting up, Libreoffice Template, iTerm theme.
+* Extras: Sublime Text Setting up, ODT Template**, iTerm theme.
 
 
 ### Installation
@@ -56,11 +57,13 @@ Install Packages > Dotfiles Syntax Highlighting for Sublime Text 2/3
 
 ### Set up new computer
 Install dependencies
+
 ```bash
 ./install-deps.sh && ./.brew
 ```
 
 When setting up a new Mac, you may want to set some sensible OS X defaults:
+
 ```bash
 ./.osx
 ```
@@ -80,8 +83,16 @@ git config --global user.name "$GIT_AUTHOR_NAME"
 GIT_AUTHOR_EMAIL="mathias@mailinator.com"
 GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
 git config --global user.email "$GIT_AUTHOR_EMAIL"
+
+# RVM settings
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+# GNU coreutils
+export PATH=$PATH:/usr/local/opt/coreutils/libexec/gnubin
+
 # Dotfiles Custom commands
 export PATH="$HOME/dotfiles/utils:$PATH"
+
 # Java Settings
 # Ruby Settings
 # ....
