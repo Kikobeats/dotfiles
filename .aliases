@@ -30,8 +30,8 @@ alias photoshop="open -a '/Applications/Adobe Photoshop CS6/Adobe Photoshop.app'
 
 # general shortcuts
 alias pro="cd ~/Projects"
-alias gh="open -a google\ chrome 'http://github.com/Kikobeats'"
-alias bl="open -a google\ chrome 'http://browserling.com'"
+alias gh="open -a google\ chrome\ canary 'http://github.com/Kikobeats'"
+alias bl="open -a google\ chrome\ canary 'http://browserling.com'"
 
 # be nice
 alias please=sudo
