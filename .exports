@@ -12,4 +12,4 @@ export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
 
 # DOTFILES_VERSION
 # For control versions in differents computers
-export DOTFILES_VERSION='0.05.29'
+export DOTFILES_VERSION='0.06.10'
