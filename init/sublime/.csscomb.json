@@ -14,7 +14,7 @@
     "leading-zero": false,
     "quotes": "single",
     "remove-empty-rulesets": true,
-    "rule-indent": "    ",
+    "rule-indent": "  ",
     "stick-brace": "1",
     "strip-spaces": true,
     "unitless-zero": true,
