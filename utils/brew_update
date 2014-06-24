@@ -1,0 +1,7 @@
+#!/bin/bash -xv
+cd $(brew --prefix)
+git fetch origin
+git reset --hard origin/master
+brew update
+brew upgrade
+brew cleanup

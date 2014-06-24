@@ -1,0 +1,4 @@
+#!/bin/bash -xv
+. brew_update
+. cabal_update
+. npm_update

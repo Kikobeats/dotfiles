@@ -1,0 +1,3 @@
+#!/bin/bash -xv
+. update_all
+. clean_all
