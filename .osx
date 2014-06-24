@@ -22,7 +22,8 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 sudo pmset -a standbydelay 86400
 
 # Disable the sound effects on boot
-sudo nvram SystemAudioVolume="%00"
+# http://osxdaily.com/2012/11/04/disable-mac-boot-chime/
+sudo nvram SystemAudioVolume=%80
 # Restore
 # sudo nvram -d SystemAudioVolume
 
