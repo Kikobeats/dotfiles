@@ -1,5 +1,5 @@
 #!/bin/bash -xv
-cd $(brew --prefix)
+cd "$(brew --prefix)"
 git fetch origin
 git reset --hard origin/master
 brew update
