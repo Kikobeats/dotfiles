@@ -58,10 +58,6 @@ alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 
-# Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
-alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm update npm -g; npm update -g; sudo gem update --system; sudo gem update'
-
-
 # Always use color output for `ls`
 if [[ "$OSTYPE" =~ ^darwin ]]; then
 	alias ls="command ls -G"
@@ -135,9 +131,6 @@ alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && k
 
 alias createRamDisk="chmod 755 ~/dotfiles/utils/MoveTempFoldersToRamDisk.sh && ~/dotfiles/utils/MoveTempFoldersToRamDisk.sh && echo reboot pls"
 alias deleteRamDisk="sudo rm -rf /System/Library/StartupItems/RamFS"
-
-# soleol
-alias soleol="/Applications/SolEol/SolEol\ Extras/SolEol_CLI"
 
 # youtube downloader
 alias yt-video="youtube-dl -citk --max-quality mp4 --write-auto-sub --write-sub --sub-lang en,es"

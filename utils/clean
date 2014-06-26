@@ -1,0 +1,22 @@
+#!/bin/bash -v
+
+## clean common directories of trash
+read -p "Clean Downloads folder? (y/n) " -n 1
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  sudo rm -rfv ~/Downloads/*
+fi
+
+read -p "Clean Desktop folder? (y/n) " -n 1
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  sudo rm -rfv ~/Desktop/*
+fi
+
+## clean .DS_Store
+find . -name '*.DS_Store' -type f -ls -delete
+
+## clean logs
+sudo rm -rfv /Volumes/*/.Trashes
+sudo rm -rfv ~/.Trash
+sudo rm -rfv /private/var/log/asl/*.asl

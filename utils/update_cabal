@@ -1,3 +1,0 @@
-#!/bin/bash -xv
-cabal update
-cabal install cabal-install --force-reinstalls

@@ -1,3 +1,0 @@
-#!/bin/bash -xv
-sudo chown -R "$(whoami)" ~/.npm
-sudo npm update -g
