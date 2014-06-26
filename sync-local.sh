@@ -7,7 +7,8 @@ function doIt() {
         --exclude ".DS_Store" \
         --exclude "sync-remote.sh" \
         --exclude "sync-local.sh" \
-        --exclude "readme.md" \
+        --exclude "README.md" \
+        --exclude "LICENSE.md" \
         --exclude "init" \
         --exclude "utils" \
         --exclude "sync.sh" \

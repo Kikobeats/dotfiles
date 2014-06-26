@@ -93,11 +93,14 @@ alias flush="dscacheutil -flushcache"
 # npm
 alias npmp="sudo npm publish"
 alias npma="sudo npm adduser"
+
 alias npmi="sudo npm install"
-alias npmg="sudo npm install -g"
-alias npmu="sudo npm update"
-alias npmr="sudo npm uninstall"
-alias npmrg="sudo npm uninstall -g"
+alias npml="sudo npm list --depth=0"
+alias npmu="sudo npm uninstall"
+
+alias npmig="sudo npm install -g"
+alias npmlg="sudo npm list -g --depth=0"
+alias npmug="sudo npm uninstall -g"
 
 # View HTTP traffic
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"

@@ -26,6 +26,10 @@ brew tap homebrew/dupes
 brew install homebrew/dupes/grep
 brew tap josegonzalez/homebrew-php
 
+# node and npm
+brew install node
+sudo brew postinstall node
+
 # gcc/g++ compilers
 brew install gcc
 brew link gcc
@@ -34,6 +38,7 @@ brew link gcc
 brew install redis
 brew install mongodb
 wget -P ~/Downloads https://github.com/jimbojsb/launchrocket/releases/download/v0.6/LaunchRocket.prefPane.zip
+echo "Don’t forget go to 'Downloads' folder and install LaunchRocket"
 
 # Caskfile manager
 brew tap phinze/cask
@@ -54,10 +59,8 @@ brew install speedtest-cli
 # Install linters dependencies
 npm install -g jshint csslint coffeelint
 sudo pip install cpplint
-brew install cppcheck cabal-install
+brew install cppcheck cabal-install shellcheck
 gem install rubocop scss-lint
-echo "for install shellcheck follow this instructions: https://sublime.wbond.net/packages/SublimeLinter-shellcheck"
-read -p "Press enter when shellceck is installed..."
 
 # wbench
 gem install wbench

@@ -8,11 +8,11 @@ based on [addyosmani dotfiles](https://github.com/addyosmani/dotfiles). Thank yo
 
 ![Imgur](http://i.imgur.com/1sNnJVK.gif)
 
-
-* Shortcuts for finder, git, browsers, install main apps,....
-* Control Dropbox or download youtube audio/videos from terminal.
-* Manage virtual RAM Disk for Temporaly files, mount/unmount EFI.
-* Extras: Sublime Text Setting up, ODT Template**, iTerm theme.
+* Install common package manager (brew, npm, gem) and common dependencies  (linters, findutils, redis, mongo, bash,...)
+* Install common apps based on [Caskfile](https://github.com/Kikobeats/dotfiles/blob/master/Caskfile).
+* Many useful alias for terminal: git, browsers, apps shortcuts, finder, hidden/show icons desktop, youtube downloader, RAMDisk,...
+* Custom command for update and clean the system, dropbox, js2CoffePro, nodev, RAMDisk, mount/unmount EFI,...
+* Extras like Snippets and shortcuts for Sublime Text, Custom template for iTerm and LibreOffice.
 
 
 ### Installation

@@ -23,8 +23,12 @@ cabal install cabal-install --force-reinstalls
 sudo gem update --system
 sudo gem update
 
+## clean system
 read -p "System Updated. Clean now? (y/n) " -n 1
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   . clean
 fi
+
+# finish
+brew doctor
