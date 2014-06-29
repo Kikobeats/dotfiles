@@ -18,6 +18,10 @@ brew install bash
 sudo rm /bin/bash
 sudo ln -s /usr/local/bin/bash /bin/bash
 
+# Install zsh and utils
+brew install zsh
+curl -L http://install.ohmyz.sh | sh
+
 # Install wget with IRI support
 brew install wget --enable-iri
 
