@@ -13,13 +13,13 @@ source ~/.rvm/scripts/rvm
 
 
 # Case-insensitive globbing (used in pathname expansion)
-shopt -s nocaseglob
+shopt -s nocaseglob 2> /dev/null
 
 # Append to the Bash history file, rather than overwriting it
-shopt -s histappend
+shopt -s histappend 2> /dev/null
 
 # Autocorrect typos in path names when using `cd`
-shopt -s cdspell
+shopt -s cdspell 2> /dev/null
 
 # Prefer US English and use UTF-8
 export LC_ALL="en_US.UTF-8"
@@ -37,4 +37,4 @@ done
 
 # Add tab completion for `defaults read|write NSGlobalDomain`
 # You could just use `-g` instead, but I like being explicit
-complete -W "NSGlobalDomain" defaults
+complete -W "NSGlobalDomain" defaults 2> /dev/null
