@@ -394,6 +394,17 @@ function win7ff(){
   openurl $url $2
 }
 
+# Open Github URL
+function gh() {
+
+  if [ $# -eq 0]
+  then
+    open -a google\ chrome\ canary http://github.com/Kikobeats
+  else
+    open -a google\ chrome\ canary http://github.com/Kikobeats/$1
+  fi
+}
+
 # GitHub URL for current repo.
 function gurl() {
   local remotename="${@:-origin}"
