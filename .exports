@@ -14,4 +14,4 @@ export HISTIGNORE=""
 
 # DOTFILES_VERSION
 # For control versions in differents computers
-export DOTFILES_VERSION='2013.07.26'
+export DOTFILES_VERSION='2013.07.29'
