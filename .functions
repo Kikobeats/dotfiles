@@ -399,9 +399,9 @@ function gh() {
 
   if [ $# -eq 0]
   then
-    open -a google\ chrome\ canary http://github.com/Kikobeats
+    open -a google\ chrome\ http://github.com/Kikobeats
   else
-    open -a google\ chrome\ canary http://github.com/Kikobeats/$1
+    open -a google\ chrome\ http://github.com/Kikobeats/$1
   fi
 }
 
