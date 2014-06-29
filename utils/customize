@@ -1,0 +1,17 @@
+#!/bin/bash -v
+
+## Change Terminal
+
+read -p "Change default shell? (y/n) " -n 1
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  read -p "Name of the shell (recommended bash or zsh):  " default_shell
+  chsh -s /bin/"$default_shell"
+fi
+
+read -p "Change Hostname? (y/n) " -n 1
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  read -p "Name of host (you can see the name in the prompt):  " host_name
+  sudo scutil --set HostName "$host_name"
+fi
