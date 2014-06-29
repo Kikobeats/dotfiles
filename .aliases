@@ -175,3 +175,7 @@ command -v npm > /dev/null && alias npme="npm --registry http://registry.npmjs.e
 # install npm dependencies from cache
 # https://github.com/npm/npm/issues/2568#issuecomment-30626394
 alias npmo="sudo npm install --cache-min 999999999"
+
+# Control the system
+alias restart='sudo shutdown -r now'
+alias shutdown='sudo shutdown now'

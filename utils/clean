@@ -15,7 +15,7 @@ fi
 
 ## clean system data
 # clean .DS_Store
-find . -name '*.DS_Store' -type f -ls -delete
+find . -name '*.DS_Store' -o -name "npm-debug.log" -type f -ls -delete
 # clean logs
 sudo rm -rfv /private/var/log/asl/*.asl
 # clean temp
