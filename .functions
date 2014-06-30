@@ -17,19 +17,18 @@ function calc() {
 }
 
 # Create a new directory and enter it
-function md() {
+function mc() {
   mkdir -p "$@" && cd "$@"
 }
 
-
 # find shorthand
 function f() {
-    find . -name "$1"
+  find . -name "$1"
 }
 
 # Change working directory to the top-most Finder window location
 function cdf() { # short for `cdfinder`
-        cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"
+  cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"
 }
 
 # Start an HTTP server from a directory, optionally specifying the port
@@ -43,20 +42,20 @@ function server() {
 
 # Create a data URL from a file
 function dataurl() {
-        local mimeType=$(file -b --mime-type "$1")
-        if [[ $mimeType == text/* ]]; then
-                mimeType="${mimeType};charset=utf-8"
-        fi
-        echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
+  local mimeType=$(file -b --mime-type "$1")
+  if [[ $mimeType == text/* ]]; then
+    mimeType="${mimeType};charset=utf-8"
+  fi
+  echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
 }
 
 # Create a git.io short URL
 function gitio() {
-        if [ -z "${1}" -o -z "${2}" ]; then
-                echo "Usage: \`gitio slug url\`"
-                return 1
-        fi
-        curl -i http://git.io/ -F "url=${2}" -F "code=${1}"
+  if [ -z "${1}" -o -z "${2}" ]; then
+    echo "Usage: \`gitio slug url\`"
+    return 1
+  fi
+  curl -i http://git.io/ -F "url=${2}" -F "code=${1}"
 }
 
 
@@ -95,11 +94,11 @@ function clone {
   local repo=$2;
 
   if [[ ${url:0:4} == 'http' || ${url:0:3} == 'git' ]]
-  then
+    then
     # just clone this thing.
     repo=$(echo $url | awk -F/ '{print $NF}' | sed -e 's/.git$//');
   elif [[ -z $repo ]]
-  then
+    then
     # my own stuff.
     repo=$url;
     url="git@github.com:$username/$repo";
@@ -112,24 +111,9 @@ function clone {
 }
 
 # simple git log
-# usage glr v0.2.2 v0.2.3
-function glr() {
-    git log $1 $2 --pretty=format:'* %h %s' --date=short --no-merges
-}
-
-# git log with per-commit cmd-clickable GitHub URLs (iTerm)
-function gf() {
-  local remote="$(git remote -v | awk '/^origin.*\(push\)$/ {print $2}')"
-  [ $remote ] || return
-  local user_repo="$(echo "$remote" | perl -pe 's/.*://;s/\.git$//')"
-  git log $* --name-status --color | awk "$(cat <<AWK
-    /^.*commit [0-9a-f]{40}/ {sha=substr(\$2,1,7)}
-    /^[MA]\t/ {printf "%s\thttps://github.com/$user_repo/blob/%s/%s\n", \$1, sha, \$2; next}
-    /.*/ {print \$0}
-AWK
-  )" | less -F
-}
-
+# function glog() {
+#   git log $1 $2 --pretty=format:'* %h %s' --date=short --no-merges
+# }
 
 # Copy w/ progress
 cp_p () {
@@ -190,47 +174,6 @@ function unidecode() {
   echo # newline
 }
 
-# Add note to Notes.app (OS X 10.8)
-# Usage: `note 'title' 'body'` or `echo 'body' | note`
-# Title is optional
-function note() {
-        local title
-        local body
-        if [ -t 0 ]; then
-                title="$1"
-                body="$2"
-        else
-                title=$(cat)
-        fi
-        osascript >/dev/null <<EOF
-tell application "Notes"
-        tell account "iCloud"
-                tell folder "Notes"
-                        make new note with properties {name:"$title", body:"$title" & "<br><br>" & "$body"}
-                end tell
-        end tell
-end tell
-EOF
-}
-
-# Add reminder to Reminders.app (OS X 10.8)
-# Usage: `remind 'foo'` or `echo 'foo' | remind`
-function remind() {
-        local text
-        if [ -t 0 ]; then
-                text="$1" # argument
-        else
-                text=$(cat) # pipe
-        fi
-        osascript >/dev/null <<EOF
-tell application "Reminders"
-        tell the default list
-                make new reminder with properties {name:"$text"}
-        end tell
-end tell
-EOF
-}
-
 # Install Grunt plugins and add them as `devDependencies` to `package.json`
 # Usage: `gi contrib-watch contrib-uglify zopfli`
 function gi() {
@@ -249,17 +192,6 @@ function yi() {
         npm install --save-dev ${*/#/generator-}
 }
 
-
-# `m` with no arguments opens the current directory in TextMate, otherwise
-# opens the given location
-function m() {
-        if [ $# -eq 0 ]; then
-                mate .
-        else
-                mate "$@"
-        fi
-}
-
 # `s` with no arguments opens the current directory in Sublime Text, otherwise
 # opens the given location
 function s() {
@@ -267,16 +199,6 @@ function s() {
                 subl .
         else
                 subl "$@"
-        fi
-}
-
-# `v` with no arguments opens the current directory in Vim, otherwise opens the
-# given location
-function v() {
-        if [ $# -eq 0 ]; then
-                vim .
-        else
-                vim "$@"
         fi
 }
 
@@ -394,14 +316,12 @@ function win7ff(){
   openurl $url $2
 }
 
-# Open Github URL
+# Open personal Github URL account
 function gh() {
-
-  if [ $# -eq 0]
-  then
-    open -a google\ chrome\ http://github.com/Kikobeats
+  if [[ $# -eq 0 ]]; then
+    open -a Google\ Chrome "http://github.com/Kikobeats"
   else
-    open -a google\ chrome\ http://github.com/Kikobeats/$1
+    open -a Google\ Chrome "http://github.com/Kikobeats/$1"
   fi
 }
 
@@ -409,28 +329,12 @@ function gh() {
 function gurl() {
   local remotename="${@:-origin}"
   local remote="$(git remote -v | awk '/^'"$remotename"'.*\(push\)$/ {print $2}')"
-  [ "$remote" ] || return
-  local user_repo="$(echo "$remote" | perl -pe 's/.*://;s/\.git$//')"
-  echo "https://github.com/$user_repo"
-}
 
-# open all changed files (that still actually exist) in the editor
-# credit: @cowboy
-function ged() {
-  local files=()
-  for f in $(git diff --name-only "$@"); do
-    [[ -e "$f" ]] && files=("${files[@]}" "$f")
-  done
-  local n=${#files[@]}
-  echo "Opening $n $([[ "$@" ]] || echo "modified ")file$([[ $n != 1 ]] && \
-    echo s)${@:+ modified in }$@"
-  q "${files[@]}"
-}
-
-# open last commit in GitHub, in the browser.
-# credit: @cowboy
-function gfu() {
-  local n="${@:-1}"
-  n=$((n-1))
-  open $(git log -n 1 --skip=$n --pretty=oneline | awk "{printf \"$(gurl)/commit/%s\", substr(\$1,1,7)}")
+  if [ ! -z "$remote" ]; then
+    url="$remote"
+  else
+    local user_repo="$(echo "$remote" | perl -pe 's/.*://;s/\.git$//')"
+    url="https://github.com/$user_repo"
+  fi
+  open -a Google\ Chrome $url
 }

@@ -9,8 +9,8 @@ export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL=ignoredups
 
 # Make some commands not show up in history
-# export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
 export HISTIGNORE=""
+export HISTFILE=~/.zsh_history
 
 # DOTFILES_VERSION
 # For control versions in differents computers
