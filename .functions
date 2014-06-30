@@ -111,9 +111,9 @@ function clone {
 }
 
 # simple git log
-function glog_local() {
-  git log $1 $2 --pretty=format:'* %h %s' --date=short --no-merges
-}
+# function glog() {
+#   git log $1 $2 --pretty=format:'* %h %s' --date=short --no-merges
+# }
 
 # Copy w/ progress
 cp_p () {
