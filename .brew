@@ -42,7 +42,7 @@ pip install Pygments
 
 # node and npm
 brew install node
-sudo brew postinstall node
+sudo brew postingstall node
 npm install -g nave
 
 # gcc/g++ compilers
@@ -75,10 +75,10 @@ brew install speedtest-cli
 sudo npm install -g jshint csslint coffeelint
 sudo pip install cpplint speedtest-cli
 brew install cppcheck cabal-install shellcheck
-gem install rubocop scss-lint
+sudo gem install rubocop scss-lint
 
 # wbench
-gem install wbench
+sudo gem install wbench
 brew install chromedriver
 
 # Extra love
