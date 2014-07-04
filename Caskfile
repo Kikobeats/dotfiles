@@ -24,6 +24,13 @@ cask install evernote 2> /dev/null
 cask install skype 2> /dev/null
 cask install alfred 2> /dev/null
 cask install node-webkit 2> /dev/null
+cask install caffeine 2> /dev/null
+cask install xtrafinder 2> /dev/null
+cask install kaleidoscope 2> /dev/null
+cask install moom 2> /dev/null
+cask install hipchat 2> /dev/null
+
+
 
 
 # QuickLook plugins
