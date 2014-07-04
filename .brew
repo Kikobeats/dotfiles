@@ -30,9 +30,19 @@ brew tap homebrew/dupes
 brew install homebrew/dupes/grep
 brew tap josegonzalez/homebrew-php
 
+# Python and Pip
+brew install python
+pip install -U pip
+
+# https://github.com/isaacs/nave
+# needs npm, obviously.
+# TODO: I think i'd rather curl down the nave.sh, symlink it into /bin and use that for initial node install.
+
+
 # node and npm
 brew install node
 sudo brew postinstall node
+npm install -g nave
 
 # gcc/g++ compilers
 brew install gcc
