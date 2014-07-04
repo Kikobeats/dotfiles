@@ -36,14 +36,16 @@ Install Packages > Dotfiles Syntax Highlighting for Sublime Text 2/3
 * `.bash_profile`
 * `.bash_prompt`
 * `.bashrc`
+* `.zshrc`
 * `.exports`
 * `.functions`
 * `.extra` - not included, explained above
 
+
 #### manual run
-* `install-deps.sh` - random apps i need installed
-* `.osx` - run on a fresh osx machine
-* `.brew` - homebrew intialization
+* `install-deps.sh` - Common dependencies (Python, Node, Ruby, etc)
+* `.osx` - Run on a fresh osx machine
+* `.brew` - Homebrew intialization
 
 #### git, brah
 * `.git`
@@ -56,6 +58,7 @@ Install Packages > Dotfiles Syntax Highlighting for Sublime Text 2/3
 ### Configure
 
 ### Set up new computer
+
 Install dependencies
 
 ```bash
@@ -66,6 +69,12 @@ When setting up a new Mac, you may want to set some sensible OS X defaults:
 
 ```bash
 ./.osx
+```
+
+Install Caskfile apps with:
+
+```bash
+brew bundle Caskfile
 ```
 
 #### Private Settings
