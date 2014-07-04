@@ -109,5 +109,5 @@ export PATH="$HOME/dotfiles/utils:$PATH"
 
 ### TODO
 
-* Script to setting .extra file with git credentials.
+* Script to setting .extra file with git credentials (like [zenorocha](https://github.com/zenorocha/dotfiles)
 * Generate Github and bitbucket SSH Keys.
