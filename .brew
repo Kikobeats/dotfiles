@@ -33,6 +33,7 @@ brew tap josegonzalez/homebrew-php
 # Python and Pip
 brew install python
 pip install -U pip
+pip install Pygments
 
 # https://github.com/isaacs/nave
 # needs npm, obviously.
