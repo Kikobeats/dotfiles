@@ -112,3 +112,4 @@ export PATH="$HOME/dotfiles/utils:$PATH"
 * Script to setting .extra file with git credentials (like [zenorocha](https://github.com/zenorocha/dotfiles)).
 * Generate Github and bitbucket SSH Keys.
 * Set up npm user ([more](https://gist.github.com/coolaj86/1318304)).
+* Set up priority of paths ([more](http://stackoverflow.com/questions/5364614/is-there-a-problem-with-having-usr-local-bin-before-usr-bin-on-the-path-in-os))
