@@ -106,3 +106,8 @@ export PATH="$HOME/dotfiles/utils:$PATH"
 # Ruby Settings
 # ....
 ```
+
+### TODO
+
+* Script to setting .extra file with git credentials.
+* Generate Github and bitbucket SSH Keys.
