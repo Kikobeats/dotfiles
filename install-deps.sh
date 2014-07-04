@@ -9,17 +9,6 @@ bash < <( curl https://raw.github.com/jamiew/git-friendly/master/install.sh)
 # rvm for the rubiess
 curl -sSL https://get.rvm.io | bash -s stable --ruby
 
-# Python and Pip
-# Mac have Python 2.7.2 by default. Update to 3.x is not needed
-sudo curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py > /tmp/get-pip.py
-sudo python /tmp/get-pip.py
-pip install -U pip
-
-# https://github.com/isaacs/nave
-# needs npm, obviously.
-# TODO: I think i'd rather curl down the nave.sh, symlink it into /bin and use that for initial node install.
-npm install -g nave
-
 # homebrew!
 # you need the code CLI tools YOU FOOL.
 ruby <(curl -fsSkL raw.github.com/mxcl/homebrew/go)
