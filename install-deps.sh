@@ -27,11 +27,6 @@ curl https://raw2.github.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploa
 # add nodev
 curl https://raw2.github.com/Kikobeats/nodev/master/nodev > ~/dotfiles/utils/nodev
 
-# Ubuntu font (for Sublime Text and iTerm)
-wget -P /tmp/ http://font.ubuntu.com/download/ubuntu-font-family-0.80.zip
-tar -xvf /tmp/ubuntu-font-family-0.80.zip
-sudo mv ubuntu-font-family-0.80/*.ttf ~/Library/Fonts/
-
 # my magic photobooth symlink -> dropbox. I love it.
 # first move Photo Booth folder out of Pictures and into dropbox/public
 # then:
