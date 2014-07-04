@@ -1,7 +1,9 @@
 # Install native apps
 # Usage: `brew bundle Caskfile`
-#install phinze/cask/brew-cask
-#tap caskroom/versions
+# for search apps use `brew cask search <name>, eg: brew cask search chrome`
+# more info: https://github.com/caskroom/homebrew-cask/blob/master/USAGE.md
+# install phinze/cask/brew-cask
+# tap caskroom/versions
 
 cask install dropbox 2> /dev/null
 cask install google-chrome 2> /dev/null
