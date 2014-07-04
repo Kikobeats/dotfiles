@@ -80,5 +80,11 @@ gem install rubocop scss-lint
 gem install wbench
 brew install chromedriver
 
+# Extra love
+# Ubuntu font (for Sublime Text and iTerm)
+wget -P /tmp/ http://font.ubuntu.com/download/ubuntu-font-family-0.80.zip
+tar -xvf /tmp/ubuntu-font-family-0.80.zip
+sudo mv ubuntu-font-family-0.80/*.ttf ~/Library/Fonts/
+
 # Remove outdated versions from the cellar
 brew cleanup
