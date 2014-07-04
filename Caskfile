@@ -22,7 +22,10 @@ cask install keka 2> /dev/null
 cask install vlc 2> /dev/null
 cask install evernote 2> /dev/null
 cask install skype 2> /dev/null
+
+## Remember use `brew cask alfred status` before
 cask install alfred 2> /dev/null
+
 cask install node-webkit 2> /dev/null
 cask install caffeine 2> /dev/null
 cask install xtrafinder 2> /dev/null
