@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# See the contributors of a git repository
+git log --all --format="%aN <%aE>" | sort -u
