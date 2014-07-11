@@ -6,7 +6,15 @@ based on [addyosmani dotfiles](https://github.com/addyosmani/dotfiles). Thank yo
 
 ### Features
 
+Compatible with Bash and ZSH shells
+
+#### Bash
+
 ![Imgur](http://i.imgur.com/1sNnJVK.gif)
+
+#### ZSH
+
+![Imgur](http://i.imgur.com/6B4MD0n.gif)
 
 * Install common package manager (brew, npm, gem) and common dependencies  (linters, findutils, redis, mongo, bash,...)
 * Install common apps based on [Caskfile](https://github.com/Kikobeats/dotfiles/blob/master/Caskfile).
