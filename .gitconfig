@@ -1,56 +1,93 @@
 [alias]
-	a = add --all
-	cm = commit -am
-	co = checkout
-	ac = !git add --all && git commit -am
+
+	# Add
+	a = add --all 												# add all
+	ac = !git add --all && git commit -am # add all and commit with message
+
+	# Commit
+	ci = commit                       		# commit
+	cm = commit -am 											# commit with message
+	amend = commit --amend            		# ammend your last commit
+	ammend = commit --amend           		# ammend your last commit
+
+	# Pull
 	up = pull
+
+	# Checkout
+	co = checkout
+
+	# Push
 	p = push
+
+	# Status
 	s = status -s
+
+	# Diff
 	df = diff --color --color-words --abbrev
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
-	# Show verbose output about tags, branches or remotes
+
+	# Remotes
 	remotes = remote -v
+
+	# Branches
 	branches = branch -a
+	recent-branches = !git for-each-ref --count=5 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+
+	# Tags
 	tags = tag -l
+
+	# Logs
+	lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+
 [color]
 	ui = always
+
 [apply]
 	whitespace = fix
+
 [core]
 	excludesfile = ~/.gitignore
 	attributesfile = ~/.gitattributes
 	whitespace = fix,space-before-tab,tab-in-indent,trailing-space
 	editor = open -a 'Sublime Text'
 	autocrlf = input
+
 [color "branch"]
 	current = yellow reverse
 	local = yellow
 	remote = green
+
 [color "diff"]
 	meta = yellow bold
 	frag = magenta bold
 	old = red bold
 	new = green bold
+
 [color "status"]
 	added = yellow
 	changed = green
 	untracked = cyan
+
 [mergetool "sublime"]
 	cmd = sublime -w $MERGED
 	trustExitCode = false
+
 [merge]
 	tool = Kaleidoscope
 	log = true
+
 [url "git@github.com:"]
 	insteadOf = "gh:"
 	pushInsteadOf = "github:"
 	pushInsteadOf = "git://github.com/"
+
 [url "git://github.com/"]
 	insteadOf = "github:"
+
 [url "git@gist.github.com:"]
 	insteadOf = "gst:"
 	pushInsteadOf = "gist:"
 	pushInsteadOf = "git://gist.github.com/"
+
 [url "git://gist.github.com/"]
 	insteadOf = "gist:"
 
@@ -58,14 +95,23 @@
 # http://rentzsch.tumblr.com/post/564806957/public-but-hackable-git-submodules
 [url "git@github.com:kikobeats/"]
   insteadOf = "git://github.com/kikobeats/"
+
 [difftool "Kaleidoscope"]
 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+
 [diff]
 	tool = Kaleidoscope
+
 [difftool]
 	prompt = false
+
 [mergetool "Kaleidoscope"]
 	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustExitCode = true
+
 [mergetool]
 	prompt = false
+
+[user]
+	name = Kiko Beats
+	email = josefrancisco.verdu@gmail.com
