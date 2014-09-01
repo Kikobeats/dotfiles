@@ -6,7 +6,15 @@ based on [addyosmani dotfiles](https://github.com/addyosmani/dotfiles). Thank yo
 
 ### Features
 
+Compatible with Bash and ZSH shells
+
+#### Bash
+
 ![Imgur](http://i.imgur.com/1sNnJVK.gif)
+
+#### ZSH
+
+![Imgur](http://i.imgur.com/6B4MD0n.gif)
 
 * Install common package manager (brew, npm, gem) and common dependencies  (linters, findutils, redis, mongo, bash,...)
 * Install common apps based on [Caskfile](https://github.com/Kikobeats/dotfiles/blob/master/Caskfile).
@@ -36,14 +44,16 @@ Install Packages > Dotfiles Syntax Highlighting for Sublime Text 2/3
 * `.bash_profile`
 * `.bash_prompt`
 * `.bashrc`
+* `.zshrc`
 * `.exports`
 * `.functions`
 * `.extra` - not included, explained above
 
+
 #### manual run
-* `install-deps.sh` - random apps i need installed
-* `.osx` - run on a fresh osx machine
-* `.brew` - homebrew intialization
+* `install-deps.sh` - Common dependencies (Python, Node, Ruby, etc)
+* `.osx` - Run on a fresh osx machine
+* `.brew` - Homebrew intialization
 
 #### git, brah
 * `.git`
@@ -56,6 +66,7 @@ Install Packages > Dotfiles Syntax Highlighting for Sublime Text 2/3
 ### Configure
 
 ### Set up new computer
+
 Install dependencies
 
 ```bash
@@ -66,6 +77,12 @@ When setting up a new Mac, you may want to set some sensible OS X defaults:
 
 ```bash
 ./.osx
+```
+
+Install Caskfile apps with:
+
+```bash
+brew bundle Caskfile
 ```
 
 #### Private Settings
@@ -97,3 +114,10 @@ export PATH="$HOME/dotfiles/utils:$PATH"
 # Ruby Settings
 # ....
 ```
+
+### TODO
+
+* Script to setting .extra file with git credentials (like [zenorocha](https://github.com/zenorocha/dotfiles)).
+* Generate Github and bitbucket SSH Keys.
+* Set up npm user ([more](https://gist.github.com/coolaj86/1318304)).
+* Set up priority of paths ([more](http://stackoverflow.com/questions/5364614/is-there-a-problem-with-having-usr-local-bin-before-usr-bin-on-the-path-in-os))

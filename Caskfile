@@ -1,25 +1,40 @@
 # Install native apps
 # Usage: `brew bundle Caskfile`
-#install phinze/cask/brew-cask
-#tap caskroom/versions
+# for search apps use `brew cask search <name>, eg: brew cask search chrome`
+# more info: https://github.com/caskroom/homebrew-cask/blob/master/USAGE.md
+# install phinze/cask/brew-cask
+# tap caskroom/versions
 
 cask install dropbox 2> /dev/null
 cask install google-chrome 2> /dev/null
-cask install google-chrome-canary 2> /dev/null
+# cask install google-chrome-canary 2> /dev/null 
 cask install imagealpha 2> /dev/null
 cask install imageoptim 2> /dev/null
 cask install iterm2 2> /dev/null
 cask install miro-video-converter 2> /dev/null
 cask install handbrake 2> /dev/null
 cask install opera 2> /dev/null
-cask install opera-developer 2> /dev/null
+# cask install opera-developer 2> /dev/null
 cask install opera-next 2> /dev/null
 cask install sublime-text 2> /dev/null
 cask install utorrent 2> /dev/null
 cask install keka 2> /dev/null
 cask install vlc 2> /dev/null
 cask install evernote 2> /dev/null
+cask install skype 2> /dev/null
+
+## Remember use `brew cask alfred status` before
+cask install alfred 2> /dev/null
+
 cask install node-webkit 2> /dev/null
+cask install caffeine 2> /dev/null
+cask install xtrafinder 2> /dev/null
+cask install kaleidoscope 2> /dev/null
+cask install moom 2> /dev/null
+cask install hipchat 2> /dev/null
+
+
+
 
 # QuickLook plugins
 cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch

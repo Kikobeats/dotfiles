@@ -30,9 +30,20 @@ brew tap homebrew/dupes
 brew install homebrew/dupes/grep
 brew tap josegonzalez/homebrew-php
 
+# Python and Pip
+brew install python
+pip install -U pip
+pip install Pygments
+
+# https://github.com/isaacs/nave
+# needs npm, obviously.
+# TODO: I think i'd rather curl down the nave.sh, symlink it into /bin and use that for initial node install.
+
+
 # node and npm
 brew install node
-sudo brew postinstall node
+sudo brew postingstall node
+npm install -g nave
 
 # gcc/g++ compilers
 brew install gcc
@@ -61,14 +72,20 @@ brew install youtube-dl
 brew install speedtest-cli
 
 # Install linters dependencies
-npm install -g jshint csslint coffeelint
-sudo pip install cpplint
+sudo npm install -g jshint csslint coffeelint
+sudo pip install cpplint speedtest-cli
 brew install cppcheck cabal-install shellcheck
-gem install rubocop scss-lint
+sudo gem install rubocop scss-lint
 
 # wbench
-gem install wbench
+sudo gem install wbench
 brew install chromedriver
+
+# Extra love
+# Ubuntu font (for Sublime Text and iTerm)
+wget -P /tmp/ http://font.ubuntu.com/download/ubuntu-font-family-0.80.zip
+tar -xvf /tmp/ubuntu-font-family-0.80.zip
+sudo mv ubuntu-font-family-0.80/*.ttf ~/Library/Fonts/
 
 # Remove outdated versions from the cellar
 brew cleanup
