@@ -13,6 +13,7 @@ brew cleanup
 
 ## npm
 # sudo chown -R "$(whoami)" ~/.npm
+sudo npm cache clean
 sudo npm update -g
 
 ## cabal
