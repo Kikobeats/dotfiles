@@ -23,6 +23,7 @@ cabal install cabal-install --force-reinstalls
 ## ruby
 sudo gem update --system
 sudo gem update
+sudo gem cleanup
 
 ## clean system
 read -p "System Updated. Clean now? (y/n) " -n 1
