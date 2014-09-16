@@ -20,6 +20,9 @@ sudo npm update -g
 cabal update
 cabal install cabal-install --force-reinstalls
 
+## rvm
+rvm get stable
+
 ## ruby
 sudo gem update --system
 sudo gem update
