@@ -9,12 +9,13 @@ git fetch origin
 git reset --hard origin/master
 brew update
 brew upgrade
-brew cleanup
+sudo brew cleanup
 
 ## npm
 # sudo chown -R "$(whoami)" ~/.npm
 sudo npm cache clean
-sudo npm update -g
+npm-check-updates -g
+read -p "Update packages manually and press any key... " -n 1
 
 ## cabal
 cabal update
