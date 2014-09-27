@@ -21,9 +21,13 @@ read -p "Update packages manually and press any key... " -n 1
 cabal update
 cabal install cabal-install --force-reinstalls
 
+## rvm
+rvm get stable
+
 ## ruby
 sudo gem update --system
 sudo gem update
+sudo gem cleanup
 
 ## clean system
 read -p "System Updated. Clean now? (y/n) " -n 1
