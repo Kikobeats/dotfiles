@@ -12,12 +12,11 @@ brew upgrade
 sudo brew cleanup
 
 ## npm
-# sudo chown -R "$(whoami)" ~/.npm
 sudo npm cache clean
 npm-check-updates -g
 read -p "Update packages manually and press any key... " -n 1
 sudo chown -R "$(whoami)" ~/.npm
-sudo chown -R "$USER" /usr/local
+sudo chown -R "$(whoami)" /usr/local
 
 ## cabal
 cabal update
