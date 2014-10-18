@@ -42,7 +42,7 @@ pip install Pygments
 
 # node and npm
 brew install node
-sudo brew postingstall node
+sudo brew postinstall node
 npm install -g nave
 
 # gcc/g++ compilers
@@ -58,6 +58,7 @@ echo "Don’t forget go to 'Downloads' folder and install LaunchRocket"
 # Caskfile manager
 brew tap phinze/cask
 brew install brew-cask
+brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzipql webp-quicklook suspicious-package
 
 # Install everything else
 brew install imagemagick
@@ -69,11 +70,15 @@ brew install rename
 brew install tree
 brew install gist
 brew install youtube-dl
-brew install speedtest-cli
+brew install speedtest_cli
+brew install ffmpeg
 
 # Install linters dependencies
-sudo npm install -g jshint csslint coffeelint
-sudo pip install cpplint speedtest-cli
+sudo npm install -g coffee-script coffeelint jshint js2coffee mocha
+sudo npm install -g jade less stylus csslint csscomb
+sudo npm install -g bower gulp grunt-cli yo yosay
+sudo npm install -g vtop fixpack  node-inspector nodemon npm-check-updates semver-date
+sudo pip install cpplint
 brew install cppcheck cabal-install shellcheck
 sudo gem install rubocop scss-lint hub
 
