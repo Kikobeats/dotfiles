@@ -27,10 +27,12 @@ curl https://raw2.github.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploa
 # add nodev
 curl https://raw2.github.com/Kikobeats/nodev/master/nodev > ~/dotfiles/utils/nodev
 
+# fix spotlight
+curl -O https://fix-macosx.com/fix-macosx.py && /usr/bin/python fix-macosx.py
+
 # my magic photobooth symlink -> dropbox. I love it.
 # first move Photo Booth folder out of Pictures and into dropbox/public
 # then:
 # ln -s ~/Dropbox/Public/Photo\ Booth/ ~/Pictures/Photo\ Booth
 # now you can record photobooth videos quickly and they upload to dropbox DURING RECORDING
 # then you grab public URL and send off your video message in a heartbeat.
-
