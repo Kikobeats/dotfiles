@@ -1,12 +1,13 @@
 #!/bin/bash -v
 
-## clean common directories
+## clean download folder
 read -p "Clean Downloads folder? (y/n) " -n 1
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   sudo rm -rfv ~/Downloads/*
 fi
 
+## clean desktop folder
 read -p "Clean Desktop folder? (y/n) " -n 1
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -17,7 +18,7 @@ fi
 # clean .DS_Store
 find . -name '*.DS_Store' -o -name "npm-debug.log" -type f -ls -delete
 # clean logs
-sudo rm -rfv /private/var/log/asl/*.asl
+sudo rm -rfv /Library/Logs/* ~/Library/Logs/*
 # clean temp
 sudo rm -rfv /tmp ~/tmp "$TMPDIR"
 # clean trash

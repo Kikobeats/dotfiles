@@ -1,3 +1,12 @@
+# Empty Trash
+
+function emptytrash() {
+  sudo rm -rfv /Volumes/*/.Trashes
+  sudo rm -rfv ~/.Trash
+  # clear Apple’s System Logs to improve shell startup speed
+  sudo rm -rfv /private/var/log/asl/*.asl
+}
+
 # Simple calculator
 function calc() {
         local result=""

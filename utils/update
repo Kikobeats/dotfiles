@@ -4,6 +4,7 @@
 sudo softwareupdate -i -a
 
 ## brew
+mkdir -p /tmp/brew
 cd "$(brew --prefix)"
 git fetch origin
 git reset --hard origin/master
@@ -30,12 +31,15 @@ sudo gem update --system
 sudo gem update
 sudo gem cleanup
 
+# finish
+diskutil repairPermissions /
+brew doctor
+read -p "Fixed problem and press any key... " -n 1
+
+
 ## clean system
 read -p "System Updated. Clean now? (y/n) " -n 1
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   . clean
 fi
-
-# finish
-brew doctor

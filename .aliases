@@ -91,20 +91,15 @@ alias whois="whois -h whois-servers.net"
 alias flush="dscacheutil -flushcache"
 
 # npm
-alias npmp="sudo npm publish"
-alias npma="sudo npm adduser"
-
-alias npmi="sudo npm install"
-alias npml="sudo npm list --depth=0"
-alias npmu="sudo npm uninstall"
-
-alias npmig="sudo npm install -g"
-alias npmlg="sudo npm list -g --depth=0"
-alias npmug="sudo npm uninstall -g"
-
-alias npmlink="sudo npm link"
-alias npmp="sudo npm publish"
-
+alias npmp="npm publish"
+alias npma="npm adduser"
+alias npmi="npm install"
+alias npml="npm list --depth=0"
+alias npmu="npm uninstall"
+alias npmig="npm install -g"
+alias npmlg="npm list -g --depth=0"
+alias npmug="npm uninstall -g"
+alias npmlink="npm link"
 alias t="npm test"
 
 # View HTTP traffic
@@ -129,9 +124,6 @@ alias fs="stat -f \"%z bytes\""
 
 # ROT13-encode text. Works for decoding, too! ;)
 alias rot13='tr a-zA-Z n-za-mN-ZA-M'
-
-# Also, clear Apple’s System Logs to improve shell startup speed
-alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
 
 # Hide/show all desktop icons (useful when presenting)
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
