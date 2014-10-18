@@ -1,4 +1,5 @@
 #!/bin/bash -v
+sudo -v
 
 ## clean download folder
 read -p "Clean Downloads folder? (y/n) " -n 1
