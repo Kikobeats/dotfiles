@@ -31,6 +31,9 @@ sudo gem update --system
 sudo gem update
 sudo gem cleanup
 
+## zsh
+upgrade_oh_my_zsh
+
 # finish
 diskutil repairPermissions /
 brew doctor
