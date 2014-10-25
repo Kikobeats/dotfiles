@@ -5,7 +5,6 @@ sudo -v
 sudo softwareupdate -i -a
 
 ## brew
-mkdir -p /tmp/brew
 cd "$(brew --prefix)"
 git fetch origin
 git reset --hard origin/master
