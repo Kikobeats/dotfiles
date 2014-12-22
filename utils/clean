@@ -17,7 +17,7 @@ fi
 
 ## clean system data
 # clean .DS_Store
-find . -name '*.DS_Store' -o -name "npm-debug.log" -type f -ls -delete
+sudo find / -name '.DS_Store' -o -name "npm-debug.log" -type f -ls -delete
 # clean logs
 sudo rm -rfv /Library/Logs/* ~/Library/Logs/*
 # clean temp

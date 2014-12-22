@@ -36,6 +36,7 @@ upgrade_oh_my_zsh
 
 # finish
 diskutil repairPermissions /
+sudo chmod -R 777 /tmp
 brew doctor
 read -p "Fixed problem and press any key... " -n 1
 
