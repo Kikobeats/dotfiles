@@ -75,13 +75,12 @@ brew install ffmpeg
 
 # Install linters dependencies
 sudo npm install -g coffee-script coffeelint jshint js2coffee mocha
-sudo npm install -g jade less stylus csslint csscomb
+sudo npm install -g less stylus csslint csscomb
 sudo npm install -g bower gulp grunt-cli yo yosay
-sudo npm install -g vtop fixpack  node-inspector nodemon npm-check-updates semver-date
+sudo npm install -g vtop fixpack node-inspector nodemon npm-check-updates semver-date
 sudo pip install cpplint
 brew install cppcheck cabal-install shellcheck
 sudo gem install rubocop scss-lint hub
-
 
 # Remove outdated versions from the cellar
 brew cleanup
