@@ -12,7 +12,7 @@ rvm install ruby-head
 
 # homebrew!
 # you need the code CLI tools YOU FOOL.
-ruby <(curl -fsSkL raw.github.com/mxcl/homebrew/go)
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 # https://github.com/rupa/z
 # z, oh how i love you
