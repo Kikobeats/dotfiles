@@ -7,14 +7,14 @@
 
 cask install dropbox 2> /dev/null
 cask install google-chrome 2> /dev/null
-# cask install google-chrome-canary 2> /dev/null 
+cask install google-chrome-canary 2> /dev/null 
 cask install imagealpha 2> /dev/null
 cask install imageoptim 2> /dev/null
 cask install iterm2 2> /dev/null
 cask install miro-video-converter 2> /dev/null
 cask install handbrake 2> /dev/null
 cask install opera 2> /dev/null
-# cask install opera-developer 2> /dev/null
+cask install opera-developer 2> /dev/null
 cask install opera-next 2> /dev/null
 cask install sublime-text 2> /dev/null
 cask install utorrent 2> /dev/null
