@@ -5,37 +5,32 @@
 # install phinze/cask/brew-cask
 # tap caskroom/versions
 
-cask install dropbox 2> /dev/null
-cask install google-chrome 2> /dev/null
-cask install google-chrome-canary 2> /dev/null 
-cask install imagealpha 2> /dev/null
-cask install imageoptim 2> /dev/null
-cask install iterm2 2> /dev/null
-cask install miro-video-converter 2> /dev/null
-cask install handbrake 2> /dev/null
-cask install opera 2> /dev/null
-cask install opera-developer 2> /dev/null
-cask install opera-next 2> /dev/null
-cask install sublime-text 2> /dev/null
-cask install utorrent 2> /dev/null
-cask install keka 2> /dev/null
-cask install vlc 2> /dev/null
-cask install evernote 2> /dev/null
-cask install skype 2> /dev/null
-
-## Remember use `brew cask alfred status` before
-cask install alfred 2> /dev/null
-
-cask install node-webkit 2> /dev/null
-cask install caffeine 2> /dev/null
-cask install xtrafinder 2> /dev/null
-cask install kaleidoscope 2> /dev/null
-cask install moom 2> /dev/null
-cask install hipchat 2> /dev/null
-
-
-
+brew cask install dropbox
+brew cask install google-chrome
+brew cask install google-chrome-canary
+brew cask install imagealpha
+brew cask install imageoptim
+brew cask install iterm2
+brew cask install miro-video-converter
+brew cask install handbrake
+brew cask install opera
+brew cask install opera-developer
+brew cask install opera-next
+brew cask install sublime-text
+brew cask install utorrent
+brew cask install keka
+brew cask install vlc
+brew cask install evernote
+brew cask install skype
+brew cask install spotify
+brew cask install alfred
+brew cask install istat-menus
+brew cask install node-webkit
+brew cask install caffeine
+brew cask install xtrafinder
+brew cask install kaleidoscope
+brew cask install moom
+brew cask install hipchat
 
 # QuickLook plugins
-cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch
-cask install quicklook-csv betterzipql webp-quicklook
+brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzipql qlimagesize webpquicklook suspicious-package
