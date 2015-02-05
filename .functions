@@ -12,6 +12,14 @@ np() {
 	git push --follow-tags
 }
 
+# git tag and push
+# gtp <tag>
+gtp() {
+	command git tag -am "$1" $1 && \
+	command git push --tags && \
+	command git push
+}
+
 # Empty Trash
 function emptytrash() {
   sudo rm -rfv /Volumes/*/.Trashes
