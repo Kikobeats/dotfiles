@@ -1,9 +1,8 @@
 # npm publish with goodies
-# prerequisite: `npm install -g trash`
 # `np` with an optional argument `patch`/`minor`/`major`/`<version>`
 # defaults to `patch`
 np() {
-	trash node_modules &>/dev/null;
+	rm -rf node_modules &>/dev/null;
 	git pull --rebase &&
 	npm install &&
 	npm test &&
@@ -17,7 +16,7 @@ np() {
 gtp() {
 	command git tag -am "$1" $1 && \
 	command git push --tags && \
-	command git push
+	command git push origin master
 }
 
 # Empty Trash
