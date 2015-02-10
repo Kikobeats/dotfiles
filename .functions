@@ -43,7 +43,7 @@ function cdf() { # short for `cdfinder`
 }
 
 # Start an HTTP server from a directory, optionally specifying the port
-function server() {
+function http-server-2() {
   local port="${1:-8000}"
   open "http://localhost:${port}/"
   # Set the default Content-Type to `text/plain` instead of `application/octet-stream`
@@ -52,7 +52,7 @@ function server() {
 }
 
 # another solution based on Ruby
-function http() {
+function http-server() {
   local port="${1:-3000}"
   open "http://localhost:${port}/"
   ruby -run -e httpd . -p "$port"
