@@ -42,8 +42,7 @@ function cdf() { # short for `cdfinder`
   cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"
 }
 
-# Start an HTTP server from a directory, optionally specifying the port
-function http-server-2() {
+function http_server_2() {
   local port="${1:-8000}"
   open "http://localhost:${port}/"
   # Set the default Content-Type to `text/plain` instead of `application/octet-stream`
@@ -51,8 +50,8 @@ function http-server-2() {
   python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port"
 }
 
-# another solution based on Ruby
-function http-server() {
+# Start an HTTP server from a directory, optionally specifying the port
+function http_server() {
   local port="${1:-3000}"
   open "http://localhost:${port}/"
   ruby -run -e httpd . -p "$port"
