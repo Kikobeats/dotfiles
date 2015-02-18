@@ -326,17 +326,3 @@ function gh() {
     open -a Google\ Chrome "http://github.com/Kikobeats/$1"
   fi
 }
-
-# GitHub URL for current repo.
-function gurl() {
-  local remotename="${@:-origin}"
-  local remote="$(git remote -v | awk '/^'"$remotename"'.*\(push\)$/ {print $2}')"
-
-  if [ ! -z "$remote" ]; then
-    url="$remote"
-  else
-    local user_repo="$(echo "$remote" | perl -pe 's/.*://;s/\.git$//')"
-    url="https://github.com/$user_repo"
-  fi
-  open -a Google\ Chrome $url
-}
