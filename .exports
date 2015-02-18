@@ -14,4 +14,4 @@ export HISTFILE=~/.zsh_history
 
 # DOTFILES_VERSION
 # For control versions in different computers
-export DOTFILES_VERSION='2014.10.18'
+export DOTFILES_VERSION='2015.0.2'
