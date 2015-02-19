@@ -19,6 +19,13 @@ gtp() {
 	command git push origin master
 }
 
+# delete a git tag
+gtd() {
+  command git tag -d "$1"
+  command git push origin :refs/tags/"$1"
+  command git tag -d "$1"
+}
+
 # Empty Trash
 function emptytrash() {
   sudo rm -rfv /Volumes/*/.Trashes
