@@ -225,10 +225,16 @@ function o() {
 # Launch installed browsers for a specific URL
 # Usage: browsers "http://www.google.com"
 function browsers(){
-  chrome $1
-  opera $1
-  firefox $1
-  safari $1
+  chrome "$1"
+  opera "$1"
+  firefox "$1"
+  safari "$1"
+}
+
+function http-server() {
+  local port="${1:-3000}"
+  open "http://localhost:${port}/"
+  ruby -run -e httpd . -p "$port"
 }
 
 # Create animated GIFs from any video
