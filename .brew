@@ -69,7 +69,7 @@ brew install speedtest_cli
 brew install ffmpeg
 
 # Install linters dependencies
-npm install -g coffee-script coffeelint jshint js2coffee mocha less stylus csslint csscomb bower gulp grunt-cli yo yosay
+npm install -g coffee-script coffeelint jshint jscs js2coffee mocha less stylus csslint csscomb bower gulp grunt-cli yo yosay
 npm install -g fishpack node-inspector nodemon npm-check-updates semver-date vtop npm osx-trash empty-trash
 brew install cppcheck cabal-install shellcheck httpie
 sudo gem install rubocop scss-lint hub
