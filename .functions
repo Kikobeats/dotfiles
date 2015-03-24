@@ -1,47 +1,99 @@
 #!/bin/bash
 
-# Bash function executing an Applescript to
-# open a new iTerm2 pane (horizontal split) and cd to current folder
+# hsplit                   Opens the current directory in a new tab
+# hsplit [PATH]            Open PATH in a new tab
+# hsplit [CMD]             Open a new tab and execute CMD
+# hsplit [PATH] [CMD] ...  You can prob'ly guess
 hsplit() {
-osascript -e "
-tell application \"iTerm\"
- tell the first terminal
-        tell application \"System Events\" to keystroke \"D\" using {command down, shift down}
-  tell the current session
-   write text \"cd '$(pwd)'\"
+  [ `uname -s` != "Darwin" ] && return
+  local cmd=""
+  local cdto="$PWD"
+  local args="$@"
+
+  if [ -d "$1" ]; then
+    cdto=$(cd "$1"; pwd)
+    args="${@:2}"
+  fi
+
+  if [ -n "$args" ]; then
+    cmd="; $args"
+  fi
+
+  osascript &>/dev/null <<EOF
+  tell application "iTerm"
+   tell the first terminal
+      tell application "System Events" to keystroke "D" using {command down, shift down}
+        tell the current session
+          write text "cd \"$cdto\"$cmd"
+      end tell
+    end tell
   end tell
- end tell
-end tell"
+EOF
 }
 
-# Bash function executing an Applescript to
-# open a new iTerm2 pane (vertical split) and cd to current folder
+# vsplit                   Opens the current directory in a new tab
+# vsplit [PATH]            Open PATH in a new tab
+# vsplit [CMD]             Open a new tab and execute CMD
+# vsplit [PATH] [CMD] ...  You can prob'ly guess
 vsplit() {
-osascript -e "
-tell application \"iTerm\"
- tell the first terminal
-        tell application \"System Events\" to keystroke \"d\" using command down
-  tell the current session
-   write text \"cd '$(pwd)'\"
+  [ `uname -s` != "Darwin" ] && return
+  local cmd=""
+  local cdto="$PWD"
+  local args="$@"
+
+  if [ -d "$1" ]; then
+    cdto=$(cd "$1"; pwd)
+    args="${@:2}"
+  fi
+
+  if [ -n "$args" ]; then
+    cmd="; $args"
+  fi
+
+  osascript &>/dev/null <<EOF
+  tell application "iTerm"
+   tell the first terminal
+      tell application "System Events" to keystroke "d" using command down
+        tell the current session
+          write text "cd \"$cdto\"$cmd"
+      end tell
+    end tell
   end tell
- end tell
-end tell"
+EOF
 }
 
-# Bash function executing an Applescript to
-# open a new iTerm2 tab and cd to current folder
-newtab() {
-osascript -e "
-tell application \"iTerm\"
- tell the last terminal
-  launch session \"Default Session\"
-  tell the last session
-   write text \"cd '$(pwd)'\"
-  end tell
- end tell
-end tell"
+# newtab                   Opens the current directory in a new tab
+# newtab [PATH]            Open PATH in a new tab
+# newtab [CMD]             Open a new tab and execute CMD
+# newtab [PATH] [CMD] ...  You can prob'ly guess
+newtab () {
+  [ `uname -s` != "Darwin" ] && return
+  local cmd=""
+  local cdto="$PWD"
+  local args="$@"
+
+  if [ -d "$1" ]; then
+    cdto=$(cd "$1"; pwd)
+    args="${@:2}"
+  fi
+
+  if [ -n "$args" ]; then
+    cmd="; $args"
+  fi
+
+  osascript &>/dev/null <<EOF
+    tell application "iTerm"
+      tell current terminal
+        launch session "Default Session"
+        tell the last session
+          write text "cd \"$cdto\"$cmd"
+        end tell
+      end tell
+    end tell
+EOF
 }
 
+# Kill a process based in the number of the TCP Port.
 killport() {
   PORT_NUMBER=$1
   lsof -i tcp:"${PORT_NUMBER}" | awk 'NR!=1 {print $2}' | xargs kill
@@ -51,21 +103,21 @@ killport() {
 # `np` with an optional argument `patch`/`minor`/`major`/`<version>`
 # defaults to `patch`
 np() {
-	rm -rf node_modules &>/dev/null;
-	git pull --rebase &&
-	npm install &&
-	npm test &&
-	npm version ${1:-patch} &&
-	npm publish &&
-	git push --follow-tags
+  rm -rf node_modules &>/dev/null;
+  git pull --rebase &&
+  npm install &&
+  npm test &&
+  npm version ${1:-patch} &&
+  npm publish &&
+  git push --follow-tags
 }
 
 # git tag and push
 # gtp <tag>
 gtp() {
-	command git tag -am "$1" $1 && \
-	command git push --tags && \
-	command git push origin master
+  command git tag -am "$1" $1 && \
+  command git push --tags && \
+  command git push origin master
 }
 
 # delete a git tag
