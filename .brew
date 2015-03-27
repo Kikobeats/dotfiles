@@ -47,13 +47,8 @@ brew link gcc
 # Databases
 brew install redis
 brew install mongodb
-wget -P ~/Downloads https://github.com/jimbojsb/launchrocket/releases/download/v0.6/LaunchRocket.prefPane.zip
+wget -P ~/Downloads https://github.com/jimbojsb/launchrocket/releases/download/v0.7/LaunchRocket.prefPane.zip
 echo "Don’t forget go to 'Downloads' folder and install LaunchRocket"
-
-# Caskfile manager
-brew tap phinze/cask
-brew install brew-cask
-brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzipql webp-quicklook suspicious-package
 
 # Install everything else
 brew install imagemagick
@@ -70,7 +65,7 @@ brew install ffmpeg
 
 # Install linters dependencies
 npm install -g coffee-script coffeelint jshint jscs js2coffee mocha less stylus csslint csscomb bower gulp grunt-cli yo yosay
-npm install -g fishpack node-inspector nodemon npm-check-updates semver-date vtop npm trash empty-trash
+npm install -g finepack node-inspector getversion nodemon npm-check-updates semver-date vtop npm trash empty-trash
 brew install cppcheck cabal-install shellcheck httpie
 sudo gem install rubocop scss-lint hub
 sudo pip install cpplint
