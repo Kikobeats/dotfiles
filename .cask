@@ -21,6 +21,7 @@ brew cask install caffeine
 brew cask install xtrafinder
 brew cask install kaleidoscope
 brew cask install moom
+brew cask install launchrocket
 
 # QuickLook plugins
 brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzipql qlimagesize webpquicklook suspicious-package
