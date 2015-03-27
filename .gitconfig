@@ -29,7 +29,7 @@
 	remotes = remote -v
 
 	# Branches
-	branches = branch -a
+	branches = branch -av
 	recent-branches = !git for-each-ref --count=5 --sort=-committerdate refs/heads/ --format='%(refname:short)'
 
 	# Tags
