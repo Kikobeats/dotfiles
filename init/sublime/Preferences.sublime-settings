@@ -54,10 +54,7 @@
 	],
 	"indent_to_bracket": true,
 	"index_exclude_patterns":
-	[
-		"/Users/josefranciscoverdugambin/Projects/zombeats/zombts_v2/node_modules*",
-		"*.log"
-	],
+	[],
 	"line_padding_bottom": 1,
 	"line_padding_top": 1,
 	"match_brackets_angle": true,
