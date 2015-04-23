@@ -24,6 +24,7 @@
 
 	# Diff
 	df = diff --color --color-words --abbrev
+	dt = difftool
 
 	# Remotes
 	remotes = remote -v
