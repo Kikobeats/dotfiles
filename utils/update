@@ -13,7 +13,7 @@ brew upgrade --all
 sudo brew cleanup
 
 ## npm
-curl -L https://npmjs.org/install.sh | sudo sh
+npm update -g npm
 sudo chown -R "$(whoami)" ~/.npm
 sudo chown -R "$(whoami)" /usr/local
 sudo npm cache clean
