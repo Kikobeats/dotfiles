@@ -13,6 +13,7 @@ brew upgrade --all
 sudo brew cleanup
 
 ## npm
+curl -L https://npmjs.org/install.sh | sudo sh
 sudo npm cache clean
 npm-check-updates -g
 read -p "Update packages manually and press any key... " -n 1
