@@ -14,11 +14,11 @@ sudo brew cleanup
 
 ## npm
 curl -L https://npmjs.org/install.sh | sudo sh
+sudo chown -R "$(whoami)" ~/.npm
+sudo chown -R "$(whoami)" /usr/local
 sudo npm cache clean
 npm-check-updates -g
 read -p "Update packages manually and press any key... " -n 1
-sudo chown -R "$(whoami)" ~/.npm
-sudo chown -R "$(whoami)" /usr/local
 
 ## cabal
 cabal update
