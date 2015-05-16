@@ -49,4 +49,4 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 sudo mkdir -p /tmp
-sudo chmod -R 777
+sudo chmod -R 777 /tmp
