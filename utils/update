@@ -48,5 +48,5 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   . clean
 fi
 
-mkdir -p /tmp
+sudo mkdir -p /tmp
 sudo chmod -R 777
