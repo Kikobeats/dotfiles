@@ -123,7 +123,7 @@ type -t md5sum > /dev/null 2>&1 || alias md5sum="md5"
 alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
 
 # Shortcuts
-alias g="hub"
+alias g='$HOME/.rvm/gems/ruby-head/bin/hub'
 alias v="vim"
 
 # File size
