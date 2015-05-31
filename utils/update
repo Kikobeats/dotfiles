@@ -38,8 +38,8 @@ upgrade_oh_my_zsh
 # finish
 diskutil repairPermissions /
 brew doctor
+brew prune
 read -p "Fixed problem and press any key... " -n 1
-
 
 ## clean system
 read -p "System Updated. Clean now? (y/n) " -n 1
