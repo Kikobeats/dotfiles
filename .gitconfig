@@ -85,7 +85,7 @@
 
 [merge]
 	tool = Kaleidoscope
-	log = true
+        log = false
 
 [url "git@github.com:"]
 	insteadOf = "gh:"
