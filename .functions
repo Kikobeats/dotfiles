@@ -220,11 +220,6 @@ function clone {
   git clone $url $repo && cd $repo && subl .;
 }
 
-# simple git log
-# function glog() {
-#   git log $1 $2 --pretty=format:'* %h %s' --date=short --no-merges
-# }
-
 # Copy w/ progress
 cp_p () {
   rsync -WavP --human-readable --progress $1 $2
