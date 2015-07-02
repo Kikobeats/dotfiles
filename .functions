@@ -127,6 +127,12 @@ gtd() {
   command git tag -d "$1"
 }
 
+# delete a git branch
+gtd() {
+  command git branch -D "$1"
+  command git push origin --delete "$1"
+}
+
 # Empty Trash
 function emptytrash() {
   sudo rm -rfv /Volumes/*/.Trashes
