@@ -128,7 +128,7 @@ gtd() {
 }
 
 # delete a git branch
-gtd() {
+gbd() {
   command git branch -D "$1"
   command git push origin --delete "$1"
 }
