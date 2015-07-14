@@ -56,7 +56,7 @@ ZSH_THEME="pure-original"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(colored-man colorize compleat history-substring-search node npm sudo web-search httpie history)
 
-source $ZSH/oh-my-zsh.sh
+source "$ZSH"/oh-my-zsh.sh
 
 # User configuration
 
@@ -78,3 +78,6 @@ source $ZSH/oh-my-zsh.sh
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+# iTerm2 shell integration
+source "$HOME"/.iterm2_shell_integration.zsh

@@ -32,3 +32,7 @@ curl -O https://fix-macosx.com/fix-macosx.py && /usr/bin/python fix-macosx.py
 # ln -s ~/Dropbox/Public/Photo\ Booth/ ~/Pictures/Photo\ Booth
 # now you can record photobooth videos quickly and they upload to dropbox DURING RECORDING
 # then you grab public URL and send off your video message in a heartbeat.
+
+# iterm2 integration
+curl -L https://iterm2.com/misc/install_shell_integration.sh | bash
+
