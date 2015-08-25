@@ -26,6 +26,7 @@ cabal install cabal-install --force-reinstalls
 
 ## rvm
 rvm get stable
+sudo chmod -R 755 "$PWD"/.rvm
 
 ## ruby
 sudo gem update --system
@@ -49,4 +50,4 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 sudo mkdir -p /tmp
-sudo chmod -R 777 /tmp
+sudo chmod -R 755 /tmp
