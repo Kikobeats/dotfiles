@@ -323,6 +323,9 @@ function o() {
         fi
 }
 
+function kgrep() {
+  pgrep "$1" | xargs kill -9 2> /dev/null
+}
 
 # Launch installed browsers for a specific URL
 # Usage: browsers "http://www.google.com"
