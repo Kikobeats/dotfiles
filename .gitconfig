@@ -55,11 +55,11 @@
 	whitespace = fix
 
 [core]
-	excludesfile = ~/.gitignore
-	attributesfile = ~/.gitattributes
-	whitespace = fix,space-before-tab,tab-in-indent,trailing-space
-        editor = open -a 'Sublime Text'
-	autocrlf = input
+        excludesfile = ~/.gitignore
+        attributesfile = ~/.gitattributes
+        whitespace = fix,space-before-tab,tab-in-indent,trailing-space
+        editor = sublime -n -w
+        autocrlf = input
 
 [color "branch"]
 	current = yellow reverse
