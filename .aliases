@@ -14,7 +14,6 @@ alias dt="cd ~/Desktop"
 
 # programs
 alias subl='open -a "Sublime Text"'
-alias sublime='open -a "Sublime Text"'
 alias preview="open -a '$PREVIEW'"
 alias xcode="open -a '/Developer/Applications/Xcode.app'"
 alias filemerge="open -a '/Developer/Applications/Utilities/FileMerge.app'"

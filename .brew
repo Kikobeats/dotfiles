@@ -64,7 +64,7 @@ brew install ffmpeg
 
 # Install linters dependencies
 npm install -g coffee-script coffeelint jshint jscs js2coffee mocha less stylus csslint csscomb bower gulp grunt-cli yo yosay
-npm install -g finepack node-inspector getversion nodemon npm-check-updates semver-date vtop npm trash empty-trash speed-test
+npm install -g finepack node-inspector getversion nodemon npm-check-updates semver-date vtop npm trash empty-trash speed-test fuck-you
 brew install cppcheck cabal-install shellcheck httpie
 sudo gem install rubocop scss-lint hub
 sudo pip install cpplint

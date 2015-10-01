@@ -1,44 +1,44 @@
 [alias]
-	# Add
-	a = add --all 												# add all
-	ac = !git add --all && git commit -am # add all and commit with message
+  # Add
+  a = add --all                         # add all
+  ac = !git add --all && git commit -am # add all and commit with message
 
-	# Commit
-	ci = commit                       		# commit
-	cm = commit -am 											# commit with message
-	amend = commit --amend            		# ammend your last commit
-	ammend = commit --amend           		# ammend your last commit
+  # Commit
+  ci = commit                           # commit
+  cm = commit -am                       # commit with message
+  amend = commit --amend                # ammend your last commit
+  ammend = commit --amend               # ammend your last commit
 
-	# Pull
+  # Pull
   up = !git pull --rebase --prune $@ && git submodule update --init --recursive
 
-	# Checkout
-	co = checkout
+  # Checkout
+  co = checkout
   cob = checkout -b
 
-	# Push
-	p = push
+  # Push
+  p = push
 
-	# Status
-	s = status -s
+  # Status
+  s = status -s
 
-	# Diff
-	df = diff --color --color-words --abbrev
-	dt = difftool
+  # Diff
+  df = diff --color --color-words --abbrev
+  dt = difftool
 
-	# Remotes
-	remotes = remote -v
+  # Remotes
+  remotes = remote -v
 
-	# Branches
-	branches = branch -av
-	recent-branches = !git for-each-ref --count=5 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+  # Branches
+  branches = branch -av
+  recent-branches = !git for-each-ref --count=5 --sort=-committerdate refs/heads/ --format='%(refname:short)'
 
-	# Tags
-	tags = tag -l
-	tag = tag -a
+  # Tags
+  tags = tag -l
+  tag = tag -a
 
-	# Logs
-	lg = log --graph --pretty=format:'%Cred%h%Creset %an: %s -%C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+  # Logs
+  lg = log --graph --pretty=format:'%Cred%h%Creset %an: %s -%C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
 
   # flow
   # more information: http://haacked.com/archive/2014/07/28/github-flow-aliases/
@@ -49,57 +49,57 @@
   bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
 
 [color]
-	ui = always
+  ui = always
 
 [apply]
-	whitespace = fix
+  whitespace = fix
 
 [core]
-        excludesfile = ~/.gitignore
-        attributesfile = ~/.gitattributes
-        whitespace = fix,space-before-tab,tab-in-indent,trailing-space
-        editor = sublime -n -w
-        autocrlf = input
+  excludesfile = ~/.gitignore
+  attributesfile = ~/.gitattributes
+  whitespace = fix,space-before-tab,tab-in-indent,trailing-space
+  editor = sublime -n -w
+  autocrlf = input
 
 [color "branch"]
-	current = yellow reverse
-	local = yellow
-	remote = green
+  current = yellow reverse
+  local = yellow
+  remote = green
 
 [color "diff"]
-	meta = yellow bold
-	frag = magenta bold
-	old = red bold
-	new = green bold
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
 
 [color "status"]
-	added = yellow
-	changed = green
-	untracked = cyan
+  added = yellow
+  changed = green
+  untracked = cyan
 
 [mergetool "sublime"]
-	cmd = sublime -w $MERGED
-	trustExitCode = false
+  cmd = sublime -w $MERGED
+  trustExitCode = false
 
 [merge]
-	tool = Kaleidoscope
+  tool = Kaleidoscope
         log = false
 
 [url "git@github.com:"]
-	insteadOf = "gh:"
-	pushInsteadOf = "github:"
-	pushInsteadOf = "git://github.com/"
+  insteadOf = "gh:"
+  pushInsteadOf = "github:"
+  pushInsteadOf = "git://github.com/"
 
 [url "git://github.com/"]
-	insteadOf = "github:"
+  insteadOf = "github:"
 
 [url "git@gist.github.com:"]
-	insteadOf = "gst:"
-	pushInsteadOf = "gist:"
-	pushInsteadOf = "git://gist.github.com/"
+  insteadOf = "gst:"
+  pushInsteadOf = "gist:"
+  pushInsteadOf = "git://gist.github.com/"
 
 [url "git://gist.github.com/"]
-	insteadOf = "gist:"
+  insteadOf = "gist:"
 
 # Any GitHub repo with my username should be checked out r/w by default
 # http://rentzsch.tumblr.com/post/564806957/public-but-hackable-git-submodules
@@ -107,21 +107,21 @@
   insteadOf = "git://github.com/kikobeats/"
 
 [difftool "Kaleidoscope"]
-	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+  cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 
 [diff]
-	tool = Kaleidoscope
+  tool = Kaleidoscope
 
 [difftool]
-	prompt = false
+  prompt = false
 
 [mergetool "Kaleidoscope"]
-	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-	trustExitCode = true
+  cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+  trustExitCode = true
 
 [mergetool]
-	prompt = false
+  prompt = false
 
 [user]
-	name = Kiko Beats
-	email = josefrancisco.verdu@gmail.com
+  name = Kiko Beats
+  email = josefrancisco.verdu@gmail.com
