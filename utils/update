@@ -17,8 +17,8 @@ npm update -g npm
 sudo chown -R "$(whoami)" ~/.npm
 sudo chown -R "$(whoami)" /usr/local
 sudo npm cache clean
-ncu -g
-read -p "Update packages manually and press any key... " -n 1
+david -g
+david update -g
 
 ## cabal
 cabal update
@@ -40,10 +40,10 @@ upgrade_oh_my_zsh
 diskutil repairPermissions /
 brew doctor
 brew prune
-read -p "Fixed problem and press any key... " -n 1
+read -pr "Fixed problem and press any key... " -n 1
 
 ## clean system
-read -p "System Updated. Clean now? (y/n) " -n 1
+read -pr "System Updated. Clean now? (y/n) " -n 1
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   . clean
