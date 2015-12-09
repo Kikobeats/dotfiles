@@ -48,6 +48,3 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   . clean
 fi
-
-sudo mkdir -p /tmp
-sudo chmod -R 755 /tmp
