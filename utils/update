@@ -17,7 +17,7 @@ npm update -g npm
 sudo chown -R "$(whoami)" ~/.npm
 sudo chown -R "$(whoami)" /usr/local
 sudo npm cache clean
-npm-check-updates -g
+ncu -g
 read -p "Update packages manually and press any key... " -n 1
 
 ## cabal
