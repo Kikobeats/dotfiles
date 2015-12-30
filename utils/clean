@@ -2,14 +2,14 @@
 sudo -v
 
 ## clean download folder
-read -pr "Clean Downloads folder? (y/n) " -n 1
+read -rp "Clean Downloads folder? (y/n) " -n 1
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   sudo rm -rfv ~/Downloads/*
 fi
 
 ## clean desktop folder
-read -pr "Clean Desktop folder? (y/n) " -n 1
+read -rp "Clean Desktop folder? (y/n) " -n 1
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   sudo rm -rfv ~/Desktop/*
