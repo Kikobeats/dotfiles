@@ -125,3 +125,6 @@
 [user]
   name = Kiko Beats
   email = josefrancisco.verdu@gmail.com
+
+[push]
+  default = current
