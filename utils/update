@@ -3,6 +3,7 @@ sudo -v
 
 ## MacOSX
 sudo softwareupdate -i -a
+xcode-select --install
 
 ## brew
 cd "$(brew --prefix)"
@@ -21,29 +22,35 @@ david -g
 david update -g
 
 ## cabal
-cabal update
-cabal install cabal-install --force-reinstalls
+#cabal install cabal cabal-install # upgrade cabal
+#cabal update # download the most recent list of packages
+#cabal list --simple-output --installed | awk '{print $1}' | uniq | xargs -I {} cabal install {} --reinstall
+#cabal install --re-reinstalls # upgrades packages
+#cabal clean
 
 ## rvm
-rvm get stable --auto-dotfiles
+rvm get stable
 sudo chown -R $USER: ~/.rvm
 rvm use default
 rvm repair all
 rvm cleanup all
 
 ## ruby
-sudo gem update --system
-sudo gem update
-sudo gem cleanup
+gem update --system
+gem update
+gem cleanup
 
 ## zsh
 upgrade_oh_my_zsh
 
 # finish
-diskutil repairPermissions /
 brew doctor
 brew prune
 read -rp "Fixed problem and press any key... " -n 1
+sudo /usr/libexec/repair_packages --verify --standard-pkgs /
+sudo /usr/libexec/repair_packages --repair --standard-pkgs --volume /
+
+
 
 ## clean system
 read -rp "System Updated. Clean now? (y/n) " -n 1
