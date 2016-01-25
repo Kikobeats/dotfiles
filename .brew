@@ -69,8 +69,8 @@ alex n avn avn-n browserify bumped credits-cli greenkeeper standard zelda jsonli
 nsp perfectionist sort-json pretty-bytes prettyjson pure-prompt
 
 
-brew install cppcheck cabal-install shellcheck httpie
-gem install rubocop scss-lint hub
+brew install cppcheck cabal-install shellcheck httpie hub
+gem install rubocop scss-lint
 pip install cpplint
 
 # Remove outdated versions from the cellar

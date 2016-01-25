@@ -36,8 +36,7 @@ rvm repair all
 rvm cleanup all
 
 ## ruby
-gem update --system
-gem update
+gem update --system && gem update
 gem cleanup
 
 ## zsh
