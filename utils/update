@@ -25,8 +25,11 @@ cabal update
 cabal install cabal-install --force-reinstalls
 
 ## rvm
-rvm get stable
-sudo chmod -R 755 "$PWD"/.rvm
+rvm get stable --auto-dotfiles
+sudo chown -R $USER: ~/.rvm
+rvm use default
+rvm repair all
+rvm cleanup all
 
 ## ruby
 sudo gem update --system

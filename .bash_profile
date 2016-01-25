@@ -9,8 +9,8 @@ unset file
 . ~/dotfiles/utils/z.sh
 
 # init rvm
-source ~/.rvm/scripts/rvm
-
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob 2> /dev/null
