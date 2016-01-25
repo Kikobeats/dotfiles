@@ -70,8 +70,8 @@ nsp perfectionist sort-json pretty-bytes prettyjson pure-prompt
 
 
 brew install cppcheck cabal-install shellcheck httpie
-sudo gem install rubocop scss-lint hub
-sudo pip install cpplint
+gem install rubocop scss-lint hub
+pip install cpplint
 
 # Remove outdated versions from the cellar
 brew cleanup
