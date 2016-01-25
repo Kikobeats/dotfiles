@@ -115,9 +115,9 @@ np() {
 # git tag and push
 # gtp <tag>
 gtp() {
-  command git tag -am "$1" $1 && \
-  command git push --tags && \
-  command git push origin master
+  command git tag -am "$1" "$1" && \
+  command git push && \
+  command git push --tags
 }
 
 # delete a git tag
@@ -128,7 +128,7 @@ gtd() {
 }
 
 # delete a git branch
-gbd() {
+gbdf() {
   command git branch -D "$1"
   command git push origin --delete "$1"
 }
