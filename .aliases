@@ -106,7 +106,17 @@ alias npmig="npm install -g"
 alias npmlg="npm list -g --depth=0"
 alias npmug="npm uninstall -g"
 alias npmlink="npm link"
+alias npmurl="npm-url"
 alias t="npm test"
+
+# pkg mini framework
+alias pkg-version="getversion"
+alias pkg-version-latest="latest-version"
+alias pkg-pwd="pkg-dir"
+alias pkg-name="pkg-name"
+alias pkg-info="package-json-cli"
+alias pkg-info-user="npm-user-cli"
+alias pkg-info-email="npm-email"
 
 # View HTTP traffic
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
