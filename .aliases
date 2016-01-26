@@ -117,6 +117,7 @@ alias pkg-name="pkg-name"
 alias pkg-info="package-json-cli"
 alias pkg-info-user="npm-user-cli"
 alias pkg-info-email="npm-email"
+alias pkg-credits="credits"
 
 # View HTTP traffic
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
