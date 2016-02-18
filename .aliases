@@ -88,7 +88,6 @@ alias flush="dscacheutil -flushcache"
 # git
 alias gurl="hub browse"
 alias gup='git-up'
-alias gdiff="git diff --color | diff-so-fancy"
 alias gpu=git" push -f origin HEAD^:master"
 
 # npm
@@ -192,3 +191,6 @@ alias npmo="sudo npm install --cache-min 999999999"
 # Control the system
 alias restart='sudo shutdown -r now'
 alias shutdown='sudo shutdown now'
+
+# windsurf
+alias windtoday="curl -4 http://wttr.in/MJV"
