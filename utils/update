@@ -1,5 +1,4 @@
 #!/bin/bash -v
-sudo -v
 
 ## MacOSX
 sudo softwareupdate -i -a
@@ -42,14 +41,13 @@ gem cleanup
 ## zsh
 upgrade_oh_my_zsh
 
-# finish
+# prune
 brew doctor
 brew prune
 read -rp "Fixed problem and press any key... " -n 1
-sudo /usr/libexec/repair_packages --verify --standard-pkgs /
+
+# repair
 sudo /usr/libexec/repair_packages --repair --standard-pkgs --volume /
-
-
 
 ## clean system
 read -rp "System Updated. Clean now? (y/n) " -n 1
