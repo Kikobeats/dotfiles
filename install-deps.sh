@@ -14,7 +14,7 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 
 # https://github.com/rupa/z
 # z, oh how i love you
-curl https://raw.github.com/rupa/z/master/z.sh > ~/dotfiles/utils/z.sh
+curl https://raw.github.com/rupa/z/master/z.sh > ~/dotfiles/utils/z
 
 # I don't use Spotify... and you? :-)
 # cd ~/code
