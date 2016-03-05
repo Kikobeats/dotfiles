@@ -1,4 +1,0 @@
-#! /bin/bash
-
-mkdir -p /Volumes/efi
-sudo mount -t msdos /dev/disk1s1 /Volumes/efi

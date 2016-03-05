@@ -133,6 +133,26 @@ gbdf() {
   command git push origin --delete "$1"
 }
 
+# See the contributors of a git repository
+gcredits() {
+  command git log --all --format="%aN <%aE>" | sort -u
+}
+
+# open all changed files (that still actually exist) in the editor
+geditor() {
+  files=()
+  for f in $(git diff --name-only "$@"); do
+    [[ -e "$f" ]] && files=("${files[@]}" "$f")
+  done
+  n=${#files[@]}
+  echo "Opening $n $([[ "$@" ]] || echo "modified ")file$([[ $n != 1 ]] && \
+    echo s)${@:+ modified in }$@"
+  open -a Sublime\ Text "${files[@]}"
+
+  unset file
+  unset n
+}
+
 # Empty Trash
 function emptytrash() {
   sudo rm -rfv /Volumes/*/.Trashes
