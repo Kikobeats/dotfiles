@@ -1,34 +1,54 @@
 #!/bin/bash
 
+# Ask for the administrator password upfront.
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until the script has finished.
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
 # Make sure we’re using the latest Homebrew
 brew update
 
 # Upgrade any already-installed formulae
-brew upgrade
+brew upgrade --all
 
 # Install GNU core utilities (those that come with OS X are outdated)
 brew install coreutils
 echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
+sudo ln -s /usr/local/bin/gsha256sum /usr/local/bin/sha256sum
 
-# Install GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
+# Install some other useful utilities like `sponge`.
+brew install moreutils
+# Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
 brew install findutils
-
-# Install Bash 4 and link
+# Install GNU `sed`, overwriting the built-in `sed`.
+brew install gnu-sed --with-default-names
+# Install Bash 4
 brew install bash
 sudo rm /bin/bash
 sudo ln -s /usr/local/bin/bash /bin/bash
+brew tap homebrew/versions
+brew install bash-completion2
+
+# Install wget with IRI support
+brew install wget --with-iri
 
 # Install zsh and utils
 brew install zsh
 curl -L http://install.ohmyz.sh | sh
 
-# Install wget with IRI support
-brew install wget --with-iri
-
 # Install more recent versions of some OS X tools
-brew tap homebrew/dupes
+brew install vim --override-system-vi
 brew install homebrew/dupes/grep
-brew tap josegonzalez/homebrew-php
+brew install homebrew/dupes/openssh
+brew install homebrew/dupes/screen
+brew install homebrew/php/php56 --with-gmp
+
+# Install font tools.
+brew tap bramstein/webfonttools
+brew install sfnt2woff
+brew install sfnt2woff-zopfli
+brew install woff2
 
 # Python and Pip
 brew install python
@@ -38,7 +58,6 @@ pip install Pygments
 # node and npm
 brew install node
 sudo brew postinstall node
-npm install -g nave
 
 # gcc/g++ compilers
 brew install gcc
@@ -47,29 +66,61 @@ brew link gcc
 # Databases
 brew install redis
 brew install mongodb
-wget -P ~/Downloads https://github.com/jimbojsb/launchrocket/releases/download/v0.7/LaunchRocket.prefPane.zip
-echo "Don’t forget go to 'Downloads' folder and install LaunchRocket"
 
 # Install everything else
-brew install imagemagick
+brew install imagemagick --with-webp
 brew install graphicsmagick
 brew install ctags
 brew install ack
 brew install git
+brew install hub
 brew install rename
 brew install tree
-brew install gist
 brew install youtube-dl
 brew install ffmpeg
+brew install dark-mode
+brew install pv
+brew install p7zip
+brew install pigz
+brew install testssl
+brew install cppcheck
+brew install cabal-install
+brew install shellcheck
+brew install httpie
 
-# Install linters dependencies
-npm install -g npm coffee-script coffeelint jshint jscs js2coffee mocha less stylus csslint \
-bower gulp yo finepack getversion nodemon david vtop npm trash-cli speed-test fuck-you a11y \
-alex n avn avn-n browserify bumped credits-cli greenkeeper standard zelda jsonlint jsinspect \
-nsp perfectionist sort-json pretty-bytes prettyjson pure-prompt
+# npm dependencies
+npm install --global npm
+## transformers
+npm install --global coffee-script less stylus js2coffee browserify
+## linters
+npm install --global coffeelint jshint jscs eslint standard csslint alex
+## rest
+npm install --global a11y
+npm install --global asciify
+npm install --global n avn avn-n
+npm install --global bower
+npm install --global david
+npm install --global fuck-you
+npm install --global greenkeeper
+npm install --global gulp
+npm install --global jsinspect
+npm install --global jsonlint
+npm install --global mocha
+npm install --global standard-format
+npm install --global nodemon
+npm install --global nsp
+npm install --global perfectionist
+npm install --global pretty-bytes
+npm install --global prettyjson
+npm install --global pure-prompt
+npm install --global sort-json
+npm install --global speed-test
+npm install --global trash-cli
+npm install --global vtop
+npm install --global yo
+npm install --global zelda
+npm install --global buddy.js
 
-
-brew install cppcheck cabal-install shellcheck httpie hub
 gem install rubocop scss-lint
 pip install cpplint
 
