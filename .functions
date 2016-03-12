@@ -138,6 +138,10 @@ gcredits() {
   command git shortlog -sn
 }
 
+gtoday() {
+  command git diff --shortstat "@{0 day ago}"
+}
+
 # open all changed files (that still actually exist) in the editor
 geditor() {
   files=()
