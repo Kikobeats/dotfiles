@@ -135,7 +135,7 @@ gbdf() {
 
 # See the contributors of a git repository
 gcredits() {
-  command git log --all --format="%aN <%aE>" | sort -u
+  command git shortlog -sn
 }
 
 # open all changed files (that still actually exist) in the editor
