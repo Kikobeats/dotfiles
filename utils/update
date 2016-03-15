@@ -48,6 +48,7 @@ read -rp "Fixed problem and press any key... " -n 1
 
 # repair
 sudo /usr/libexec/repair_packages --repair --standard-pkgs --volume /
+sudo chmod -R 777 /tmp
 
 ## clean system
 read -rp "System Updated. Clean now? (y/n) " -n 1
