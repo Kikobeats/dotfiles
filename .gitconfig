@@ -125,6 +125,9 @@
 [user]
   name = Kiko Beats
   email = josefrancisco.verdu@gmail.com
+  signingkey = CCF04B96
 
 [push]
   default = current
+[commit]
+  gpgsign = true
