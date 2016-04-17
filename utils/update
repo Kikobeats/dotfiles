@@ -42,8 +42,8 @@ gem cleanup
 upgrade_oh_my_zsh
 
 # prune
-brew doctor
 brew prune
+brew doctor
 read -rp "Fixed problem and press any key... " -n 1
 
 # repair
