@@ -151,7 +151,7 @@ geditor() {
   n=${#files[@]}
   echo "Opening $n $([[ "$@" ]] || echo "modified ")file$([[ $n != 1 ]] && \
     echo s)${@:+ modified in }$@"
-  open -a Sublime\ Text "${files[@]}"
+  open -a Atom "${files[@]}"
 
   unset file
   unset n
