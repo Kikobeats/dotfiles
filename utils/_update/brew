@@ -1,0 +1,19 @@
+#!/bin/bash -v
+
+# preconditions
+cd "$(brew --prefix)"
+git fetch origin
+git reset --hard origin/master
+
+# ensure that /usr/local is writable
+sudo chgrp -R admin /usr/local
+sudo chmod -R g+w /usr/local
+
+brew update
+brew upgrade --all
+sudo brew cleanup
+
+# postconditions
+brew prune
+brew doctor
+read -rp "Fixed problem and press any key... " -n 1

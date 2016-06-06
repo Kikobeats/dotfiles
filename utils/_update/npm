@@ -1,0 +1,9 @@
+#!/bin/bash -v
+
+## npm
+npm update -g npm
+sudo chown -R "$(whoami)" ~/.npm
+sudo chown -R "$(whoami)" /usr/local
+sudo npm cache clean
+david -g
+david update -g

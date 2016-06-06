@@ -1,0 +1,5 @@
+#!/bin/bash -v
+
+## MacOSX
+sudo softwareupdate -i -a
+xcode-select --install

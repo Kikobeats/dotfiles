@@ -1,58 +1,18 @@
 #!/bin/bash -v
 
-## MacOSX
-sudo softwareupdate -i -a
-xcode-select --install
+UPDATE="${BASH_SOURCE%/_update}"
 
-## brew
-cd "$(brew --prefix)"
-git fetch origin
-git reset --hard origin/master
-brew update
-brew upgrade --all
-sudo brew cleanup
-
-## npm
-npm update -g npm
-sudo chown -R "$(whoami)" ~/.npm
-sudo chown -R "$(whoami)" /usr/local
-sudo npm cache clean
-david -g
-david update -g
-
-## cabal
-#cabal install cabal cabal-install # upgrade cabal
-#cabal update # download the most recent list of packages
-#cabal list --simple-output --installed | awk '{print $1}' | uniq | xargs -I {} cabal install {} --reinstall
-#cabal install --re-reinstalls # upgrades packages
-#cabal clean
-
-## rvm
-rvm get stable
-sudo chown -R $USER: ~/.rvm
-rvm use default
-rvm repair all
-rvm cleanup all
-
-## ruby
-gem update --system && gem update
-gem cleanup
-
-## zsh
-upgrade_oh_my_zsh
-
-# prune
-brew prune
-brew doctor
-read -rp "Fixed problem and press any key... " -n 1
+. "$UPDATE/macos"
+. "$UPDATE/brew"
+. "$UPDATE/npm"
+# . "$UPDATE/cabal"
+. "$UPDATE/rvm"
+. "$UPDATE/ruby"
+. "$UPDATE/zsh"
 
 # repair
 sudo /usr/libexec/repair_packages --repair --standard-pkgs --volume /
 sudo chmod -R 777 /tmp
 
-## clean system
-read -rp "System Updated. Clean now? (y/n) " -n 1
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-  . clean
-fi
+## clean
+read -rp "System Updated. Clean now? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && . clean

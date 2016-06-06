@@ -1,0 +1,8 @@
+#!/bin/bash -v
+
+## cabal
+cabal install cabal cabal-install # upgrade cabal
+cabal update # download the most recent list of packages
+cabal list --simple-output --installed | awk '{print $1}' | uniq | xargs -I {} cabal install {} --reinstall
+cabal install --re-reinstalls # upgrades packages
+cabal clean

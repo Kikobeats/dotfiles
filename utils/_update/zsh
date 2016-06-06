@@ -1,0 +1,4 @@
+#!/bin/bash -v
+
+## zsh
+upgrade_oh_my_zsh

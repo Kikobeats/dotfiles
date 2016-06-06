@@ -1,26 +1,16 @@
 #!/bin/bash -v
 sudo -v
-
 ## clean download folder
-read -rp "Clean Downloads folder? (y/n) " -n 1
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-  sudo rm -rfv ~/Downloads/*
-fi
-
+read -rp "Clean Downloads folder? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && sudo rm -rfv ~/Downloads/*
 ## clean desktop folder
-read -rp "Clean Desktop folder? (y/n) " -n 1
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-  sudo rm -rfv ~/Desktop/*
-fi
+read -rp "Clean Downloads folder? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && sudo rm -rfv ~/Desktop/*
 
 ## clean system data
-# clean .DS_Store
+### clean .DS_Store
 sudo find / -name '.DS_Store' -o -name "npm-debug.log" -type f -ls -delete
-# clean logs
+### clean logs
 sudo rm -rfv /Library/Logs/* ~/Library/Logs/*
-# clean temps
+### clean tmps
 tempFiles=("/tmp/" "$HOME/tmp/" "$TMPDIR")
 for tempFile in "${tempFiles[@]}"
 do
