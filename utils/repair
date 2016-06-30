@@ -1,5 +1,7 @@
 #!/bin/bash -v
 
+sudo -v
+
 # repair
 sudo /usr/libexec/repair_packages --repair --standard-pkgs --volume /
 sudo chmod -R 777 /tmp
