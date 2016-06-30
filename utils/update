@@ -1,6 +1,6 @@
 #!/bin/bash -v
 
-UPDATE="${BASH_SOURCE%/_update}"
+UPDATE="$HOME/dotfiles/utils/_update"
 
 . "$UPDATE/macos"
 . "$UPDATE/brew"
@@ -10,9 +10,6 @@ UPDATE="${BASH_SOURCE%/_update}"
 . "$UPDATE/ruby"
 . "$UPDATE/zsh"
 
-# repair
-sudo /usr/libexec/repair_packages --repair --standard-pkgs --volume /
-sudo chmod -R 777 /tmp
-
-## clean
-read -rp "System Updated. Clean now? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && . clean
+read -rp "Repair now? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && . repair
+read -rp "Clean now? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && . clean
+echo "Sytem updated."
