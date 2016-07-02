@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Easier navigation: .., ..., ~ and -
 alias ..="cd .."
 alias ...="cd ../.."
@@ -58,7 +60,7 @@ alias l="ls -lh ${colorflag}"
 alias la="ls -lah ${colorflag}"
 
 # List only directories
-alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
+alias lsd=" -lF ${colorflag} | grep --color=never '^d'"
 
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'

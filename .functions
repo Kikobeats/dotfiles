@@ -1,98 +1,5 @@
 #!/bin/bash
 
-# hsplit                   Opens the current directory in a new tab
-# hsplit [PATH]            Open PATH in a new tab
-# hsplit [CMD]             Open a new tab and execute CMD
-# hsplit [PATH] [CMD] ...  You can prob'ly guess
-hsplit() {
-  [ `uname -s` != "Darwin" ] && return
-  local cmd=""
-  local cdto="$PWD"
-  local args="$@"
-
-  if [ -d "$1" ]; then
-    cdto=$(cd "$1"; pwd)
-    args="${@:2}"
-  fi
-
-  if [ -n "$args" ]; then
-    cmd="; $args"
-  fi
-
-  osascript &>/dev/null <<EOF
-  tell application "iTerm"
-   tell the first terminal
-      tell application "System Events" to keystroke "D" using {command down, shift down}
-        tell the current session
-          write text "cd \"$cdto\"$cmd"
-      end tell
-    end tell
-  end tell
-EOF
-}
-
-# vsplit                   Opens the current directory in a new tab
-# vsplit [PATH]            Open PATH in a new tab
-# vsplit [CMD]             Open a new tab and execute CMD
-# vsplit [PATH] [CMD] ...  You can prob'ly guess
-vsplit() {
-  [ `uname -s` != "Darwin" ] && return
-  local cmd=""
-  local cdto="$PWD"
-  local args="$@"
-
-  if [ -d "$1" ]; then
-    cdto=$(cd "$1"; pwd)
-    args="${@:2}"
-  fi
-
-  if [ -n "$args" ]; then
-    cmd="; $args"
-  fi
-
-  osascript &>/dev/null <<EOF
-  tell application "iTerm"
-   tell the first terminal
-      tell application "System Events" to keystroke "d" using command down
-        tell the current session
-          write text "cd \"$cdto\"$cmd"
-      end tell
-    end tell
-  end tell
-EOF
-}
-
-# newtab                   Opens the current directory in a new tab
-# newtab [PATH]            Open PATH in a new tab
-# newtab [CMD]             Open a new tab and execute CMD
-# newtab [PATH] [CMD] ...  You can prob'ly guess
-newtab () {
-  [ `uname -s` != "Darwin" ] && return
-  local cmd=""
-  local cdto="$PWD"
-  local args="$@"
-
-  if [ -d "$1" ]; then
-    cdto=$(cd "$1"; pwd)
-    args="${@:2}"
-  fi
-
-  if [ -n "$args" ]; then
-    cmd="; $args"
-  fi
-
-  osascript &>/dev/null <<EOF
-    tell application "iTerm"
-      tell current terminal
-        launch session "Default Session"
-        tell the last session
-          write text "cd \"$cdto\"$cmd"
-        end tell
-      end tell
-    end tell
-EOF
-}
-
 # Kill a process based in the number of the TCP Port.
 killport() {
   PORT_NUMBER=$1
@@ -163,6 +70,10 @@ function emptytrash() {
   sudo rm -rfv ~/.Trash
   # clear Apple’s System Logs to improve shell startup speed
   sudo rm -rfv /private/var/log/asl/*.asl
+}
+
+cd () {
+  builtin cd "$@" && ls
 }
 
 # Create a new directory and enter it
@@ -309,31 +220,13 @@ function unidecode() {
   echo # newline
 }
 
-# Install Grunt plugins and add them as `devDependencies` to `package.json`
-# Usage: `gi contrib-watch contrib-uglify zopfli`
-function gi() {
-        npm install --save-dev ${*/#/grunt-}
-}
-
-# Install Gulp plugins and add them as `devDependencies` to `package.json`
-# Usage: `gp uglify clean cache csso`
-function gp() {
-        npm install --save-dev ${*/#/gulp-}
-}
-
-# Install Yeoman generators
-# Usage: `yi webapp gruntfile angular`
-function yi() {
-        npm install --save-dev ${*/#/generator-}
-}
-
-# `s` with no arguments opens the current directory in Sublime Text, otherwise
+# `a` with no arguments opens the current directory in Atom, otherwise
 # opens the given location
-function s() {
+function a() {
         if [ $# -eq 0 ]; then
-                subl .
+                atom .
         else
-                subl "$@"
+                atom "$@"
         fi
 }
 
