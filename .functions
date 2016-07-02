@@ -72,7 +72,7 @@ function emptytrash() {
   sudo rm -rfv /private/var/log/asl/*.asl
 }
 
-cd () {
+function cl () {
   builtin cd "$@" && ls
 }
 
