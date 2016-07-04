@@ -90,7 +90,7 @@ alias flush="dscacheutil -flushcache"
 
 # git
 alias gurl="hub browse"
-alias gup='git-up'
+alias gup='git-up && git-garbage'
 alias gpu=git" push -f origin HEAD^:master"
 
 # npm
