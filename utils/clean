@@ -3,7 +3,7 @@ sudo -v
 ## clean download folder
 read -rp "Clean Downloads folder? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && sudo rm -rfv ~/Downloads/*
 ## clean desktop folder
-read -rp "Clean Downloads folder? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && sudo rm -rfv ~/Desktop/*
+read -rp "Clean Desktop folder? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && sudo rm -rfv ~/Desktop/*
 
 ## clean system data
 ### clean .DS_Store
