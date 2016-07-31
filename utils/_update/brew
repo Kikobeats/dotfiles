@@ -3,7 +3,7 @@
 # preconditions
 cd "$(brew --prefix)"
 git fetch origin
-git reset --hard origin/master
+sudo git reset --hard origin/master
 
 # ensure that /usr/local is writable
 sudo chgrp -R admin /usr/local
