@@ -40,4 +40,4 @@ complete -W "NSGlobalDomain" defaults 2> /dev/null
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # Check for system update
-source "utils/update_checker"
+env ZSH=$ZSH DISABLE_UPDATE_PROMPT=$DISABLE_UPDATE_PROMPT zsh -f ~/dotfiles/utils/update_checker
