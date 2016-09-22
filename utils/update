@@ -4,6 +4,7 @@ UPDATE="$HOME/dotfiles/utils/_update"
 
 . "$UPDATE/macos"
 . "$UPDATE/brew"
+. "$UPDATE/brew-cask"
 . "$UPDATE/npm"
 # . "$UPDATE/cabal"
 . "$UPDATE/rvm"

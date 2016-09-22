@@ -11,7 +11,7 @@ sudo chmod -R g+w /usr/local
 
 brew update
 brew upgrade --all
-sudo brew cleanup
+brew cleanup
 
 # postconditions
 brew prune
