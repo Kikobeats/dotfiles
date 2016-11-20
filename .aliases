@@ -103,17 +103,6 @@ alias npmlink="npm link"
 alias npmurl="npm-url"
 alias t="npm test"
 
-# pkg mini framework
-alias pkg-version="getversion"
-alias pkg-version-latest="latest-version"
-alias pkg-pwd="pkg-dir"
-alias pkg-name="pkg-name"
-alias pkg-info="package-json"
-alias pkg-info-user="npm-user"
-alias pkg-info-email="npm-email"
-alias pkg-credits="credits"
-alias pkg-readme="readme"
-
 # View HTTP traffic
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
