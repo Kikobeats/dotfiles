@@ -38,7 +38,7 @@
   tag = tag -a
 
   # Logs
-  lg = log --graph --pretty=format:'%Cred%h%Creset %an: %s -%C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 
   # flow
   # more information: http://haacked.com/archive/2014/07/28/github-flow-aliases/
