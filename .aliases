@@ -10,7 +10,6 @@ alias -- -="cd -"
 alias c=clear
 
 # Shortcuts
-alias db="cd ~/Dropbox"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 
@@ -36,6 +35,7 @@ alias markoff="open -a Markoff"
 # general shortcuts
 alias pro="cd ~/Projects"
 alias bl="open -a google\ chrome\ canary 'http://browserling.com'"
+alias rm="trash"
 
 # be nice
 alias please=sudo
@@ -87,7 +87,7 @@ alias flush="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 
 # git
 alias gurl="hub browse"
-alias gup='git-up && git-garbage'
+alias gup='g up && git-garbage'
 alias gpu=git" push -f origin HEAD^:master"
 
 # npm
