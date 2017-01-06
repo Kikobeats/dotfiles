@@ -9,14 +9,14 @@
   amend = commit --amend                # ammend your last commit
 
   # Pull
-  up = !git fetch && git rebase --autostash $(git for-each-ref --format \"%(upstream:short)\" $(git symbolic-ref -q HEAD))
+  up = pull --rebase --autostash
 
   # Checkout
   co = checkout
   cob = checkout -b
 
   # Push
-  p = push
+  p = push -u
 
   # Status
   s = status -s
@@ -38,14 +38,14 @@
 
   # Logs
   lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  
+  # Upstream
+  set-upstream = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
 
   # flow
   # more information: http://haacked.com/archive/2014/07/28/github-flow-aliases/
   undo = reset HEAD~1 --mixed
-  amend = commit -a --amend
-  wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
-  bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
-  bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
+  reset = reset --hard HEAD
 
 [color]
   ui = always
@@ -120,13 +120,14 @@
 
 [mergetool]
   prompt = false
-
+  
 [user]
-  name = Kiko Beats
-  email = josefrancisco.verdu@gmail.com
+	name = Kiko Beats
+	email = josefrancisco.verdu@gmail.com
   signingkey = CCF04B96
-
+  
 [push]
-  default = current
+	default = simple
+  
 [commit]
   gpgsign = true
