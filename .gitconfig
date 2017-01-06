@@ -7,7 +7,6 @@
   ci = commit                           # commit
   cm = commit -am                       # commit with message
   amend = commit --amend                # ammend your last commit
-  ammend = commit --amend               # ammend your last commit
 
   # Pull
   up = !git fetch && git rebase --autostash $(git for-each-ref --format \"%(upstream:short)\" $(git symbolic-ref -q HEAD))
