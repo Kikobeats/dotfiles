@@ -10,7 +10,7 @@
   ammend = commit --amend               # ammend your last commit
 
   # Pull
-  up = !git pull --rebase --prune $@ && git submodule update --init --recursive
+  up = !git fetch && git rebase --autostash $(git for-each-ref --format \"%(upstream:short)\" $(git symbolic-ref -q HEAD))
 
   # Checkout
   co = checkout
