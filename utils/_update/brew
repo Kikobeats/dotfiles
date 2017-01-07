@@ -10,7 +10,7 @@ sudo chgrp -R admin /usr/local
 sudo chmod -R g+w /usr/local
 
 brew update
-brew upgrade --all
+brew upgrade
 brew cleanup
 
 # postconditions
