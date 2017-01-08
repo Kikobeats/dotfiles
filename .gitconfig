@@ -16,7 +16,7 @@
   cob = checkout -b
 
   # Push
-  p = push -u
+  p = push
 
   # Status
   s = status -s
@@ -45,7 +45,6 @@
   # flow
   # more information: http://haacked.com/archive/2014/07/28/github-flow-aliases/
   undo = reset HEAD~1 --mixed
-  reset = reset --hard HEAD
 
 [color]
   ui = always
@@ -127,7 +126,7 @@
   signingkey = CCF04B96
   
 [push]
-	default = simple
+	default = current
   
 [commit]
   gpgsign = true
