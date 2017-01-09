@@ -87,7 +87,7 @@ alias flush="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 
 # git
 alias gurl="hub browse"
-alias gup='g up && git-garbage'
+alias gup='git-up && git-garbage'
 alias gpu=git" push -f origin HEAD^:master"
 
 # npm
