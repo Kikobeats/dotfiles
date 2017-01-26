@@ -250,9 +250,7 @@ function browsers(){
 }
 
 function http_server() {
-  local port="${1:-3000}"
-  open "http://localhost:${port}/"
-  ruby -run -e httpd . -p "$port"
+  browser-sync start --server --files "index.html, **/*.(css|js)"
 }
 
 # Create animated GIFs from any video
