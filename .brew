@@ -13,16 +13,29 @@ brew update
 brew upgrade --all
 
 # Install GNU core utilities (those that come with OS X are outdated)
+# From https://www.topbug.net/blog/2013/04/14/install-and-use-gnu-command-line-tools-in-mac-os-x/
 brew install coreutils
+brew install moreutils
+brew install gnu-tar --with-default-names
+# alternatively
+brew install binutils
+brew install diffutils
+brew install ed --default-names
+brew install findutils --with-default-names
+brew install gawk
+brew install gnu-indent --with-default-names
+brew install gnu-sed --with-default-names
+brew install gnu-which --with-default-names
+brew install gnutls
+brew install grep --with-default-names
+brew install gzip
+brew install screen
+brew install watch
+brew install wdiff --with-gettext
+brew install wget
 echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
 sudo ln -s /usr/local/bin/gsha256sum /usr/local/bin/sha256sum
 
-# Install some other useful utilities like `sponge`.
-brew install moreutils
-# Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
-brew install findutils
-# Install GNU `sed`, overwriting the built-in `sed`.
-brew install gnu-sed --with-default-names
 # Install Bash 4
 brew install bash
 sudo rm /bin/bash
