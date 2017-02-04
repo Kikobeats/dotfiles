@@ -1,0 +1,6 @@
+#!/bin/bash -v
+
+# pip
+
+## Update outdated packages
+pip list --outdated | sed 's/(.*//g' | xargs -n1 pip install -U

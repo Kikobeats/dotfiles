@@ -1,8 +1,15 @@
 #!/bin/bash -v
 
-## rvm
-rvm get stable
-sudo chown -R $USER: ~/.rvm
+# rvm
+
+## update rvm
+rvm get head
+rvm reload
+## get last ruby version
+rvm get latest
 rvm use default
+## repair permisiosn
+sudo chown -R $USER: ~/.rvm
 rvm repair all
+## cleanup
 rvm cleanup all

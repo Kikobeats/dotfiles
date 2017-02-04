@@ -1,9 +1,17 @@
 #!/bin/bash -v
 
-## npm
+# npm
+
+## preconditions
 npm update -g npm
+
+## repair permissions
 sudo chown -R "$(whoami)" ~/.npm
 sudo chown -R "$(whoami)" /usr/local
-sudo npm cache clean
+
+## Update global packages
 david -g
 david update -g
+
+## clenaup
+sudo npm cache clean

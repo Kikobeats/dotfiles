@@ -1,4 +1,6 @@
 #!/bin/bash -v
 
-## zsh
+# zsh
+
+## upgrade oh my zsh version
 upgrade_oh_my_zsh

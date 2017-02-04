@@ -1,8 +1,8 @@
 #!/usr/bin/env bash -v
 
-brew cask update
-brew cask cleanup
+# brew-cask
 
+## check what casks update
 red=`tput setaf 1`
 green=`tput setaf 2`
 reset=`tput sgr0`
@@ -23,4 +23,6 @@ do
     fi
 done
 
+## cleanup
 brew cask doctor
+brew cask cleanup
