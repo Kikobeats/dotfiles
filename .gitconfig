@@ -129,4 +129,7 @@
 	default = current
   
 [commit]
-  gpgsign = true
+	gpgsign = true
+
+[gpg]
+	program = /usr/local/bin/gpg
