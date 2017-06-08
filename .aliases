@@ -93,7 +93,7 @@ alias gpu=git" push -f origin HEAD^:master"
 # npm
 alias npmp="npm publish"
 alias npma="npm adduser"
-alias npmi="npm install"
+alias npmi="pnpm install --no-lock"
 alias npml="npm list --depth=0"
 alias npmu="npm uninstall"
 alias npmig="npm install -g"
