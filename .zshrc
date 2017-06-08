@@ -81,3 +81,7 @@ source "$ZSH"/oh-my-zsh.sh
 
 # iTerm2 shell integration
 source "$HOME"/.iterm2_shell_integration.zsh
+
+# custom plugins
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
