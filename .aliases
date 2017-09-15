@@ -31,6 +31,7 @@ alias fireworks="open -a '/Applications/Adobe Fireworks CS6/Adobe Fireworks CS6.
 alias photoshop="open -a '/Applications/Adobe Photoshop CS6/Adobe Photoshop.app'"
 alias imageoptim="open -a ImageOptim"
 alias markoff="open -a Markoff"
+alias caret="open -a Caret"
 
 # general shortcuts
 alias pro="cd ~/Projects"
