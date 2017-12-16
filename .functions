@@ -250,7 +250,7 @@ function browsers(){
 }
 
 function http_server() {
-  browser-sync start --server --files "index.html, **/*.(css|js)"
+  browser-sync start --server --files "index.html, **/*.(css|js|md)"
 }
 
 # Create animated GIFs from any video
