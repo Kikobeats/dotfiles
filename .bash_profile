@@ -38,3 +38,6 @@ complete -W "NSGlobalDomain" defaults 2> /dev/null
 # Load RVM into a shell session *as a function*
 # export PATH="$PATH:$HOME/.rvm/bin
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+# Load autoenv: https://github.com/kennethreitz/autoenv
+source /usr/local/opt/autoenv/activate.sh
