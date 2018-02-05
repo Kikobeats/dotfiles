@@ -6,19 +6,6 @@ killport() {
   lsof -i tcp:"${PORT_NUMBER}" | awk 'NR!=1 {print $2}' | xargs kill
 }
 
-# npm publish with goodies
-# `np` with an optional argument `patch`/`minor`/`major`/`<version>`
-# defaults to `patch`
-np() {
-  rm -rf node_modules &>/dev/null;
-  git pull --rebase &&
-  npm install &&
-  npm test &&
-  npm version ${1:-patch} &&
-  npm publish &&
-  git push --follow-tags
-}
-
 # git tag and push
 # gtp <tag>
 gtp() {
