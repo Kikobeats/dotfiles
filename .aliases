@@ -32,7 +32,6 @@ alias photoshop="open -a '/Applications/Adobe Photoshop CS6/Adobe Photoshop.app'
 alias imageoptim="open -a ImageOptim"
 alias markoff="open -a Markoff"
 alias caret="open -a Caret"
-alias iawriter="open -a 'iA Writer'"
 
 # general shortcuts
 alias pro="cd ~/Projects"

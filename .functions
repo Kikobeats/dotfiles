@@ -350,3 +350,15 @@ function hidespotlight() {
   sudo codesign -f -s - $SpotlightBinaryPath/Spotlight
   sudo killall $SpotlightBinaryPath/Spotlight
 }
+
+function ia() {
+  for FILE in "$@"
+  do
+    if [ -e "$FILE" ]; then
+      open -a "iA Writer" "$FILE"
+    else
+      touch "$FILE"
+      open -a "iA Writer" "$FILE"
+    fi
+  done;
+}
