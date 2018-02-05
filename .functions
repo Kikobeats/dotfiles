@@ -342,3 +342,11 @@ function gh() {
     open -a Google\ Chrome "http://github.com/Kikobeats/$1"
   fi
 }
+
+function hidespotlight() {
+  local SpotlightBinaryPath="/System/Library/CoreServices/Spotlight.app/Contents/MacOS"
+  sudo cp $SpotlightBinaryPath/Spotlight $SpotlightBinaryPath/Spotlight.bak
+  sudo perl -pi -e 's|(\x00\x00\x00\x00\x00\x00\x47\x40\x00\x00\x00\x00\x00\x00)\x42\x40(\x00\x00\x80\x3f\x00\x00\x70\x42)|$1\x00\x00$2|sg' $SpotlightBinaryPath/Spotlight
+  sudo codesign -f -s - $SpotlightBinaryPath/Spotlight
+  sudo killall $SpotlightBinaryPath/Spotlight
+}
