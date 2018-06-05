@@ -134,6 +134,13 @@ alias rot13='tr a-zA-Z n-za-mN-ZA-M'
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
 
+# Enable/Disable shadow on screenshots
+alias enableshadow="defaults write com.apple.screencapture disable-shadow -bool false ; killall SystemUIServer"
+alias disableshadow="defaults write com.apple.screencapture disable-shadow -bool true ; killall SystemUIServer"
+
+# Flush DNS cache
+alias fluscache="sudo killall -HUP mDNSResponder;sudo killall mDNSResponderHelper;sudo dscacheutil -flushcache"
+
 alias createRamDisk="chmod 755 ~/dotfiles/utils/MoveTempFoldersToRamDisk.sh && ~/dotfiles/utils/MoveTempFoldersToRamDisk.sh && echo reboot pls"
 alias deleteRamDisk="sudo rm -rf /System/Library/StartupItems/RamFS"
 
