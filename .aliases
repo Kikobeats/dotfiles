@@ -58,6 +58,7 @@ fi
 
 # Avoid progress bar and follow redirects
 alias curl="curl -sL"
+alias headers="curl -I -s -X GET"
 
 # List all files colorized in long format
 alias l="ls -lh ${colorflag}"
