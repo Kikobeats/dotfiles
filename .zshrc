@@ -56,6 +56,10 @@ ZSH_THEME="pure-original"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(cp colored-man-pages history-substring-search compleat node npm sudo web-search httpie history)
 
+# Prevent "Insecure completion-dependent directories detected" warning
+# https://github.com/robbyrussell/oh-my-zsh/issues/6835#issuecomment-390216875
+ZSH_DISABLE_COMPFIX=true
+
 source "$ZSH"/oh-my-zsh.sh
 
 # User configuration
@@ -85,3 +89,4 @@ source "$HOME"/.iterm2_shell_integration.zsh
 # custom plugins
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
