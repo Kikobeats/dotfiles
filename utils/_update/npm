@@ -14,4 +14,4 @@ david -g
 david update -g
 
 ## clenaup
-sudo npm cache clean
+sudo npm cache clean --force
