@@ -77,7 +77,8 @@ alias ls="command ls ${colorflag}"
 
 # `cat` with beautiful colors. requires Pygments installed.
 # sudo easy_install Pygments
-alias cat='pygmentize -O style=monokai -f console256 -g'
+# alias cat='pygmentize -O style=monokai -f console256 -g'
+alias cat='bat'
 
 # IP addresses
 alias ip="digshort myip.opendns.com @resolver1.opendns.com"
@@ -87,10 +88,15 @@ alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
 # Enhanced WHOIS lookups
 alias whois="whois -h whois-servers.net"
 
+alias ping='prettyping --nolegend'
+
+alias top='htop'
+
 # Flush Directory Service cache
 alias flush="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 
 # git
+alias git=hub
 alias gurl="hub browse"
 alias gup='git-up && git-garbage'
 alias gpu=git" push -f origin HEAD^:master"

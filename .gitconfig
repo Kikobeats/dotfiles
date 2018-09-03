@@ -38,7 +38,7 @@
 
   # Logs
   lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-  
+
   # Upstream
   set-upstream = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
 
@@ -119,17 +119,21 @@
 
 [mergetool]
   prompt = false
-  
+
 [user]
 	name = Kiko Beats
 	email = josefrancisco.verdu@gmail.com
   signingkey = CCF04B96
-  
+
 [push]
 	default = current
-  
+
 [commit]
 	gpgsign = true
 
 [gpg]
 	program = /usr/local/bin/gpg
+
+[pager]
+  diff = diff-so-fancy | less --tabs=1,5 -RFX
+  show = diff-so-fancy | less --tabs=1,5 -RFX
