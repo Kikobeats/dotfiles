@@ -20,7 +20,7 @@ brew install gnu-tar --with-default-names
 # alternatively
 brew install binutils
 brew install diffutils
-brew install ed --default-names
+brew install ed --with-default-names
 brew install findutils --with-default-names
 brew install gawk
 brew install gnu-indent --with-default-names
@@ -51,7 +51,7 @@ brew tap homebrew/versions
 brew install bash-completion2
 
 # Install more recent versions of some OS X tools
-brew install vim --override-system-vi
+brew install vim --with-override-system-vi
 brew install homebrew/dupes/grep
 brew install homebrew/dupes/openssh
 brew install homebrew/dupes/screen
@@ -65,6 +65,7 @@ brew install woff2
 
 # Python and Pip
 brew install python
+brew install python@2
 pip install -U pip
 pip install Pygments
 
