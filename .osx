@@ -150,9 +150,6 @@ sudo chflags uchg /Private/var/vm/sleepimage
 # Disable the sudden motion sensor as it’s not useful for SSDs
 sudo pmset -a sms 0
 
-# enable TRIM
-sudo trimforce enable
-
 ###############################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
 ###############################################################################
@@ -745,3 +742,6 @@ for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
   killall "${app}" > /dev/null 2>&1
 done
 echo "Done. Note that some of these changes require a logout/restart to take effect."
+
+# enable TRIM
+sudo trimforce enable
