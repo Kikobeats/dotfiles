@@ -4,24 +4,29 @@
 brew tap phinze/cask
 brew install brew-cask
 
+brew cask install alfred
 brew cask install atom
-brew cask install slack
+brew cask install brave
+brew cask install cloudapp
 brew cask install dropbox
+brew cask install evernote
+brew cask install firefox
+brew cask install flux
 brew cask install google-chrome
+brew cask install google-chrome-canary
 brew cask install imagealpha
 brew cask install imageoptim
-brew cask install iterm2
-brew cask install opera
-brew cask install keka
-brew cask install vlc
-brew cask install evernote
-brew cask install skype
-brew cask install spotify
-brew cask install alfred
+brew cask install insomnia
 brew cask install istat-menus
-brew cask install xtrafinder
+brew cask install iterm2
 brew cask install kaleidoscope
-brew cask install moom
+brew cask install keka
+brew cask install opera
+brew cask install skype
+brew cask install slack
+brew cask install spotify
+brew cask install vlc
+brew cask install xtrafinder
 
 # QuickLook plugins
 brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzipql qlimagesize webpquicklook suspicious-package
