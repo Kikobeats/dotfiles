@@ -17,7 +17,7 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 curl https://raw.github.com/rupa/z/master/z.sh > ~/dotfiles/utils/z
 
 # fix spotlight
-curl -O https://fix-macosx.com/fix-macosx.py && /usr/bin/python fix-macosx.py
+curl -O https://rawgit.com/fix-macosx/fix-macosx/master/fix-macosx.py && /usr/bin/python fix-macosx.py
 
 # iterm2 integration
 curl -L https://iterm2.com/misc/install_shell_integration.sh | bash
