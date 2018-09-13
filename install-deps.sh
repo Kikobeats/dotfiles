@@ -5,8 +5,8 @@ sudo chmod -R +x ~/dotfiles
 
 # https://rvm.io
 # rvm for the rubiess
-curl -sSL https://get.rvm.io | bash -s stable
-source "$HOME"/.rvm/scripts/rvm | rvm install ruby-head
+# curl -sSL https://get.rvm.io | bash -s stable
+# source "$HOME"/.rvm/scripts/rvm | rvm install ruby-head
 
 # homebrew!
 # you need the code CLI tools YOU FOOL.
