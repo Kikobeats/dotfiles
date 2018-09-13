@@ -70,72 +70,49 @@ pip install Pygments
 
 # node and npm
 brew install node
-sudo brew postinstall node
-
-# gcc/g++ compilers
-brew install gcc
-brew link gcc
-
-# Databases
-brew install redis
-brew install mongodb
-
-# Install everything else
-brew install imagemagick --with-webp
-brew install graphicsmagick
-brew install ctags
-brew install ack
-brew install git
-brew install hub
-brew install rename
-brew install tree
-brew install youtube-dl
-brew install ffmpeg
-brew install dark-mode
-brew install pv
-brew install p7zip
-brew install pigz
-brew install testssl
-brew install cppcheck
-brew install cabal-install
-brew install shellcheck
-brew install httpie
-
-# npm dependencies
+brew postinstall node
+npm install --global clipboard-cli
+npm install --global gnomon
+npm install --global n
 npm install --global npm
-## transformers
-npm install --global coffee-script less stylus js2coffee browserify
-## linters
-npm install --global coffeelint jshint jscs eslint standard csslint alex
-## rest
-npm install --global a11y
-npm install --global asciify
-npm install --global n avn avn-n
-npm install --global bower
-npm install --global david
-npm install --global fuck-you
-npm install --global greenkeeper
-npm install --global gulp
-npm install --global jsinspect
-npm install --global jsonlint
-npm install --global mocha
-npm install --global standard-format
-npm install --global nodemon
-npm install --global nsp
-npm install --global perfectionist
 npm install --global pretty-bytes
-npm install --global prettyjson
 npm install --global pure-prompt
+npm install --global share-cli
 npm install --global sort-json
 npm install --global speed-test
 npm install --global trash-cli
 npm install --global vtop
 npm install --global yo
-npm install --global zelda
-npm install --global buddy.js
 
-gem install rubocop scss-lint
-pip install cpplint
+# gcc/g++ compilers
+brew install gcc
+brew link gcc
+
+# Install everything else
+brew install ack
+brew install bat
+brew install cabal-install
+brew install cppcheck
+brew install ctags
+brew install dark-mode
+brew install diff-so-fancy
+brew install entr
+brew install ffmpeg
+brew install git
+brew install graphicsmagick
+brew install hub
+brew install imagemagick --with-webp
+brew install jq
+brew install p7zip
+brew install peco
+brew install pigz
+brew install pv
+brew install rename
+brew install ruby
+brew install shellcheck
+brew install testssl
+brew install tree
+brew install youtube-dl
 
 # Remove outdated versions from the cellar
 brew cleanup
