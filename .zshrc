@@ -10,7 +10,7 @@ fpath=(/usr/local/share/zsh/site-functions $fpath)
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="pure-original"
+ZSH_THEME=""
 # like: dstufft,
 
 # Example aliases
@@ -90,3 +90,7 @@ source "$HOME"/.iterm2_shell_integration.zsh
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
+# Load pure prompt theme
+autoload -U promptinit; promptinit
+prompt pure
