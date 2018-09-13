@@ -40,4 +40,4 @@ complete -W "NSGlobalDomain" defaults 2> /dev/null
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # Load autoenv: https://github.com/kennethreitz/autoenv
-source /usr/local/opt/autoenv/activate.sh
+# source /usr/local/opt/autoenv/activate.sh
