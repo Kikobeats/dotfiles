@@ -7,7 +7,7 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
-alias c=clear
+alias c=clear && printf '\e[3J'
 
 # Shortcuts
 alias dl="cd ~/Downloads"
