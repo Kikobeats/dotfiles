@@ -45,7 +45,7 @@ geditor() {
   n=${#files[@]}
   echo "Opening $n $([[ "$@" ]] || echo "modified ")file$([[ $n != 1 ]] && \
     echo s)${@:+ modified in }$@"
-  open -a Atom "${files[@]}"
+  $EDITOR "${files[@]}"
 
   unset file
   unset n
