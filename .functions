@@ -38,17 +38,7 @@ gtoday() {
 
 # open all changed files (that still actually exist) in the editor
 geditor() {
-  files=()
-  for f in $(git diff --name-only "$@"); do
-    [[ -e "$f" ]] && files=("${files[@]}" "$f")
-  done
-  n=${#files[@]}
-  echo "Opening $n $([[ "$@" ]] || echo "modified ")file$([[ $n != 1 ]] && \
-    echo s)${@:+ modified in }$@"
-  $EDITOR "${files[@]}"
-
-  unset file
-  unset n
+  $EDITOR $(git status --porcelain | awk '{print $2}')
 }
 
 # Empty Trash
