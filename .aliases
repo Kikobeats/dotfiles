@@ -99,7 +99,7 @@ alias dns_setup="networksetup -setdnsservers Wi-Fi; networksetup -setdnsservers 
 # git
 alias git=hub
 alias gurl="hub browse"
-alias gup='git pull --rebase --autostash && git-garbage'
+alias gup='g up && git-garbage'
 alias gpu=git" push -f origin HEAD^:master"
 
 # npm
