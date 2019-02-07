@@ -5,9 +5,6 @@ for file in ~/.{extra,bash_prompt,exports,aliases,functions}; do
 done
 unset file
 
-# init z   https://github.com/rupa/z
-. ~/dotfiles/utils/z
-
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob 2> /dev/null
 
@@ -20,6 +17,12 @@ shopt -s cdspell 2> /dev/null
 # Prefer US English and use UTF-8
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US"
+
+# Initialize `z`
+if command -v brew >/dev/null 2>&1; then
+	# Load rupa's z if installed
+	[ -f $(brew --prefix)/etc/profile.d/z.sh ] && source $(brew --prefix)/etc/profile.d/z.sh
+fi
 
 # Enable some Bash 4 features when possible:
 # * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`

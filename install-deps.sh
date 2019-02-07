@@ -12,10 +12,6 @@ sudo chmod -R +x ~/dotfiles
 # you need the code CLI tools YOU FOOL.
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-# https://github.com/rupa/z
-# z, oh how i love you
-curl https://raw.github.com/rupa/z/master/z.sh > ~/dotfiles/utils/z
-
 # fix spotlight
 curl -O https://raw.githubusercontent.com/fix-macosx/fix-macosx/master/fix-macosx.py && /usr/bin/python fix-macosx.py
 

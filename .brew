@@ -23,6 +23,7 @@ brew install diffutils
 brew install ed --with-default-names
 brew install findutils --with-default-names
 brew install gawk
+brew install z
 brew install gnu-indent --with-default-names
 brew install gnu-sed --with-default-names
 brew install gnu-which --with-default-names
