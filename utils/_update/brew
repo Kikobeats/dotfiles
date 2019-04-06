@@ -2,9 +2,7 @@
 
 # brew
 ## preconditions
-cd "$(brew --prefix)"
-git fetch origin
-sudo git reset --hard origin/master
+git -C "$(brew --repo homebrew/core)" fetch --unshallow
 
 ## ensure that /usr/local is writable
 sudo chgrp -R admin /usr/local
