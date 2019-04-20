@@ -14,6 +14,5 @@ brew upgrade
 brew cleanup
 
 ## postconditions
-brew prune
 brew doctor
 read -rp "Fixed problem and press any key... " -n 1
