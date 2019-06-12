@@ -68,6 +68,11 @@ alias l="exa --long -a --group --tree --level=1 -F"
 # alias cat='pygmentize -O style=monokai -f console256 -g'
 alias cat='bat'
 
+alias diff='diff-so-fancy'
+alias find='fd'
+alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+alias man="tldr"
+
 # IP addresses
 alias ip="digshort myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en1"
