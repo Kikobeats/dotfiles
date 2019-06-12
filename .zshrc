@@ -61,6 +61,7 @@ plugins=(cp colored-man-pages history-substring-search compleat node npm sudo we
 ZSH_DISABLE_COMPFIX=true
 
 source "$ZSH"/oh-my-zsh.sh
+source .aliases
 
 # User configuration
 
