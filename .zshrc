@@ -54,14 +54,14 @@ ZSH_THEME=""
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(cp colored-man-pages history-substring-search compleat node npm sudo web-search httpie history)
+plugins=(cp colored-man-pages history-substring-search compleat node npm sudo web-search httpie history docker)
 
 # Prevent "Insecure completion-dependent directories detected" warning
 # https://github.com/robbyrussell/oh-my-zsh/issues/6835#issuecomment-390216875
 ZSH_DISABLE_COMPFIX=true
 
 source "$ZSH"/oh-my-zsh.sh
-source .aliases
+source ~/.aliases
 
 # User configuration
 
