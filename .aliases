@@ -83,7 +83,9 @@ alias whois="whois -h whois-servers.net"
 
 alias ping='prettyping --nolegend'
 
-alias top='htop'
+alias top='vtop'
+alias json='node -e '\''console.dir(JSON.parse(fs.readFileSync("/dev/stdin", "utf-8")), { depth: null })'\'
+
 
 # Flush DNS cache
 alias dns_flush="sudo killall -HUP mDNSResponder;sudo killall mDNSResponderHelper;sudo dscacheutil -flushcache"
