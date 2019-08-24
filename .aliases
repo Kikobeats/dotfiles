@@ -195,3 +195,8 @@ alias shutdown='sudo shutdown now'
 
 # windsurf
 alias windtoday="curl -4 http://wttr.in/MJV"
+
+# better `less` (https://gist.github.com/textarcana/4611277)
+LESSPIPE=`which src-hilite-lesspipe.sh`
+export LESSOPEN="| ${LESSPIPE} %s"
+export LESS=' -R -X -F '
