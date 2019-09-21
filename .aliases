@@ -47,6 +47,9 @@ alias bunyip='node ~/code/bunyip/cli.js'
 # historial navigation
 alias hg='history | grep'
 
+# real sed after `brew install gnu-sed`
+alias sed=gsed
+
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
 	colorflag="--color"
