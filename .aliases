@@ -130,6 +130,9 @@ type -t md5sum > /dev/null 2>&1 || alias md5sum="md5"
 # Recursively delete `.DS_Store` files
 alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
 
+# support alias inside watch
+alias watch='watch '
+
 # Shortcuts
 alias g='hub'
 alias v="vim"
