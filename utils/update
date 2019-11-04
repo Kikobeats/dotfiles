@@ -6,7 +6,6 @@ UPDATE="$HOME/dotfiles/utils/_update"
 . "$UPDATE/brew"
 . "$UPDATE/npm"
 # . "$UPDATE/cabal"
-. "$UPDATE/rvm"
 . "$UPDATE/ruby"
 . "$UPDATE/zsh"
 

@@ -101,9 +101,6 @@ GIT_AUTHOR_EMAIL="mathias@mailinator.com"
 GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
 git config --global user.email "$GIT_AUTHOR_EMAIL"
 
-# RVM settings
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
 # GNU coreutils
 export PATH=$PATH:/usr/local/opt/coreutils/libexec/gnubin
 
