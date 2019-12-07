@@ -97,3 +97,6 @@ prompt pure
 
 # Load `direnv`
 eval "$(direnv hook zsh)"
+
+# load `helm`
+echo 'export PATH="/usr/local/opt/helm@2/bin:$PATH"' >> ~/.zshrc
