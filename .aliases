@@ -60,7 +60,6 @@ else # macOS `ls`
 fi
 
 # Avoid progress bar and follow redirects
-alias curl="curlie"
 alias headers="curl -I -s -X GET"
 
 # List all files colorized in long format
