@@ -70,6 +70,8 @@ alias l="exa --long -a --group --tree --level=1 -F"
 # alias cat='pygmentize -O style=monokai -f console256 -g'
 alias cat='bat'
 
+alias ps='procs'
+
 alias diff='diff-so-fancy'
 alias find='fd'
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
@@ -131,6 +133,7 @@ alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
 
 # support alias inside watch
 alias watch='watch '
+alias w="watch "
 
 # Shortcuts
 alias g='hub'
@@ -198,6 +201,16 @@ alias npmo="sudo npm install --cache-min 999999999"
 # Control the system
 alias restart='sudo shutdown -r now'
 alias shutdown='sudo shutdown now'
+
+# kubernetes
+alias dp='kubectl describe pod'
+alias dl='kubectl delete pod'
+alias dn='kubectl describe node'
+alias tp='kubectl top pods'
+alias tn='kubectl top nodes'
+alias gp='kubectl get pods -o wide'
+alias gn='kubectl get nodes -o wide'
+alias k8s='watch curl -s https://k8s.microlink.io'
 
 # windsurf
 alias windtoday="curl -4 http://wttr.in/MJV"
