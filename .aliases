@@ -204,7 +204,6 @@ alias shutdown='sudo shutdown now'
 
 # kubernetes
 alias dp='kubectl describe pod'
-alias dl='kubectl delete pod'
 alias dn='kubectl describe node'
 alias tp='kubectl top pods'
 alias tn='kubectl top nodes'
