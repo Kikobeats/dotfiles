@@ -1,16 +1,23 @@
 #!/bin/bash -v
 sudo -v
-## clean download folder
+
+# clean download folder
 read -rp "Clean Downloads folder? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && sudo rm -rfv ~/Downloads/*
-## clean desktop folder
+
+# clean desktop folder
 read -rp "Clean Desktop folder? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && sudo rm -rfv ~/Desktop/*
 
-## clean system data
-### clean .DS_Store
+# clean .DS_Store adn npm-debug.log
 sudo find / -name '.DS_Store' -o -name "npm-debug.log" -type f -ls -delete
-### clean logs
+
+# clean logs
 sudo rm -rfv /Library/Logs/* ~/Library/Logs/*
-### clean tmps
+
+# Clean up system logs and temporary files
+# http://www.thexlab.com/faqs/maintscripts.html
+sudo periodic daily weekly monthly
+
+# clean tmps
 tempFiles=("/tmp/" "$HOME/tmp/" "$TMPDIR")
 for tempFile in "${tempFiles[@]}"
 do
