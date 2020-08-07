@@ -4,7 +4,7 @@
 brew tap phinze/cask
 brew install brew-cask
 
-brew cask install alfred
+brew cask install alfred && npm install --global alfred-clap alfred-fkill alfred-httpstat alfred-title
 brew cask install bartender
 brew cask install cloudapp
 brew cask install dropbox

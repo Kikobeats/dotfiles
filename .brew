@@ -28,6 +28,7 @@ brew install gnu-sed
 brew install gnu-which
 brew install gnutls
 brew install grep
+brew install openssh
 brew install gzip
 brew install screen
 brew install watch
@@ -45,13 +46,8 @@ brew install zsh-syntax-highlighting
 # Install Bash 4
 brew install bash
 read -n 1 -s -r -p "Ensure to add '/usr/local/bin/bash' to '/etc/shells'. Press a key to continue.."
-brew tap homebrew/versions
 brew install bash-completion2
 
-# Install more recent versions of some OS X tools
-brew install vim --with-override-system-vi
-brew install homebrew/dupes/grep
-brew install homebrew/dupes/openssh
 # brew install homebrew/dupes/screen
 # brew install homebrew/php/php56 --with-gmp
 
@@ -70,10 +66,6 @@ brew install homebrew/dupes/openssh
 # node and npm
 brew install node
 brew postinstall node
-npm install --global alfred-clap
-npm install --global alfred-fkill
-npm install --global alfred-httpstat
-npm install --global alfred-title
 npm install --global asciify
 npm install --global autocannon
 npm install --global browser-sync
