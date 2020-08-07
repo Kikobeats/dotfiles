@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 # ~/.osx — https://mths.be/osx
 
 # Ask for the administrator password upfront
