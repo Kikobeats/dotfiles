@@ -1,21 +1,11 @@
-![image](http://xaharts.org/funny/i/gitopuss/ironman_octocat.jpg)
-
 # Kikobeats dotfiles
 
-based on [addyosmani dotfiles](https://github.com/addyosmani/dotfiles). Thank you!
+> Based on [addyosmani dotfiles](https://github.com/addyosmani/dotfiles).
+> Latest version tested: macOS Calatina 10.15.5
 
 ### Features
 
-Compatible with Bash and ZSH shells
-
-#### Bash
-
-![Imgur](http://i.imgur.com/1sNnJVK.gif)
-
-#### ZSH
-
-![Imgur](http://i.imgur.com/6B4MD0n.gif)
-
+* Compatible with Bash and ZSH shells.
 * Install common package manager (brew, npm, gem) and common dependencies  (linters, findutils, redis, mongo, bash,...)
 * Install common apps based on [Caskfile](https://github.com/Kikobeats/dotfiles/blob/master/Caskfile).
 * Many useful alias for terminal: git, browsers, apps shortcuts, finder, hidden/show icons desktop, youtube downloader, RAMDisk,...
@@ -110,8 +100,4 @@ export PATH="$HOME/dotfiles/utils:$PATH"
 # Ruby Settings
 # ....
 ```
-
-### Other
-
-* [Special SSD Optimizations](http://www.hightechdad.com/2014/10/23/13-tips-optimize-mac-yosemite-installation)
 
