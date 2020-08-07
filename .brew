@@ -1,4 +1,4 @@
-#!/bin/bash -v
+#!/bin/bash -x
 
 # Ask for the administrator password upfront.
 sudo -v
@@ -18,7 +18,7 @@ brew install coreutils
 brew install moreutils
 brew install gnu-tar
 # alternatively
-brew install binutils
+# brew install binutils # already included on mac
 brew install diffutils
 brew install findutils
 brew install gawk
@@ -33,11 +33,8 @@ brew install screen
 brew install watch
 brew install wget
 brew install gpg
-echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
+read -n 1 -s -r -p "Ensure to add '$(brew --prefix coreutils)/libexec/gnubin' to \$PATH. Press a key to continue.."
 sudo ln -s /usr/local/bin/gsha256sum /usr/local/bin/sha256sum
-
-# Install wget with IRI support
-brew install wget --with-iri
 
 # Install zsh and utils
 brew install zsh
@@ -47,8 +44,7 @@ brew install zsh-syntax-highlighting
 
 # Install Bash 4
 brew install bash
-sudo rm /bin/bash
-sudo ln -s /usr/local/bin/bash /bin/bash
+read -n 1 -s -r -p "Ensure to add '/usr/local/bin/bash' to '/etc/shells'. Press a key to continue.."
 brew tap homebrew/versions
 brew install bash-completion2
 
