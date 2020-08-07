@@ -4,7 +4,9 @@
 brew tap phinze/cask
 brew install brew-cask
 
-brew cask install alfred && npm install --global alfred-clap alfred-fkill alfred-httpstat alfred-title
+brew cask install alfred 
+npm install --global alfred-clap alfred-fkill alfred-httpstat alfred-title
+
 brew cask install bartender
 brew cask install cloudapp
 brew cask install dropbox
@@ -15,7 +17,10 @@ brew cask install imageoptim
 brew cask install imageoptim-cli
 brew cask install insomnia
 brew cask install istat-menus
-brew cask install iterm2
+
+brew cask install iterm2 
+curl -L https://iterm2.com/shell_integration/install_shell_integration.sh | bash
+
 brew cask install keka
 brew cask install slack
 brew cask install spotify
