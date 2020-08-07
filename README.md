@@ -25,9 +25,11 @@ Compatible with Bash and ZSH shells
 
 ### Installation
 #### Install Repository
+
 ```bash
 git clone https://github.com/Kikobeats/dotfiles  && cd dotfiles && ./sync-local.sh
 ```
+
 #### Install files Syntax highlighting (Sublime Text)
 
 ```
@@ -36,10 +38,12 @@ Install Packages > Dotfiles Syntax Highlighting for Sublime Text 2/3
 
 ### File structure
 ####  Automatic config
+
 * `.ackrc` - for ack (better than grep)
 * `.vimrc`, `.vim` - vim config, obv.
 
 #### shell environement
+
 * `.aliases`
 * `.bash_profile`
 * `.bash_prompt`
@@ -51,16 +55,17 @@ Install Packages > Dotfiles Syntax Highlighting for Sublime Text 2/3
 
 
 #### manual run
+
 * `install-deps.sh` - Common dependencies (Python, Node, Ruby, etc)
 * `.osx` - Run on a fresh osx machine
 * `.brew` - Homebrew intialization
 
 #### git, brah
+
 * `.git`
 * `.gitattributes`
 * `.gitconfig`
 * `.gitignore`
-
 * `.inputrc` - config for bash readline
 
 ### Configure
