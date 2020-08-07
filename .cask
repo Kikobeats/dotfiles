@@ -5,13 +5,9 @@ brew tap phinze/cask
 brew install brew-cask
 
 brew cask install alfred
-brew cask install atom
-brew cask install brave
+brew cask install bartender
 brew cask install cloudapp
 brew cask install dropbox
-brew cask install evernote
-brew cask install firefox
-brew cask install flux
 brew cask install google-chrome
 brew cask install google-chrome-canary
 brew cask install imagealpha
@@ -20,12 +16,10 @@ brew cask install imageoptim-cli
 brew cask install insomnia
 brew cask install istat-menus
 brew cask install iterm2
-brew cask install kaleidoscope
 brew cask install keka
-brew cask install opera
-brew cask install skype
 brew cask install slack
 brew cask install spotify
+brew cask install visual-studio-code
 brew cask install vlc
 brew cask install xtrafinder
 
