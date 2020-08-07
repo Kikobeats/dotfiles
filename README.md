@@ -22,7 +22,6 @@ Compatible with Bash and ZSH shells
 * Custom command for update and clean the system, dropbox, js2CoffePro, nodev, RAMDisk, mount/unmount EFI,...
 * Extras like Snippets and shortcuts for Sublime Text, Custom template for iTerm and LibreOffice.
 
-
 ### Installation
 
 #### Install Repository
