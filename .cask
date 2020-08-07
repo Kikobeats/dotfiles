@@ -10,6 +10,7 @@ npm install --global alfred-clap alfred-fkill alfred-httpstat alfred-title
 brew cask install 1password
 brew cask install bartender
 brew cask install cloudapp
+brew cask install docker
 brew cask install dropbox
 brew cask install google-chrome
 brew cask install google-chrome-canary
