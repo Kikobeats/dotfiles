@@ -80,6 +80,7 @@ npm install --global pure-prompt
 npm install --global share-cli
 npm install --global sort-json
 npm install --global speed-test
+npm install --global tldr
 npm install --global trash-cli
 npm install --global vtop
 npm install --global yo
@@ -113,6 +114,7 @@ brew install pv
 brew install shellcheck
 brew install testssl
 brew install tree
+brew install exa
 
 # Remove outdated versions from the cellar
 brew cleanup
