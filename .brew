@@ -10,7 +10,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 brew update
 
 # Upgrade any already-installed formulae
-brew upgrade --all
+brew upgrade
 
 # Install GNU core utilities (those that come with OS X are outdated)
 # From https://www.topbug.net/blog/2013/04/14/install-and-use-gnu-command-line-tools-in-mac-os-x/
@@ -20,7 +20,6 @@ brew install gnu-tar --with-default-names
 # alternatively
 brew install binutils
 brew install diffutils
-brew install ed --with-default-names
 brew install findutils --with-default-names
 brew install gawk
 brew install z
@@ -32,7 +31,6 @@ brew install grep --with-default-names
 brew install gzip
 brew install screen
 brew install watch
-brew install wdiff --with-gettext
 brew install wget
 brew install gpg
 echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
@@ -43,7 +41,7 @@ brew install wget --with-iri
 
 # Install zsh and utils
 brew install zsh
-curl -L http://install.ohmyz.sh | sh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 brew install zsh-autosuggestions
 brew install zsh-syntax-highlighting
 
@@ -58,26 +56,35 @@ brew install bash-completion2
 brew install vim --with-override-system-vi
 brew install homebrew/dupes/grep
 brew install homebrew/dupes/openssh
-brew install homebrew/dupes/screen
-brew install homebrew/php/php56 --with-gmp
+# brew install homebrew/dupes/screen
+# brew install homebrew/php/php56 --with-gmp
 
 # Install font tools.
-brew tap bramstein/webfonttools
-brew install sfnt2woff
-brew install sfnt2woff-zopfli
-brew install woff2
+# brew tap bramstein/webfonttools
+# brew install sfnt2woff
+# brew install sfnt2woff-zopfli
+# brew install woff2
 
 # Python and Pip
-brew install python
-brew install python@2
-pip install -U pip
-pip install Pygments
+# brew install python
+# brew install python@2
+# pip install -U pip
+# pip install Pygments
 
 # node and npm
 brew install node
 brew postinstall node
+npm install --global alfred-clap
+npm install --global alfred-fkill
+npm install --global alfred-httpstat
+npm install --global alfred-title
+npm install --global asciify
+npm install --global autocannon
+npm install --global browser-sync
 npm install --global clipboard-cli
+npm install --global fx
 npm install --global gnomon
+npm install --global gzip-size-cli
 npm install --global n
 npm install --global npm
 npm install --global pretty-bytes
@@ -96,11 +103,11 @@ brew link gcc
 # Install everything else
 brew install ack
 brew install bat
-brew install cabal-install
+# brew install cabal-install
 brew install cppcheck
 brew install ctags
-brew install dark-mode
-brew install diff-so-fancy
+# brew install dark-mode
+brew install git-delta # A better `diff-so-fancy`
 brew install entr
 brew install ffmpeg
 brew install git
@@ -108,16 +115,15 @@ brew install graphicsmagick
 brew install hub
 brew install imagemagick --with-webp
 brew install jq
-brew install p7zip
+# brew install p7zip
 brew install peco
-brew install pigz
+# brew install pigz
 brew install pv
-brew install rename
-brew install ruby
+# brew install rename
+# brew install ruby
 brew install shellcheck
 brew install testssl
 brew install tree
-brew install youtube-dl
 
 # Remove outdated versions from the cellar
 brew cleanup

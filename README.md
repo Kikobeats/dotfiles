@@ -24,19 +24,15 @@ Compatible with Bash and ZSH shells
 
 
 ### Installation
+
 #### Install Repository
 
 ```bash
 git clone https://github.com/Kikobeats/dotfiles  && cd dotfiles && ./sync-local.sh
 ```
 
-#### Install files Syntax highlighting (Sublime Text)
-
-```
-Install Packages > Dotfiles Syntax Highlighting for Sublime Text 2/3
-```
-
 ### File structure
+
 ####  Automatic config
 
 * `.ackrc` - for ack (better than grep)
@@ -52,7 +48,6 @@ Install Packages > Dotfiles Syntax Highlighting for Sublime Text 2/3
 * `.exports`
 * `.functions`
 * `.extra` - not included, explained above
-
 
 #### manual run
 
