@@ -33,6 +33,7 @@ brew install gzip
 brew install screen
 brew install watch
 brew install wget
+brew install prettyping
 brew install gpg
 read -n 1 -s -r -p "Ensure to add '$(brew --prefix coreutils)/libexec/gnubin' to \$PATH. Press a key to continue.."
 sudo ln -s /usr/local/bin/gsha256sum /usr/local/bin/sha256sum
