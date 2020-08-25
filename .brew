@@ -114,6 +114,7 @@ brew install pv
 # brew install ruby
 brew install shellcheck
 brew install testssl
+brew install watchexec
 brew install tree
 brew install exa
 
