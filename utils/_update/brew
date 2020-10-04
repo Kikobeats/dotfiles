@@ -11,7 +11,7 @@ sudo chmod -R g+w /usr/local
 ## update, upgrade and cleanup
 brew update
 brew upgrade
-brew cask upgrade
+brew upgrade --cask
 brew cleanup
 
 ## postconditions
