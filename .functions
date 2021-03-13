@@ -344,11 +344,11 @@ function ia() {
 }
 
 function travis_repo_init() {
-  travis env set CONVENTIONAL_GITHUB_RELEASER_TOKEN $CONVENTIONAL_GITHUB_RELEASER_TOKEN --com && \
-  travis env set NPM_TOKEN $NPM_TOKEN --com && \
-  travis env set GH_TOKEN $GH_TOKEN --com && \
-  travis env set GITHUB_USER $GITHUB_USER --com && \
-  travis env set GITHUB_EMAIL $GITHUB_EMAIL --com
+  travis env set CONVENTIONAL_GITHUB_RELEASER_TOKEN "$CONVENTIONAL_GITHUB_RELEASER_TOKEN" --com && \
+  travis env set NPM_TOKEN "$NPM_TOKEN" --com && \
+  travis env set GH_TOKEN "$GH_TOKEN" --com && \
+  travis env set GITHUB_USER "$GITHUB_USER" --com && \
+  travis env set GITHUB_EMAIL "$GITHUB_EMAIL" --com
 }
 
 # direct it all to /dev/null
