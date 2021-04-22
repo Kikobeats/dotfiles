@@ -201,6 +201,9 @@ alias npmo="sudo npm install --cache-min 999999999"
 alias restart='sudo shutdown -r now'
 alias shutdown='sudo shutdown now'
 
+# flyctl
+alias f=flyctl
+
 # kubernetes
 alias dp='kubectl describe pod'
 alias dn='kubectl describe node'
@@ -214,6 +217,6 @@ alias k8s='watch curl -s https://k8s.microlink.io'
 alias windtoday="curl -4 http://wttr.in/MJV"
 
 # better `less` (https://gist.github.com/textarcana/4611277)
-LESSPIPE=`which src-hilite-lesspipe.sh`
+LESSPIPE=$(which src-hilite-lesspipe.sh)
 export LESSOPEN="| ${LESSPIPE} %s"
 export LESS=' -R -X -F '
