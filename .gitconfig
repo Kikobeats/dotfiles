@@ -45,6 +45,9 @@
   # more information: http://haacked.com/archive/2014/07/28/github-flow-aliases/
   undo = reset HEAD~1 --mixed
 
+  # wip
+  wip = "!git add --all; git ci -m WIP"
+
 [color]
   ui = always
 
