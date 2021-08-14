@@ -103,3 +103,6 @@ export PATH="/usr/local/opt/helm@2/bin:$PATH"
 
 # load `rbenv`
 eval "$(rbenv init -)"
+
+# load `mcfly`
+eval "$(mcfly init zsh)"
