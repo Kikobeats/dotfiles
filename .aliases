@@ -116,6 +116,7 @@ alias npmug="npm uninstall -g"
 alias npmlink="npm link"
 alias npmurl="npm-url"
 alias t="npm test"
+alias npm="pnpm"
 
 # View HTTP traffic
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
