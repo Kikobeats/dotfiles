@@ -99,8 +99,8 @@ alias firewall_off="sudo defaults write /Library/Preferences/com.apple.alf globa
 alias firewall_on="sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 2"
 
 # git
-alias git=hub
-alias gurl="hub browse"
+alias git=gh
+alias gurl="gh browse"
 alias gup='g up && git-garbage'
 alias gpu=git" push -f origin HEAD^:master"
 
@@ -137,7 +137,7 @@ alias watch='watch '
 alias w="watch "
 
 # Shortcuts
-alias g='hub'
+alias g='gh'
 alias v="vim"
 alias k="kubectl"
 

@@ -102,7 +102,7 @@ brew install entr
 brew install ffmpeg
 brew install git
 brew install graphicsmagick
-brew install hub
+brew install gh
 brew install imagemagick --with-webp
 brew install jq
 brew install direnv
