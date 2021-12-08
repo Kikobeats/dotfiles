@@ -1,7 +1,7 @@
 #!/bin/bash -x
 
 # Caskfile manager
-brew tap phinze/cask
+brew tap homebrew/cask
 brew install brew-cask
 
 brew install --cask alfred 
