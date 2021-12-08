@@ -43,7 +43,7 @@ brew install fish
 # Install Bash 4
 brew install bash
 read -n 1 -s -r -p "Ensure to add '/usr/local/bin/bash' to '/etc/shells'. Press a key to continue.."
-brew install bash-completion2
+brew install bash-completion@2
 
 # brew install homebrew/dupes/screen
 # brew install homebrew/php/php56 --with-gmp
