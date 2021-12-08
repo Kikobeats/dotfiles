@@ -38,11 +38,8 @@ brew install gpg
 read -n 1 -s -r -p "Ensure to add '$(brew --prefix coreutils)/libexec/gnubin' to \$PATH. Press a key to continue.."
 sudo ln -s /usr/local/bin/gsha256sum /usr/local/bin/sha256sum
 
-# Install zsh and utils
-brew install zsh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-brew install zsh-autosuggestions
-brew install zsh-syntax-highlighting
+# Install fish and utils
+brew install fish
 
 # Install Bash 4
 brew install bash
