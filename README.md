@@ -41,7 +41,7 @@ git clone https://github.com/Kikobeats/dotfiles  && cd dotfiles && ./sync-local.
 #### manual run
 
 * `install-deps.sh` - Common dependencies (Python, Node, Ruby, etc)
-* `.osx` - Run on a fresh osx machine
+* `.macos` - Run on a fresh macOS machine
 * `.brew` - Homebrew intialization
 
 #### git, brah
@@ -65,7 +65,7 @@ Install dependencies
 When setting up a new Mac, you may want to set some sensible OS X defaults:
 
 ```bash
-./.osx
+./.macos
 ```
 
 Install Caskfile apps with:
