@@ -107,7 +107,7 @@ alias gpu=git" push -f origin HEAD^:master"
 # npm
 alias npmp="npm publish"
 alias npma="npm adduser"
-alias npmi="pnpm install --no-lock"
+alias npmi="npm install --no-lock"
 alias npml="npm list --depth=0"
 alias npmu="npm uninstall"
 alias npmig="npm install -g"
@@ -117,6 +117,7 @@ alias npmlink="npm link"
 alias npmurl="npm-url"
 alias t="npm test"
 alias npm="pnpm"
+alias npmr="dum"
 
 # View HTTP traffic
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
