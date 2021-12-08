@@ -22,7 +22,6 @@ brew install gnu-tar
 brew install diffutils
 brew install findutils
 brew install gawk
-brew install z
 brew install gnu-indent
 brew install gnu-sed
 brew install gnu-which
