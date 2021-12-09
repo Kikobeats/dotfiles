@@ -1,9 +1,5 @@
 #!/bin/bash -x
 
-# Caskfile manager
-brew tap homebrew/cask
-brew install brew-cask
-
 brew install --cask alfred 
 npm install --global alfred-clap alfred-fkill alfred-httpstat alfred-title
 
