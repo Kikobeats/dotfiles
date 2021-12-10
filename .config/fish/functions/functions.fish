@@ -42,10 +42,10 @@ end
 
 # Empty Trash
 function  emptytrash
-  sudo rm -rfv "/Volumes/*/.Trashes"
-  sudo rm -rfv "~/.Trash"
+  set files /Volumes/*/.Trashes; sudo rm -rfv $files
+  sudo rm -rfv ~/.Trash
   # clear Apple’s System Logs to improve shell startup speed
-  sudo rm -rfv "/private/var/log/asl/*.asl"
+  set files /private/var/log/asl/*.asl; sudo rm -rfv $files
 end
 
 function  cl 
