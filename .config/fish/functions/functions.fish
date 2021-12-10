@@ -106,7 +106,7 @@ function browsers
 end
 
 function static
-#   browser-sync start --server --files "index.html, **/*.(css|js|md)"
+  browser-sync start --server --files "index.html, **/*.(css|js|md)"
 end
 
 function ia
@@ -118,7 +118,7 @@ function ia
       touch "$FILE"
       open -a "iA Writer" "$FILE"
     end
-  done;
+  end
 end
 
 # direct it all to /dev/null
@@ -132,6 +132,11 @@ function webmify
   ffmpeg -i "$argv[1]" -vcodec libvpx -acodec libvorbis -isync -copyts -aq 80 -threads 3 -qmax 30 -y "$argv[1]" "$1.webm"
 end
 
-function  # function mp4
+function mp4
   ffmpeg -i "$argv[1]" -vcodec libx264 -preset veryfast "$1.mp4"
 end
+
+function docker_prune
+  docker system prune -af && docker rmi f(docker images -a -q)
+end
+
