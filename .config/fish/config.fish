@@ -8,7 +8,8 @@ if status is-interactive
     # Initialize `zoxide`
     zoxide init fish | source
 
-    fish_add_path /opt/homebrew/opt/helm@2/bin
-
-    fish_add_path g "$N_PREFIX/bin"
+    if test -e ~/.extra
+        source ~/.extra
+    end
 end
+

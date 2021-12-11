@@ -89,10 +89,10 @@ end
 # `o` with no arguments opens current directory, otherwise opens the given
 # location
 function o
-  if [ count $argv -eq 0 ];
-    open .
-  else
+  if count $argv > /dev/null
     open "$argv"
+  else
+    open .
   end
 end
 
