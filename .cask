@@ -1,8 +1,7 @@
 #!/bin/bash -x
 
-brew install --cask alfred 
-npm install --global alfred-clap alfred-fkill alfred-httpstat alfred-title
-
+brew install --cask raycast
+brew install --cask atext
 brew install --cask 1password
 brew install --cask cleanshot
 brew install --cask rescuetime
