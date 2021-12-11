@@ -139,4 +139,3 @@ end
 function docker_prune
   docker system prune -af && docker rmi f(docker images -a -q)
 end
-
