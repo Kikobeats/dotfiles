@@ -1,7 +1,11 @@
-# Kikobeats dotfiles
+<p align="center">
+  <br>
+  <img src="https://i.imgur.com/xDDKc2C.png" width="300">
+  <br>
+</p>
 
-> Based on [addyosmani dotfiles](https://github.com/addyosmani/dotfiles).
-> Latest version tested: macOS Sierra 12.0.1
+> Kikobeats dotfiles. 
+> Latest version tested: macOS Monterey 12.0.1.
 
 ### Features
 
@@ -14,7 +18,7 @@
 ### Installation
 
 ```bash
-git clone https://github.com/Kikobeats/dotfiles  && cd dotfiles && ./sync-local.sh
+git clone https://github.com/Kikobeats/dotfiles && cd dotfiles && ./sync-local.sh
 ```
 
 ## Usage
