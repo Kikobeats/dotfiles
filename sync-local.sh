@@ -14,7 +14,7 @@ function doIt() {
         --exclude "sync.sh" \
         --exclude "Caskfile" \
         -av --no-perms . ~
-  source ~/.bash_profile
+  fish
 }
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
   doIt
