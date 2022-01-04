@@ -37,7 +37,7 @@ end
 
 # open all changed files (that still actually exist) in the editor
 function geditor
-  $EDITOR (git status --porcelain | awk '{print $argv[1]')
+  $EDITOR (git status --porcelain | awk '{print $argv[1]}')
 end
 
 # Empty Trash
