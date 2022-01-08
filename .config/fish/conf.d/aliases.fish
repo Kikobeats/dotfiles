@@ -42,7 +42,8 @@ alias hg 'history | grep'
 alias sed gsed
 
 # Avoid progress bar and follow redirects
-alias headers "curl -I -s -X GET"
+alias curl "curl -s"
+alias headers "curl -I -X GET"
 
 # List all files colorized in long format
 alias ls "exa"
