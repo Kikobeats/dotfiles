@@ -126,14 +126,14 @@ function devnull
   "$argv" >/dev/null 2>&1
 end
 
-# turn that video into webm.
-# brew reinstall ffmpeg --with-libvpx
 function webmify
-  ffmpeg -i "$argv[1]" -vcodec libvpx -acodec libvorbis -isync -copyts -aq 80 -threads 3 -qmax 30 -y "$argv[1]" "$1.webm"
+  # https://web.dev/replace-gifs-with-videos/#create-webm-videos
+  ffmpeg -i "$argv[1]" -c vp9 -b:v 0 -crf 41 "$1.webm"
 end
 
 function mp4
-  ffmpeg -i "$argv[1]" -vcodec libx264 -preset veryfast "$1.mp4"
+  # https://web.dev/replace-gifs-with-videos/#create-mpeg-videos
+  ffmpeg -i "$argv[1]" -vf "crop=trunc(iw/2)*2:trunc(ih/2)*2" -b:v 0 -crf 25 -f mp4 -vcodec libx264 -pix_fmt yuv420p "$argv[1]".mp4
 end
 
 function docker_prune
