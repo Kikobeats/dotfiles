@@ -76,10 +76,11 @@ alias gurl "gh browse"
 alias gup 'g up && git-garbage'
 
 # npm
+alias npm "pnpm"
 alias npmp "npm publish"
 alias npma "npm adduser"
 alias npmi "npm install --no-lock"
-alias npml "npm list --depth=0"
+alias npml "npm list --depth=3"
 alias npmu "npm uninstall"
 alias npmig "npm install -g"
 alias npmlg "npm list -g --depth=0"
