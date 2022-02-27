@@ -13,8 +13,8 @@ alias g='git'
 alias v="vim"
 alias k="kubectl"
 alias pro "cd ~/Projects"
-alias rm "trash"
-alias please "sudo"
+alias rm trash
+alias please sudo
 
 # programs
 alias subl 'open -a "Sublime Text"'
@@ -46,21 +46,21 @@ alias curl "curl -s"
 alias headers "curl -I -X GET"
 
 # List all files colorized in long format
-alias ls "exa"
+alias ls exa
 alias l "exa --long -a --group --tree --level=1 -F"
 
-alias cat 'bat'
-alias less 'bat'
-alias diff 'diff-so-fancy'
-alias find 'fd'
+alias cat bat
+alias less bat
+alias diff diff-so-fancy
+alias find fd
 alias du "ncdu --color dark -rr -x --exclude .git --exclude node_modules"
-alias man "tldr"
+alias man tldr
 
 # Enhanced WHOIS lookups
 alias whois "whois -h whois-servers.net"
 
 alias ping 'prettyping --nolegend'
-alias top 'vtop'
+alias top vtop
 alias json 'node -e '\''console.dir(JSON.parse(fs.readFileSync("/dev/stdin", "utf-8")), { depth: null })'\'
 
 # Flush DNS cache
@@ -76,7 +76,7 @@ alias gurl "gh browse"
 alias gup 'g up && git-garbage'
 
 # npm
-alias npm "pnpm"
+alias npm pnpm
 alias npmp "npm publish"
 alias npma "npm adduser"
 alias npmi "npm install --no-lock"
@@ -86,7 +86,7 @@ alias npmig "npm install -g"
 alias npmlg "npm list -g --depth=0"
 alias npmug "npm uninstall -g"
 alias npmlink "npm link"
-alias npmurl "npm-url"
+alias npmurl npm-url
 alias t "npm test"
 alias f flyctl
 
