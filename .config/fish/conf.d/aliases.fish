@@ -77,6 +77,7 @@ alias gup 'g up && git-garbage'
 
 # npm
 alias npm pnpm
+alias p pnpm
 alias npmp "npm publish"
 alias npma "npm adduser"
 alias npmi "npm install --no-lock"
@@ -87,6 +88,7 @@ alias npmlg "npm list -g --depth=0"
 alias npmug "npm uninstall -g"
 alias npmlink "npm link"
 alias npmurl npm-url
+alias b="npm run build"
 alias t "npm test"
 alias f flyctl
 
