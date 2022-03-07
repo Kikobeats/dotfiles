@@ -7,7 +7,6 @@ UPDATE="$HOME/dotfiles/utils/_update"
 . "$UPDATE/npm"
 # . "$UPDATE/cabal"
 . "$UPDATE/ruby"
-. "$UPDATE/zsh"
 
 read -rp "Repair now? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && . repair
 read -rp "Clean now? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && . clean
