@@ -72,9 +72,10 @@ alias firewall_off "sudo defaults write /Library/Preferences/com.apple.alf globa
 alias firewall_on "sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 2"
 
 # git
-alias gurl "gh browse"
+alias gurl 'gh browse'
 alias gup 'g up && git-garbage'
 alias grelease 'gh release create --generate-notes $(git describe --tags --abbrev=0)'
+alias gpr 'gh pr create -w'
 
 # npm
 alias npm pnpm
