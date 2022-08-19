@@ -1,15 +1,14 @@
-if status is-interactive    
+if status is-interactive
     # load `mcfly`
-    mcfly init fish | source
+    # mcfly init fish | source
 
     # Initialize `zoxide`
     zoxide init fish | source
 
     # load `rbenv`
-    rbenv init - fish | source
+    # rbenv init - fish | source
 
     if test -e ~/.extra
         source ~/.extra
     end
 end
-
