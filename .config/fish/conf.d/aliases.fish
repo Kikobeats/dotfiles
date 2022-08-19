@@ -72,13 +72,14 @@ alias firewall_off "sudo defaults write /Library/Preferences/com.apple.alf globa
 alias firewall_on "sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 2"
 
 # git
-alias gurl 'gh browse'
+alias gurl 'gh pr view --web || gh browse'
 alias gup 'g up && git-garbage'
 alias grelease 'gh release create --generate-notes $(git describe --tags --abbrev=0)'
 alias gpr 'gh pr create -w'
 
 # npm
 alias npm pnpm
+# alias npx pnpx
 alias p pnpm
 alias npmp "npm publish"
 alias npma "npm adduser"
@@ -96,10 +97,6 @@ alias f flyctl
 
 # Recursively delete `.DS_Store` files
 alias cleanup "find . -name '*.DS_Store' -type f -ls -delete"
-
-# support alias inside watch
-alias watch 'watch '
-alias w "watch "
 
 # File size
 alias fs "stat -f \"%z bytes\""
