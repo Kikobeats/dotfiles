@@ -93,7 +93,7 @@ brew install bat
 brew install cppcheck
 brew install ctags
 # brew install dark-mode
-brew install git-delta # A better `diff-so-fancy`
+brew install git-delta
 brew install entr
 brew install ffmpeg
 brew install git

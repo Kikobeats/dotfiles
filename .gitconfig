@@ -84,7 +84,8 @@
 
 [merge]
   tool = Kaleidoscope
-        log = false
+  log = false
+  conflictstyle = diff3
 
 [url "git@github.com:"]
   insteadOf = "gh:"
@@ -115,6 +116,7 @@
 
 [difftool]
   prompt = false
+  colorMoved = default
 
 [mergetool "Kaleidoscope"]
   cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
@@ -139,6 +141,9 @@
 
 [interactive]
     diffFilter = delta --color-only
+
+[add.interactive]
+  useBuiltin = false
 
 [delta]
     features = side-by-side line-numbers decorations

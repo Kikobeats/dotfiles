@@ -51,7 +51,6 @@ alias l "exa --long -a --group --tree --level=1 -F"
 
 alias cat bat
 alias less bat
-alias diff diff-so-fancy
 alias find fd
 alias du "ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias man tldr
