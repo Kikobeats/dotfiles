@@ -1,11 +1,15 @@
 #!/bin/bash -v
 sudo -v
 
-# clean download folder
 read -rp "Clean Downloads folder? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && sudo rm -rfv ~/Downloads/*
 
-# clean desktop folder
 read -rp "Clean Desktop folder? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && sudo rm -rfv ~/Desktop/*
+
+read -rp "Clean npm cache (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && npm cache clean --force
+
+read -rp "Clean yarn cache (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && yarn cache clean
+
+read -rp "Clean pnpm cache (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && pnpm store prune
 
 # clean .DS_Store adn npm-debug.log
 sudo find / -name '.DS_Store' -o -name "npm-debug.log" -type f -ls -delete
