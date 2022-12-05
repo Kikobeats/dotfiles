@@ -14,8 +14,8 @@ read -rp "Clean pnpm cache (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && pnpm store 
 # clean .DS_Store adn npm-debug.log
 sudo find / -name '.DS_Store' -o -name "npm-debug.log" -type f -ls -delete
 
-# clean logs
-sudo rm -rfv /Library/Logs/* ~/Library/Logs/*
+# clean junk
+sudo rm -rfv /Library/Logs/* ~/Library/Logs/* ~/.cache
 
 # Clean up system logs and temporary files
 # http://www.thexlab.com/faqs/maintscripts.html
