@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Easier navigation: .., ..., ~ and -
 alias ... "cd ../.."
@@ -63,7 +63,7 @@ alias top vtop
 alias json 'node -e '\''console.dir(JSON.parse(fs.readFileSync("/dev/stdin", "utf-8")), { depth: null })'\'
 
 # Flush DNS cache
-alias dns_flush "sudo killall -HUP mDNSResponder;sudo killall mDNSResponderHelper;sudo dscacheutil -flushcache"
+alias dns_flush "sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 alias dns_setup "networksetup -setdnsservers Wi-Fi 1.1.1.1 1.0.0.1 2606:4700:4700::1111 2606:4700:4700::1001; networksetup -getdnsservers Wi-Fi"
 
 # Firewall
@@ -93,9 +93,6 @@ alias npmurl npm-url
 alias b="npm run build"
 alias t "npm test"
 alias f flyctl
-
-# Recursively delete `.DS_Store` files
-alias cleanup "find . -name '*.DS_Store' -type f -ls -delete"
 
 # File size
 alias fs "stat -f \"%z bytes\""

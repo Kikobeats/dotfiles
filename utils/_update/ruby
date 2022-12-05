@@ -1,4 +1,4 @@
-#!/bin/bash -v
+#!/usr/bin/env bash -v
 
 ## ruby
 gem update --system && gem update

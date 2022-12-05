@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # up to you (me) if you want to run this as a file or copy paste at your leisure
 sudo chmod -R +x ~/dotfiles
