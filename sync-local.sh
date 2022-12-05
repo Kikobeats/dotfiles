@@ -1,6 +1,8 @@
 #!/bin/bash
+
 cd "$(dirname "$0")"
-function doIt() {
+
+main() {
   rsync --exclude ".git/" \
         --exclude ".gitignore" \
         --exclude "install-deps.sh" \
@@ -16,13 +18,15 @@ function doIt() {
         -av --no-perms . ~
   fish
 }
-if [ "$1" == "--force" -o "$1" == "-f" ]; then
-  doIt
+
+if [[ "$1" == "--force" ]] || [[ "$1" == "-f" ]]; then
+  main
 else
-  read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
+  read -rp "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
   echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
-    doIt
+    main
   fi
 fi
-unset doIt
+
+unset main
