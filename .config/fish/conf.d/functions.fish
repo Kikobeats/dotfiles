@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # support alias inside watch
 function w
     watch "fish -c '$argv'"

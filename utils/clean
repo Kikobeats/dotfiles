@@ -1,32 +1,45 @@
-#!/bin/bash -v
+#!/usr/bin/env fish
+
+echo
 sudo -v
 
-read -rp "Clean Downloads folder? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && sudo rm -rfv ~/Downloads/*
+source "../.config/fish/conf.d/functions.fish"
 
-read -rp "Clean Desktop folder? (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && sudo rm -rfv ~/Desktop/*
+function read_confirm
+  while true
+    read -p "echo '$argv[1] (y/n): '" -l confirm
 
-read -rp "Clean npm cache (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && npm cache clean --force
+    switch $confirm
+      case Y y
+        echo ""
+        return 0
+      case '' N n
+        return 1
+    end
+  end
+end
 
-read -rp "Clean yarn cache (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && yarn cache clean
+read_confirm "⬩ Clean Downloads folder?" && sudo rm -rfv ~/Downloads/* && echo || echo
+read_confirm "⬩ Clean Desktop folder?" && sudo rm -rfv ~/Desktop/* && echo || echo
+read_confirm "⬩ Clean npm cache?" && command npm cache clean --force && echo || echo
+read_confirm "⬩ Clean yarn cache?" && yarn cache clean && echo || echo
+read_confirm "⬩ Clean pnpm cache?" && pnpm store prune && echo || echo
+read_confirm "⬩ Clean Docker stuff?" && docker_prune && echo || echo
+read_confirm "⬩ Flush DNS?" && dns_flush && dns_setup && echo || echo
 
-read -rp "Clean pnpm cache (y/n) " -n 1 && [[ $REPLY =~ ^[Yy]$ ]] && pnpm store prune
-
-# clean .DS_Store adn npm-debug.log
-sudo find / -name '.DS_Store' -o -name "npm-debug.log" -type f -ls -delete
-
-# clean junk
-sudo rm -rfv /Library/Logs/* ~/Library/Logs/* ~/.cache
-
+echo "⬩ Cleaning junky stuff"
+echo
+# sudo find / -name '.DS_Store' -o -name "npm-debug.log" -type f -ls -delete
+sudo rm -rfv "/Library/Logs/*" "~/Library/Logs/*" "~/.cache"
 # Clean up system logs and temporary files
 # http://www.thexlab.com/faqs/maintscripts.html
 sudo periodic daily weekly monthly
+for tempfile in "/tmp/" "$HOME/tmp/" "$TMPDIR"
+  [ -d "$tempfile" ] && sudo rm -rfv "$tempfile/*"
+end
 
-# clean tmps
-tempFiles=("/tmp/" "$HOME/tmp/" "$TMPDIR")
-for tempFile in "${tempFiles[@]}"
-do
-  [ -d "$tempFile" ] && sudo rm -rfv "$tempFile/*"
-done
+echo "⬩ Cleaning trash"
+echo
+sudo rm -rfv "/Volumes/*/.Trashes" "~/.Trash"
 
-# clean trash
-sudo rm -rfv /Volumes/*/.Trashes ~/.Trash
+echo "Cleaned ✨"
