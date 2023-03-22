@@ -20,20 +20,12 @@ alias please sudo
 alias subl 'open -a "Sublime Text"'
 alias preview "open -a '$PREVIEW'"
 alias xcode "open -a '/Developer/Applications/Xcode.app'"
-alias filemerge "open -a '/Developer/Applications/Utilities/FileMerge.app'"
 alias safari "open -a safari"
 alias firefox "open -a firefox"
 alias opera "open -a opera"
 alias chrome "open -a google\ chrome"
 alias chromium "open -a chromium"
-alias dashcode "open -a dashcode"
-alias macdown "open -a macdown"
 alias tower "open -a tower"
-alias f 'open -a Finder'
-alias fireworks "open -a '/Applications/Adobe Fireworks CS6/Adobe Fireworks CS6.app'"
-alias photoshop "open -a '/Applications/Adobe Photoshop CS6/Adobe Photoshop.app'"
-alias markoff "open -a Markoff"
-alias caret "open -a Caret"
 
 # historial navigation
 alias hg 'history | grep'
@@ -92,10 +84,10 @@ alias npmlink "npm link"
 alias npmurl npm-url
 alias b="npm run build"
 alias t "npm test"
-alias f flyctl
 
 # File size
 alias fs "stat -f \"%z bytes\""
+alias fzf "fzf --preview 'bat --color=always {}'"
 
 # Hide/show all desktop icons (useful when presenting)
 alias hidedesktop "defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
