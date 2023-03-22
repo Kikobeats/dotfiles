@@ -11,3 +11,11 @@ if type -q pnpm
     set -gx PNPM_HOME /Users/kikobeats/Library/pnpm
     set -gx PATH "$PNPM_HOME" $PATH
 end
+
+fzf_configure_bindings \
+    --history=\ch \
+    --variables=\cv \
+    --git_log=\cl \
+    --git_status=\cs \
+    --processes=\cp \
+    --directory=\cf
