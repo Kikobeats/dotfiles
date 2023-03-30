@@ -13,7 +13,7 @@ if type -q pnpm
 end
 
 fzf_configure_bindings \
-    --history=\ch \
+    --history=\cr \
     --variables=\cv \
     --git_log=\cl \
     --git_status=\cs \
