@@ -6,17 +6,17 @@ sudo -v
 source "../.config/fish/conf.d/functions.fish"
 
 function read_confirm
-  while true
-    read -p "echo '$argv[1] (y/n): '" -l confirm
+    while true
+        read -p "echo '$argv[1] (y/n): '" -l confirm
 
-    switch $confirm
-      case Y y
-        echo ""
-        return 0
-      case '' N n
-        return 1
+        switch $confirm
+            case Y y
+                echo ""
+                return 0
+            case '' N n
+                return 1
+        end
     end
-  end
 end
 
 read_confirm "⬩ Clean Downloads folder?" && sudo rm -rfv ~/Downloads/* && echo || echo
@@ -34,8 +34,8 @@ sudo rm -rfv "/Library/Logs/*" "~/Library/Logs/*" "~/.cache"
 # Clean up system logs and temporary files
 # http://www.thexlab.com/faqs/maintscripts.html
 sudo periodic daily weekly monthly
-for tempfile in "/tmp/" "$HOME/tmp/" "$TMPDIR"
-  [ -d "$tempfile" ] && sudo rm -rfv "$tempfile/*"
+for tempfile in /tmp/ "$HOME/tmp/" "$TMPDIR"
+    [ -d "$tempfile" ] && sudo rm -rfv "$tempfile/*"
 end
 
 echo "⬩ Cleaning trash"
