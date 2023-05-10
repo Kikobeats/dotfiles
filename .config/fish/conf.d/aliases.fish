@@ -120,4 +120,4 @@ alias gn 'kubectl get nodes -o wide'
 alias k8s 'watch curl -s https://k8s.microlink.io'
 alias k8s-vercel 'watch curl -s https://k8s.microlink.io/vercel'
 
-alias postgres_server '/opt/homebrew/opt/postgresql@14/bin/postgres -D /opt/homebrew/var/postgresql'
+alias postgres_server '/opt/homebrew/opt/postgresql@14/bin/postgres -D /opt/homebrew/var/postgres/'
