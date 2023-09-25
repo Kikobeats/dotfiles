@@ -40,6 +40,7 @@
 
   # Upstream
   set-upstream = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
+  sw = !git-show-branches | fzf --ansi --header='checkout branch' --reverse | awk '{print $1}' | xargs git checkout
 
   # flow
   # more information: http://haacked.com/archive/2014/07/28/github-flow-aliases/
@@ -48,6 +49,7 @@
 
   # wip
   wip = "!git add --all; git ci -m WIP"
+  apf = "!git amend --no-verify --no-edit && git push --force"
 
 [color]
   ui = always
