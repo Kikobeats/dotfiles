@@ -153,6 +153,10 @@ function docker_prune
     docker system prune -af && docker rmi -f $(docker images -a -q)
 end
 
+function docker_bash
+    docker run -it --rm "$argv" /bin/bash
+end
+
 function filesize
     command ls -l "$argv[1]" | awk '{print $5}'
 end
