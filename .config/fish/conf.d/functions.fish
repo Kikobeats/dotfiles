@@ -158,5 +158,5 @@ function docker_bash
 end
 
 function filesize
-    command ls -l "$argv[1]" | awk '{print $5}'
+    command ls -l "$argv[1]" | awk '{print $5}' | pretty-bytes
 end

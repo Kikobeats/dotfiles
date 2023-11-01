@@ -84,9 +84,6 @@ alias npmlink "npm link"
 alias npmurl npm-url
 alias b="npm run build"
 alias t "npm test"
-
-# File size
-alias fs "stat -f \"%z bytes\""
 alias fzf "fzf --preview 'bat --color=always {}'"
 
 # Hide/show all desktop icons (useful when presenting)
