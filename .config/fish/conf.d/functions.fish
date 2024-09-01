@@ -15,7 +15,7 @@ end
 
 # Kill a process based in the number of the TCP Port.
 function killport
-    lsof -i tcp:"$argv[1]" | awk 'NR!=1 {print $argv[1]}' | xargs kill
+    lsof -i tcp:"$argv[1]" | awk 'NR!=1 {print $2}' | xargs kill
 end
 
 # git tag and push
