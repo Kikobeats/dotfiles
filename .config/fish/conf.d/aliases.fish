@@ -56,7 +56,7 @@ alias json 'node -e '\''console.dir(JSON.parse(fs.readFileSync("/dev/stdin", "ut
 
 # Flush DNS cache
 alias dns_flush "sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
-alias dns_setup "networksetup -setdnsservers Wi-Fi 1.1.1.1 1.0.0.1 2606:4700:4700::1111 2606:4700:4700::1001; networksetup -getdnsservers Wi-Fi"
+alias dns_setup "networksetup -setdnsservers Wi-Fi 8.8.8.8 8.8.4.4; networksetup -getdnsservers Wi-Fi"
 
 # Firewall
 alias firewall_off "sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 0"
@@ -70,6 +70,7 @@ alias gpr 'gh pr create -w'
 
 # npm
 alias npm pnpm
+# alias jq jnv
 # alias npx pnpx
 alias p pnpm
 alias npmp "npm publish"
