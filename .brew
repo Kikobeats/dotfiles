@@ -112,7 +112,7 @@ brew install shellcheck
 brew install testssl
 brew install watchexec
 brew install tree
-brew install exa
+brew install eza
 
 # Remove outdated versions from the cellar
 brew cleanup

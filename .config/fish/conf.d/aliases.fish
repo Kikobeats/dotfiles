@@ -38,8 +38,8 @@ alias curl "curl -s"
 alias headers "curl -I -X GET"
 
 # List all files colorized in long format
-alias ls exa
-alias l "exa --long -a --group --tree --level=1 -F"
+alias ls eza
+alias l "eza --long -a --group --tree --level=1 -F"
 
 alias cat bat
 alias less bat
