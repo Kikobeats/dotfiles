@@ -160,3 +160,30 @@ end
 function filesize
     command ls -l "$argv[1]" | awk '{print $5}' | pretty-bytes
 end
+
+function gsync
+    # Check if we are in a git repository
+    git rev-parse --is-inside-work-tree > /dev/null 2>&1
+    if test $status -ne 0
+        echo "Not inside a Git repository. Please navigate to a Git repository and try again."
+        return 1
+    end
+
+    # Get the current branch name
+    set current_branch (git rev-parse --abbrev-ref HEAD)
+
+    # Check for uncommitted changes
+    if not git diff-index --quiet HEAD --
+        echo "You have uncommitted changes. Please commit or stash them before updating."
+        return 1
+    end
+
+    # Pull the latest changes from the remote repository
+    git pull origin $current_branch --rebase > /dev/null 2>&1
+    if test $status -ne 0
+        echo "Failed to pull latest changes for branch '$current_branch'."
+        return 1
+    end
+
+    echo "Sync '$current_branch' done"
+end
