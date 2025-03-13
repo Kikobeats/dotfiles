@@ -187,3 +187,7 @@ function gsync
 
     echo "Sync '$current_branch' done"
 end
+
+function content-length
+    curl -sI "$argv[1]" | awk '/content-length/ {print $2}' | tr -d '\r' | xargs -I{} pretty-bytes {}
+end
