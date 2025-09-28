@@ -36,6 +36,7 @@ alias sed gsed
 # Avoid progress bar and follow redirects
 alias curl "curl -s"
 alias headers "curl -I -X GET"
+alias code=cursor
 
 # List all files colorized in long format
 alias ls eza
