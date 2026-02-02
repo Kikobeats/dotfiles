@@ -53,12 +53,14 @@ end
 
 # Empty Trash
 function emptytrash
-    set files /Volumes/*/.Trashes
-    sudo rm -rfv $files
-    sudo rm -rfv ~/.Trash
+    # Use AppleScript to empty trash (handles permissions on macOS Sequoia+)
+    osascript -e 'tell application "Finder" to empty trash'
+
     # clear Apple’s System Logs to improve shell startup speed
-    set files /private/var/log/asl/*.asl
-    sudo rm -rfv $files
+    set -l files /private/var/log/asl/*.asl
+    if count $files > /dev/null
+        sudo rm -rfv $files
+    end
 end
 
 function cl
@@ -190,4 +192,28 @@ end
 
 function content-length
     curl -sI "$argv[1]" | awk '/content-length/ {print $2}' | tr -d '\r' | xargs -I{} pretty-bytes {}
+end
+
+function gurl
+    # Detect git remote
+    set remote (git remote get-url origin 2>/dev/null)
+
+    if test -z "$remote"
+      echo "❌ No git remote found."
+      return 1
+    end
+
+    # Determine platform
+    if string match -rq 'github.com' -- $remote
+      # Try to open the PR first; fallback to repo
+      gh pr view --web 2>/dev/null; or gh browse
+      return
+    else if string match -rq 'gitlab' -- $remote
+      # Try to open MR first; fallback to project
+      glab mr view --web 2>/dev/null; or glab repo view --web
+      return
+    else
+      echo "⚠️ Unsupported remote: $remote"
+      return 1
+    end
 end

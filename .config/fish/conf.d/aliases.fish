@@ -36,7 +36,6 @@ alias sed gsed
 # Avoid progress bar and follow redirects
 alias curl "curl -s"
 alias headers "curl -I -X GET"
-alias code=cursor
 
 # List all files colorized in long format
 alias ls eza
@@ -64,7 +63,6 @@ alias firewall_off "sudo defaults write /Library/Preferences/com.apple.alf globa
 alias firewall_on "sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 2"
 
 # git
-alias gurl 'gh pr view --web || gh browse'
 alias gup 'g up && git-garbage'
 alias grelease 'gh release create --generate-notes $(git describe --tags --abbrev=0)'
 alias gpr 'gh pr create -w'
@@ -110,13 +108,14 @@ alias restart 'sudo shutdown -r now'
 alias shutdown 'sudo shutdown now'
 
 # kubernetes
-alias dp 'kubectl describe pod'
-alias dn 'kubectl describe node'
-alias tp 'kubectl top pods --sort-by=cpu'
-alias tn 'kubectl top nodes --sort-by=cpu'
-alias gp 'kubectl get pods -o wide'
-alias gn 'kubectl get nodes -o wide'
+alias kdp 'kubectl describe pod'
+alias kdn 'kubectl describe node'
+alias ktp 'kubectl top pods --sort-by=cpu'
+alias ktn 'kubectl top nodes --sort-by=cpu'
+alias kgp 'kubectl get pods -o wide'
+alias kgn 'kubectl get nodes -o wide'
 alias k8s 'watch curl -s https://k8s.microlink.io'
 alias k8s-vercel 'watch curl -s https://k8s.microlink.io/vercel'
+alias k8s-unavatar 'watch curl -s https://k8s.microlink.io/unavatar'
 
 alias postgres_server '/opt/homebrew/opt/postgresql@14/bin/postgres -D /opt/homebrew/var/postgres/'
