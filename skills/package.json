@@ -1,0 +1,9 @@
+{
+  "name": "@kikobeats/skills",
+  "private": true,
+  "dependencies": {
+    "nanospinner": "~1.2.2",
+    "p-map": "~7.0.4",
+    "tinyspawn": "~1.5.5"
+  }
+}
