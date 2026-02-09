@@ -17,11 +17,18 @@ const SKILLS = [
   'https://github.com/coreyhaines31/marketingskills --skill seo-audit',
   'https://github.com/vercel-labs/agent-browser --skill agent-browser',
   'https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices',
-  'https://github.com/vercel-labs/agent-skills --skill web-design-guidelines'
+  'https://github.com/vercel-labs/agent-skills --skill web-design-guidelines',
+  'https://github.com/siviter-xyz/dot-agent --skill create-skill',
+  'https://github.com/Kikobeats/skills --skill k8s-hpa-cost-tuning'
 ]
 
 const command = agent =>
   `npx -y skills add ${agent} --agent cursor --agent codex --agent github-copilot --global --yes`
+
+// Remove all existing skills first
+const removeSpinner = createSpinner('Removing all existing skills...').start()
+await $('npx -y skills remove --all --global --yes')
+removeSpinner.success({ text: 'All existing skills removed' })
 
 const spinner = createSpinner(`Installed 0/${SKILLS.length} skills`).start()
 
@@ -31,7 +38,6 @@ await pMap(
   SKILLS,
   async skill => {
     const cmd = command(skill)
-    console.log({ cmd })
     await $(cmd)
     spinner.update({ text: `Installed ${++installed}/${SKILLS.length} skills` })
   },
