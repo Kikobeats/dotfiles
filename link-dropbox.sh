@@ -45,5 +45,5 @@ sync_to_dropbox() {
   echo
 }
 
-# sync_to_dropbox "$HOME/Library/Application Support/Code/User" ".vscode/User"
+sync_to_dropbox "$HOME/Library/Application Support/Code/User" ".vscode/User"
 sync_to_dropbox "$HOME/Library/Application Support/Cursor/User" ".cursor/User"
