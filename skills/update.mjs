@@ -19,7 +19,9 @@ const SKILLS = [
   'https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices',
   'https://github.com/vercel-labs/agent-skills --skill web-design-guidelines',
   'https://github.com/siviter-xyz/dot-agent --skill create-skill',
-  'https://github.com/Kikobeats/skills --skill k8s-hpa-cost-tuning'
+  'https://github.com/microlinkhq/skills --skill k8s-hpa-cost-tuning',
+  'https://github.com/microlinkhq/skills --skill optimo',
+  'https://github.com/simonwong/agent-skills --skill code-simplifier'
 ]
 
 const command = agent =>
