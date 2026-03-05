@@ -32,7 +32,6 @@ const SKILLS = [
   'https://github.com/mindmorass/reflex --skill ffmpeg-patterns',
   'https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max',
   'https://github.com/raphaelsalaja/userinterface-wiki --skill 12-principles-of-animation',
-  'https://github.com/simonwong/agent-skills --skill code-simplifier',
   'https://github.com/siviter-xyz/dot-agent --skill create-skill',
   'https://github.com/vercel-labs/agent-browser --skill agent-browser',
   'https://github.com/vercel-labs/agent-browser --skill dogfood',
