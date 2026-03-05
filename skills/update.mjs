@@ -6,7 +6,13 @@ import * as os from 'os'
 const SKILLS = [
   'https://github.com/anthropics/skills --skill frontend-design',
   'https://github.com/anthropics/skills --skill skill-creator',
+  'https://github.com/brianlovin/claude-config --skill fix-sentry-issues',
+  'https://github.com/brianlovin/claude-config --skill knip',
+  'https://github.com/brianlovin/claude-config --skill rams',
+  'https://github.com/brianlovin/claude-config --skill react-doctor',
+  'https://github.com/brianlovin/claude-config --skill simplify',
   'https://github.com/coreyhaines31/marketingskills --skill competitor-alternatives',
+  'https://github.com/coreyhaines31/marketingskills --skill copy-editing',
   'https://github.com/coreyhaines31/marketingskills --skill copy-editing',
   'https://github.com/coreyhaines31/marketingskills --skill copywriting',
   'https://github.com/coreyhaines31/marketingskills --skill free-tool-strategy',
@@ -15,13 +21,24 @@ const SKILLS = [
   'https://github.com/coreyhaines31/marketingskills --skill programmatic-seo',
   'https://github.com/coreyhaines31/marketingskills --skill schema-markup',
   'https://github.com/coreyhaines31/marketingskills --skill seo-audit',
+  'https://github.com/digitalsamba/claude-code-video-toolkit --skill ffmpeg',
+  'https://github.com/ibelick/ui-skills --skill fixing-accessibility',
+  'https://github.com/ibelick/ui-skills --skill fixing-metadata',
+  'https://github.com/mcollina/skills --skill node-best-practices',
+  'https://github.com/mcollina/skills --skill nodejs-core',
+  'https://github.com/microlinkhq/skills --skill k8s-hpa-cost-tuning',
+  'https://github.com/microlinkhq/skills --skill nodejs-performance',
+  'https://github.com/microlinkhq/skills --skill optimo',
+  'https://github.com/mindmorass/reflex --skill ffmpeg-patterns',
+  'https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max',
+  'https://github.com/raphaelsalaja/userinterface-wiki --skill 12-principles-of-animation',
+  'https://github.com/simonwong/agent-skills --skill code-simplifier',
+  'https://github.com/siviter-xyz/dot-agent --skill create-skill',
   'https://github.com/vercel-labs/agent-browser --skill agent-browser',
+  'https://github.com/vercel-labs/agent-browser --skill dogfood',
   'https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices',
   'https://github.com/vercel-labs/agent-skills --skill web-design-guidelines',
-  'https://github.com/siviter-xyz/dot-agent --skill create-skill',
-  'https://github.com/microlinkhq/skills --skill k8s-hpa-cost-tuning',
-  'https://github.com/microlinkhq/skills --skill optimo',
-  'https://github.com/simonwong/agent-skills --skill code-simplifier'
+  'https://github.com/wshobson/agents --skill wcag-audit-patterns'
 ]
 
 const command = agent =>
