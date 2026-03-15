@@ -24,7 +24,7 @@ const SKILLS = [
   'https://github.com/digitalsamba/claude-code-video-toolkit --skill ffmpeg',
   'https://github.com/ibelick/ui-skills --skill fixing-accessibility',
   'https://github.com/ibelick/ui-skills --skill fixing-metadata',
-  'https://github.com/mcollina/skills --skill node-best-practices',
+  'https://github.com/mcollina/skills --skill node',
   'https://github.com/mcollina/skills --skill nodejs-core',
   'https://github.com/microlinkhq/skills --skill k8s-hpa-cost-tuning',
   'https://github.com/microlinkhq/skills --skill nodejs-performance',
