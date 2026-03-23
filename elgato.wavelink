@@ -1,0 +1,233 @@
+{
+    "WaveLinkSettings": {
+        "bufferSetting": {
+            "audioFilterBuffer": 10,
+            "inputBuffer": 30,
+            "mixerBuffer": 30,
+            "outputBuffer": 30
+        },
+        "inputs": [
+            {
+                "filterConfigurations": [
+                    {
+                        "activeMixerIDs": [
+                            "com.elgato.mix.local",
+                            "com.elgato.mix.microphoneFX",
+                            "com.elgato.mix.stream"
+                        ],
+                        "filterConfigID": "3F866C29-FEFB-47C0-B343-525794EF60B2",
+                        "filterSettings": "YnBsaXN0MDDYAQIDBAUGBwgJCgsTFBUWF1xtYW51ZmFjdHVyZXJUZGF0YVxlbGVtZW50LW5hbWVXc3VidHlwZVd2ZXJzaW9uVHR5cGVfEA9qdWNlUGx1Z2luU3RhdGVUbmFtZRJNYW51TxAkAAAAAAAAAAAAAAADDgadwD6AAAAuGGzoAAAAAEVgz+Q/WZmZ0gwNDhFRMVEy0Q8QUTBVSW5wdXTRDxJWT3V0cHV0Ekd1Z3AQABJhdWZ4TxC/VkMyIbYAAAA8P3htbCB2ZXJzaW9uPSIxLjAiIGVuY29kaW5nPSJVVEYtOCI/PiA8Uk5OVm9pY2VQYXJhbXM+PFBBUkFNIGlkPSJWQUQgUmVsZWFzZSIgdmFsdWU9IjI1MC4wIi8+PFBBUkFNIGlkPSJWQUQgVGhyZXNob2xkIiB2YWx1ZT0iMC4wIi8+PFBBUkFNIGlkPSJieXBhc3MiIHZhbHVlPSIxLjAiLz48L1JOTlZvaWNlUGFyYW1zPgBYVW50aXRsZWQACAAZACYAKwA4AEAASABNAF8AZABpAJAAlQCXAJkAnACeAKQApwCuALMAtQC6AXwAAAAAAAACAQAAAAAAAAAYAAAAAAAAAAAAAAAAAAABhQ==",
+                        "pluginCategory": "Elgato",
+                        "pluginDisplayName": "Elgato Noise Removal",
+                        "pluginID": "/audiounit/aufx/Gugp/Manu/Elgato: Elgato Noise Removal",
+                        "pluginOriginalName": "Elgato Noise Removal",
+                        "pluginURL": "",
+                        "pluginVendor": ""
+                    },
+                    {
+                        "activeMixerIDs": [
+                            "com.elgato.mix.local",
+                            "com.elgato.mix.microphoneFX",
+                            "com.elgato.mix.stream"
+                        ],
+                        "filterConfigID": "4DD3377D-5246-4B5E-958F-13ACA24BE13B",
+                        "filterSettings": "YnBsaXN0MDDYAQIDBAUGBwgJCgsTFBUWF1xtYW51ZmFjdHVyZXJUZGF0YVxlbGVtZW50LW5hbWVXc3VidHlwZVd2ZXJzaW9uVHR5cGVfEA9qdWNlUGx1Z2luU3RhdGVUbmFtZRJNYW51TxEBjAAAAAAAAAAAAAAAMAIKxUc/gAAAAjxxMT5MzM0CQrTsPwAAAAPWg9kAAAAABB4vHT+AAAAI1YguPXxhOg8c/6o9fGE6EWjCnAAAAAATuWqwPkzMzRO/rms/AAAAHETZwgAAAAAiDZZuAAAAACKMUT4AAAAAJTZkLz5MzM0lPKfqPwAAACdDqk89fGE6KfsZmAAAAAArMVqsPBOahi2LIcs9fGE6NFUe6j6y3es2s12uPkzMzTa5oWk/AAAAN41YWwAAAAA6svvjP4AAAD144ygAAAAAQPpzXwAAAABFscxwPboujEgwVy0+TMzNSDaa6AAAAABL+UPsPXxhOk3FhLQ+TMzNTcvIbz+AAABQH69XAAAAAFkhHgQ/gAAAXbHuGgAAAABfQn4zPkzMzV9Iwe4/AAAAX2iVgAAAAABkH+6RPXxhOmafeI09SOeoamdmDT18YTprRCzdAAAAAG/DPMs9yvR4cL93sj5MzM1wxbttPwAAAHZERRYAAAAAeOcBCQAAAAB91rehAAAAANIMDQ4RUTFRMtEPEFEwVUlucHV00Q8SVk91dHB1dBJCMmJtEAASYXVmeE8RCkhWQzIhPwoAADw/eG1sIHZlcnNpb249IjEuMCIgZW5jb2Rpbmc9IlVURi04Ij8+IDxXaG9sZVN0YXRlPjxQcmVzZXQgQWN0aXZlUHJlc2V0PSIwIi8+PFBhcmFtZXRlcnM+PFBBUkFNIGlkPSJCYW5kIDEgRmlsdGVyIEJ5cGFzcyIgdmFsdWU9IjAuMCIvPjxQQVJBTSBpZD0iQmFuZCAxIEZpbHRlciBGcmVxdWVuY3kiIHZhbHVlPSI2MC43MDAwMDA3NjI5Mzk0NSIvPjxQQVJBTSBpZD0iQmFuZCAxIEZpbHRlciBHYWluIiB2YWx1ZT0iMS4wIi8+PFBBUkFNIGlkPSJCYW5kIDEgRmlsdGVyIFF1YWxpdHkiIHZhbHVlPSIwLjcwOTk5OTk3ODU0MjMyNzkiLz48UEFSQU0gaWQ9IkJhbmQgMSBGaWx0ZXIgVHlwZSIgdmFsdWU9IjAuMCIvPjxQQVJBTSBpZD0iQmFuZCAxIEZpbHRlciBWaXNpYmxlIiB2YWx1ZT0iMS4wIi8+PFBBUkFNIGlkPSJCYW5kIDIgRmlsdGVyIEJ5cGFzcyIgdmFsdWU9IjAuMCIvPjxQQVJBTSBpZD0iQmFuZCAyIEZpbHRlciBGcmVxdWVuY3kiIHZhbHVlPSI3NjMuMjk5OTg3NzkyOTY4OCIvPjxQQVJBTSBpZD0iQmFuZCAyIEZpbHRlciBHYWluIiB2YWx1ZT0iMC44MTAwMDAwMDIzODQxODU4Ii8+PFBBUkFNIGlkPSJCYW5kIDIgRmlsdGVyIFF1YWxpdHkiIHZhbHVlPSIxLjAiLz48UEFSQU0gaWQ9IkJhbmQgMiBGaWx0ZXIgVHlwZSIgdmFsdWU9IjIuMCIvPjxQQVJBTSBpZD0iQmFuZCAyIEZpbHRlciBWaXNpYmxlIiB2YWx1ZT0iMS4wIi8+PFBBUkFNIGlkPSJCYW5kIDMgRmlsdGVyIEJ5cGFzcyIgdmFsdWU9IjAuMCIvPjxQQVJBTSBpZD0iQmFuZCAzIEZpbHRlciBGcmVxdWVuY3kiIHZhbHVlPSIxMjUuMzAwMDAzMDUxNzU3OCIvPjxQQVJBTSBpZD0iQmFuZCAzIEZpbHRlciBHYWluIiB2YWx1ZT0iMS4zNzk5OTk5OTUyMzE2MjgiLz48UEFSQU0gaWQ9IkJhbmQgMyBGaWx0ZXIgUXVhbGl0eSIgdmFsdWU9IjEuMCIvPjxQQVJBTSBpZD0iQmFuZCAzIEZpbHRlciBUeXBlIiB2YWx1ZT0iMS4wIi8+PFBBUkFNIGlkPSJCYW5kIDMgRmlsdGVyIFZpc2libGUiIHZhbHVlPSIxLjAiLz48UEFSQU0gaWQ9IkJhbmQgNCBGaWx0ZXIgQnlwYXNzIiB2YWx1ZT0iMC4wIi8+PFBBUkFNIGlkPSJCYW5kIDQgRmlsdGVyIEZyZXF1ZW5jeSIgdmFsdWU9IjI0MC4zMDAwMDMwNTE3NTc4Ii8+PFBBUkFNIGlkPSJCYW5kIDQgRmlsdGVyIEdhaW4iIHZhbHVlPSIwLjc3OTk5OTk3MTM4OTc3MDUiLz48UEFSQU0gaWQ9IkJhbmQgNCBGaWx0ZXIgUXVhbGl0eSIgdmFsdWU9IjEuOTA5OTk5OTY2NjIxMzk5Ii8+PFBBUkFNIGlkPSJCYW5kIDQgRmlsdGVyIFR5cGUiIHZhbHVlPSIyLjAiLz48UEFSQU0gaWQ9IkJhbmQgNCBGaWx0ZXIgVmlzaWJsZSIgdmFsdWU9IjEuMCIvPjxQQVJBTSBpZD0iQmFuZCA1IEZpbHRlciBCeXBhc3MiIHZhbHVlPSIwLjAiLz48UEFSQU0gaWQ9IkJhbmQgNSBGaWx0ZXIgRnJlcXVlbmN5IiB2YWx1ZT0iNzIyNC4zOTk5MDIzNDM3NSIvPjxQQVJBTSBpZD0iQmFuZCA1IEZpbHRlciBHYWluIiB2YWx1ZT0iMS4yODk5OTk5NjE4NTMwMjciLz48UEFSQU0gaWQ9IkJhbmQgNSBGaWx0ZXIgUXVhbGl0eSIgdmFsdWU9IjEuMCIvPjxQQVJBTSBpZD0iQmFuZCA1IEZpbHRlciBUeXBlIiB2YWx1ZT0iMy4wIi8+PFBBUkFNIGlkPSJCYW5kIDUgRmlsdGVyIFZpc2libGUiIHZhbHVlPSIxLjAiLz48UEFSQU0gaWQ9IkJhbmQgNiBGaWx0ZXIgQnlwYXNzIiB2YWx1ZT0iMC4wIi8+PFBBUkFNIGlkPSJCYW5kIDYgRmlsdGVyIEZyZXF1ZW5jeSIgdmFsdWU9IjMwNTAuMCIvPjxQQVJBTSBpZD0iQmFuZCA2IEZpbHRlciBHYWluIiB2YWx1ZT0iMC44NDk5OTk5NjQyMzcyMTMxIi8+PFBBUkFNIGlkPSJCYW5kIDYgRmlsdGVyIFF1YWxpdHkiIHZhbHVlPSIxLjcwOTk5OTkxODkzNzY4MyIvPjxQQVJBTSBpZD0iQmFuZCA2IEZpbHRlciBUeXBlIiB2YWx1ZT0iMi4wIi8+PFBBUkFNIGlkPSJCYW5kIDYgRmlsdGVyIFZpc2libGUiIHZhbHVlPSIxLjAiLz48UEFSQU0gaWQ9IkJhbmQgNyBGaWx0ZXIgQnlwYXNzIiB2YWx1ZT0iMC4wIi8+PFBBUkFNIGlkPSJCYW5kIDcgRmlsdGVyIEZyZXF1ZW5jeSIgdmFsdWU9IjIwLjAiLz48UEFSQU0gaWQ9IkJhbmQgNyBGaWx0ZXIgR2FpbiIgdmFsdWU9IjEuMCIvPjxQQVJBTSBpZD0iQmFuZCA3IEZpbHRlciBRdWFsaXR5IiB2YWx1ZT0iMC43MDk5OTk5Nzg1NDIzMjc5Ii8+PFBBUkFNIGlkPSJCYW5kIDcgRmlsdGVyIFR5cGUiIHZhbHVlPSIyLjAiLz48UEFSQU0gaWQ9IkJhbmQgNyBGaWx0ZXIgVmlzaWJsZSIgdmFsdWU9IjAuMCIvPjxQQVJBTSBpZD0iQmFuZCA4IEZpbHRlciBCeXBhc3MiIHZhbHVlPSIwLjAiLz48UEFSQU0gaWQ9IkJhbmQgOCBGaWx0ZXIgRnJlcXVlbmN5IiB2YWx1ZT0iMTc5MTUuMjAxMTcxODc1Ii8+PFBBUkFNIGlkPSJCYW5kIDggRmlsdGVyIEdhaW4iIHZhbHVlPSIxLjAiLz48UEFSQU0gaWQ9IkJhbmQgOCBGaWx0ZXIgUXVhbGl0eSIgdmFsdWU9IjAuNzA5OTk5OTc4NTQyMzI3OSIvPjxQQVJBTSBpZD0iQmFuZCA4IEZpbHRlciBUeXBlIiB2YWx1ZT0iNC4wIi8+PFBBUkFNIGlkPSJCYW5kIDggRmlsdGVyIFZpc2libGUiIHZhbHVlPSIxLjAiLz48L1BhcmFtZXRlcnM+PFBvcFVwIERvbnRTaG93QWdhaW49IjAiLz48RWRpdG9yIHNpemUteD0iODgwIiBzaXplLXk9IjU2MCIvPjwvV2hvbGVTdGF0ZT4AWFVudGl0bGVkAAgAGQAmACsAOABAAEgATQBfAGQAaQH5Af4CAAICAgUCBwINAhACFwIcAh4CIwxvAAAAAAAAAgEAAAAAAAAAGAAAAAAAAAAAAAAAAAAADHg=",
+                        "pluginCategory": "Elgato",
+                        "pluginDisplayName": "Elgato EQ",
+                        "pluginID": "/audiounit/aufx/B2bm/Manu/Elgato: Elgato EQ",
+                        "pluginOriginalName": "Elgato EQ",
+                        "pluginURL": "",
+                        "pluginVendor": ""
+                    },
+                    {
+                        "activeMixerIDs": [
+                            "com.elgato.mix.local",
+                            "com.elgato.mix.microphoneFX",
+                            "com.elgato.mix.stream"
+                        ],
+                        "filterConfigID": "CCE344B4-5181-43AB-A7B2-47296A8A8372",
+                        "filterSettings": "YnBsaXN0MDDYAQIDBAUGBwgJCgsTFBUWF1xtYW51ZmFjdHVyZXJUZGF0YVxlbGVtZW50LW5hbWVXc3VidHlwZVd2ZXJzaW9uVHR5cGVfEA9qdWNlUGx1Z2luU3RhdGVUbmFtZRJNYW51TxBEAAAAAAAAAAAAAAAHADBLfwAAAAAGdFALPpaWlxR/73g/gAAAI+Hkaz+AAAAsHu5IP2JiNS4YbOgAAAAAQQEoBz7SpBTSDA0OEVExUTLRDxBRMFVJbnB1dNEPElZPdXRwdXQSSTB6ahAAEmF1ZnhPEQGbVkMyIZIBAAA8P3htbCB2ZXJzaW9uPSIxLjAiIGVuY29kaW5nPSJVVEYtOCI/PiA8Y29tcHJlc3NvclBhcmFtcz48UEFSQU0gaWQ9ImF0dGFjayIgdmFsdWU9IjEuNjA5NTYzODI3NTE0NjQ4Ii8+PFBBUkFNIGlkPSJhdXRvbWFrZXVwIiB2YWx1ZT0iMC4wIi8+PFBBUkFNIGlkPSJieXBhc3MiIHZhbHVlPSIwLjAiLz48UEFSQU0gaWQ9ImdhaW4iIHZhbHVlPSIyLjQzMTMyOTk2NTU5MTQzMSIvPjxQQVJBTSBpZD0icmF0aW8iIHZhbHVlPSI0LjAiLz48UEFSQU0gaWQ9InJlbGVhc2UiIHZhbHVlPSIxNDkuOTk5OTg0NzQxMjEwOSIvPjxQQVJBTSBpZD0idGhyZXNob2xkIiB2YWx1ZT0iLTIxLjA1MDAwMTE0NDQwOTE4Ii8+PGVkaXRvclNldHRpbmdzIHNob3VsZExvYWRUdXRvcmlhbD0iMCIvPjwvY29tcHJlc3NvclBhcmFtcz4AWFVudGl0bGVkAAgAGQAmACsAOABAAEgATQBfAGQAaQCwALUAtwC5ALwAvgDEAMcAzgDTANUA2gJ5AAAAAAAAAgEAAAAAAAAAGAAAAAAAAAAAAAAAAAAAAoI=",
+                        "pluginCategory": "Elgato",
+                        "pluginDisplayName": "Elgato Compressor",
+                        "pluginID": "/audiounit/aufx/I0zj/Manu/Elgato: Elgato Compressor",
+                        "pluginOriginalName": "Elgato Compressor",
+                        "pluginURL": "",
+                        "pluginVendor": ""
+                    }
+                ],
+                "identifier": "Wave Link Mic In 1",
+                "inputs": [
+                    {
+                        "defaultFilterConfigurations": [
+                            {
+                                "activeMixerIDs": [],
+                                "filterConfigID": "VoiceFocus",
+                                "filterSettings": "YnBsaXN0MDDVAQIDBAUGBwgJClxtYW51ZmFjdHVyZXJUZGF0YVR0eXBlV3N1YnR5cGVXdmVyc2lvbhJFTEdBTxBJAAAAABMAAABlAG4AaABhAG4AYwBlAG0AZQBuAHQAUwB0AHIAZQBuAGcAdABoAAAAgD8AAAYAAABiAHkAcABhAHMAcwAAAAAA/xJhdWZ4EkFJQ3UQAQgTICUqMjo/i5CVAAAAAAAAAQEAAAAAAAAACwAAAAAAAAAAAAAAAAAAAJc=",
+                                "pluginCategory": "Fx",
+                                "pluginDisplayName": "VoiceFocus",
+                                "pluginID": "VoiceFocus",
+                                "pluginOriginalName": "VoiceFocus",
+                                "pluginURL": "",
+                                "pluginVendor": "Elgato"
+                            }
+                        ],
+                        "filterConfigurations": [
+                            {
+                                "activeMixerIDs": [
+                                    "com.elgato.mix.local",
+                                    "com.elgato.mix.microphoneFX",
+                                    "com.elgato.mix.stream"
+                                ],
+                                "filterConfigID": "D049FBD8-381A-43F5-B743-0D0BBF000615",
+                                "filterSettings": "YnBsaXN0MDDYAQIDBAUGBwgJCgsTFBUWF1xtYW51ZmFjdHVyZXJUZGF0YVxlbGVtZW50LW5hbWVXc3VidHlwZVd2ZXJzaW9uVHR5cGVfEA9qdWNlUGx1Z2luU3RhdGVUbmFtZRJNYW51TxBMAAAAAAAAAAAAAAAIJkxrywAAAAAwbP1JAAAAADKqndEAAAAARc1oDgAAAABOwmBAAAAAAFN4GwUAAAAAd31ZCAAAAAB+7aofAAAAANIMDQ4RUTFRMtEPEFEwVUlucHV00Q8SVk91dHB1dBJabnlrEAASYXVmeE8RAW5WQzIhZQEAADw/eG1sIHZlcnNpb249IjEuMCIgZW5jb2Rpbmc9IlVURi04Ij8+IDxsb29wZXJQYXJhbXM+PFBBUkFNIGlkPSJCeXBhc3MiIHZhbHVlPSIwLjAiLz48UEFSQU0gaWQ9IkhhcyByZWNvcmRpbmciIHZhbHVlPSIwLjAiLz48UEFSQU0gaWQ9IlBsYXlpbmciIHZhbHVlPSIwLjAiLz48UEFSQU0gaWQ9IlBvc2l0aW9uIiB2YWx1ZT0iMC4wIi8+PFBBUkFNIGlkPSJSZWNvcmRpbmciIHZhbHVlPSIwLjAiLz48UEFSQU0gaWQ9IlJlc2V0IFBsYXloZWFkIiB2YWx1ZT0iMC4wIi8+PFBBUkFNIGlkPSJSZXNldCByZWNvcmRpbmciIHZhbHVlPSIwLjAiLz48UEFSQU0gaWQ9IlNhdmUgZmlsZSIgdmFsdWU9IjAuMCIvPjwvbG9vcGVyUGFyYW1zPgBYVW50aXRsZWQACAAZACYAKwA4AEAASABNAF8AZABpALgAvQC/AMEAxADGAMwAzwDWANsA3QDiAlQAAAAAAAACAQAAAAAAAAAYAAAAAAAAAAAAAAAAAAACXQ==",
+                                "pluginCategory": "Fx",
+                                "pluginDisplayName": "Elgato Sample Recorder",
+                                "pluginID": "/audiounit/aufx/Znyk/Manu/Elgato: Elgato Sample Recorder",
+                                "pluginOriginalName": "Elgato Sample Recorder",
+                                "pluginURL": "",
+                                "pluginVendor": "Elgato"
+                            },
+                            {
+                                "activeMixerIDs": [
+                                    "com.elgato.mix.local",
+                                    "com.elgato.mix.microphoneFX",
+                                    "com.elgato.mix.stream"
+                                ],
+                                "filterConfigID": "3F866C29-FEFB-47C0-B343-525794EF60B2",
+                                "filterSettings": "YnBsaXN0MDDYAQIDBAUGBwgJCgsTFBUWF1xtYW51ZmFjdHVyZXJUZGF0YVxlbGVtZW50LW5hbWVXc3VidHlwZVd2ZXJzaW9uVHR5cGVfEA9qdWNlUGx1Z2luU3RhdGVUbmFtZRJNYW51TxAkAAAAAAAAAAAAAAADDgadwD6AAAAuGGzoAAAAAEVgz+Q/WZmZ0gwNDhFRMVEy0Q8QUTBVSW5wdXTRDxJWT3V0cHV0Ekd1Z3AQABJhdWZ4TxC/VkMyIbYAAAA8P3htbCB2ZXJzaW9uPSIxLjAiIGVuY29kaW5nPSJVVEYtOCI/PiA8Uk5OVm9pY2VQYXJhbXM+PFBBUkFNIGlkPSJWQUQgUmVsZWFzZSIgdmFsdWU9IjI1MC4wIi8+PFBBUkFNIGlkPSJWQUQgVGhyZXNob2xkIiB2YWx1ZT0iMC4wIi8+PFBBUkFNIGlkPSJieXBhc3MiIHZhbHVlPSIxLjAiLz48L1JOTlZvaWNlUGFyYW1zPgBYVW50aXRsZWQACAAZACYAKwA4AEAASABNAF8AZABpAJAAlQCXAJkAnACeAKQApwCuALMAtQC6AXwAAAAAAAACAQAAAAAAAAAYAAAAAAAAAAAAAAAAAAABhQ==",
+                                "pluginCategory": "Elgato",
+                                "pluginDisplayName": "Elgato Noise Removal",
+                                "pluginID": "/audiounit/aufx/Gugp/Manu/Elgato: Elgato Noise Removal",
+                                "pluginOriginalName": "Elgato Noise Removal",
+                                "pluginURL": "",
+                                "pluginVendor": ""
+                            },
+                            {
+                                "activeMixerIDs": [
+                                    "com.elgato.mix.local",
+                                    "com.elgato.mix.microphoneFX",
+                                    "com.elgato.mix.stream"
+                                ],
+                                "filterConfigID": "4DD3377D-5246-4B5E-958F-13ACA24BE13B",
+                                "filterSettings": "YnBsaXN0MDDYAQIDBAUGBwgJCgsTFBUWF1xtYW51ZmFjdHVyZXJUZGF0YVxlbGVtZW50LW5hbWVXc3VidHlwZVd2ZXJzaW9uVHR5cGVfEA9qdWNlUGx1Z2luU3RhdGVUbmFtZRJNYW51TxEBjAAAAAAAAAAAAAAAMAIKxUc/gAAAAjxxMT5MzM0CQrTsPwAAAAPWg9kAAAAABB4vHT+AAAAI1YguPXxhOg8c/6o9fGE6EWjCnAAAAAATuWqwPkzMzRO/rms/AAAAHETZwgAAAAAiDZZuAAAAACKMUT4AAAAAJTZkLz5MzM0lPKfqPwAAACdDqk89fGE6KfsZmAAAAAArMVqsPBOahi2LIcs9fGE6NFUe6j6y3es2s12uPkzMzTa5oWk/AAAAN41YWwAAAAA6svvjP4AAAD144ygAAAAAQPpzXwAAAABFscxwPboujEgwVy0+TMzNSDaa6AAAAABL+UPsPXxhOk3FhLQ+TMzNTcvIbz+AAABQH69XAAAAAFkhHgQ/gAAAXbHuGgAAAABfQn4zPkzMzV9Iwe4/AAAAX2iVgAAAAABkH+6RPXxhOmafeI09SOeoamdmDT18YTprRCzdAAAAAG/DPMs9yvR4cL93sj5MzM1wxbttPwAAAHZERRYAAAAAeOcBCQAAAAB91rehAAAAANIMDQ4RUTFRMtEPEFEwVUlucHV00Q8SVk91dHB1dBJCMmJtEAASYXVmeE8RCkhWQzIhPwoAADw/eG1sIHZlcnNpb249IjEuMCIgZW5jb2Rpbmc9IlVURi04Ij8+IDxXaG9sZVN0YXRlPjxQcmVzZXQgQWN0aXZlUHJlc2V0PSIwIi8+PFBhcmFtZXRlcnM+PFBBUkFNIGlkPSJCYW5kIDEgRmlsdGVyIEJ5cGFzcyIgdmFsdWU9IjAuMCIvPjxQQVJBTSBpZD0iQmFuZCAxIEZpbHRlciBGcmVxdWVuY3kiIHZhbHVlPSI2MC43MDAwMDA3NjI5Mzk0NSIvPjxQQVJBTSBpZD0iQmFuZCAxIEZpbHRlciBHYWluIiB2YWx1ZT0iMS4wIi8+PFBBUkFNIGlkPSJCYW5kIDEgRmlsdGVyIFF1YWxpdHkiIHZhbHVlPSIwLjcwOTk5OTk3ODU0MjMyNzkiLz48UEFSQU0gaWQ9IkJhbmQgMSBGaWx0ZXIgVHlwZSIgdmFsdWU9IjAuMCIvPjxQQVJBTSBpZD0iQmFuZCAxIEZpbHRlciBWaXNpYmxlIiB2YWx1ZT0iMS4wIi8+PFBBUkFNIGlkPSJCYW5kIDIgRmlsdGVyIEJ5cGFzcyIgdmFsdWU9IjAuMCIvPjxQQVJBTSBpZD0iQmFuZCAyIEZpbHRlciBGcmVxdWVuY3kiIHZhbHVlPSI3NjMuMjk5OTg3NzkyOTY4OCIvPjxQQVJBTSBpZD0iQmFuZCAyIEZpbHRlciBHYWluIiB2YWx1ZT0iMC44MTAwMDAwMDIzODQxODU4Ii8+PFBBUkFNIGlkPSJCYW5kIDIgRmlsdGVyIFF1YWxpdHkiIHZhbHVlPSIxLjAiLz48UEFSQU0gaWQ9IkJhbmQgMiBGaWx0ZXIgVHlwZSIgdmFsdWU9IjIuMCIvPjxQQVJBTSBpZD0iQmFuZCAyIEZpbHRlciBWaXNpYmxlIiB2YWx1ZT0iMS4wIi8+PFBBUkFNIGlkPSJCYW5kIDMgRmlsdGVyIEJ5cGFzcyIgdmFsdWU9IjAuMCIvPjxQQVJBTSBpZD0iQmFuZCAzIEZpbHRlciBGcmVxdWVuY3kiIHZhbHVlPSIxMjUuMzAwMDAzMDUxNzU3OCIvPjxQQVJBTSBpZD0iQmFuZCAzIEZpbHRlciBHYWluIiB2YWx1ZT0iMS4zNzk5OTk5OTUyMzE2MjgiLz48UEFSQU0gaWQ9IkJhbmQgMyBGaWx0ZXIgUXVhbGl0eSIgdmFsdWU9IjEuMCIvPjxQQVJBTSBpZD0iQmFuZCAzIEZpbHRlciBUeXBlIiB2YWx1ZT0iMS4wIi8+PFBBUkFNIGlkPSJCYW5kIDMgRmlsdGVyIFZpc2libGUiIHZhbHVlPSIxLjAiLz48UEFSQU0gaWQ9IkJhbmQgNCBGaWx0ZXIgQnlwYXNzIiB2YWx1ZT0iMC4wIi8+PFBBUkFNIGlkPSJCYW5kIDQgRmlsdGVyIEZyZXF1ZW5jeSIgdmFsdWU9IjI0MC4zMDAwMDMwNTE3NTc4Ii8+PFBBUkFNIGlkPSJCYW5kIDQgRmlsdGVyIEdhaW4iIHZhbHVlPSIwLjc3OTk5OTk3MTM4OTc3MDUiLz48UEFSQU0gaWQ9IkJhbmQgNCBGaWx0ZXIgUXVhbGl0eSIgdmFsdWU9IjEuOTA5OTk5OTY2NjIxMzk5Ii8+PFBBUkFNIGlkPSJCYW5kIDQgRmlsdGVyIFR5cGUiIHZhbHVlPSIyLjAiLz48UEFSQU0gaWQ9IkJhbmQgNCBGaWx0ZXIgVmlzaWJsZSIgdmFsdWU9IjEuMCIvPjxQQVJBTSBpZD0iQmFuZCA1IEZpbHRlciBCeXBhc3MiIHZhbHVlPSIwLjAiLz48UEFSQU0gaWQ9IkJhbmQgNSBGaWx0ZXIgRnJlcXVlbmN5IiB2YWx1ZT0iNzIyNC4zOTk5MDIzNDM3NSIvPjxQQVJBTSBpZD0iQmFuZCA1IEZpbHRlciBHYWluIiB2YWx1ZT0iMS4yODk5OTk5NjE4NTMwMjciLz48UEFSQU0gaWQ9IkJhbmQgNSBGaWx0ZXIgUXVhbGl0eSIgdmFsdWU9IjEuMCIvPjxQQVJBTSBpZD0iQmFuZCA1IEZpbHRlciBUeXBlIiB2YWx1ZT0iMy4wIi8+PFBBUkFNIGlkPSJCYW5kIDUgRmlsdGVyIFZpc2libGUiIHZhbHVlPSIxLjAiLz48UEFSQU0gaWQ9IkJhbmQgNiBGaWx0ZXIgQnlwYXNzIiB2YWx1ZT0iMC4wIi8+PFBBUkFNIGlkPSJCYW5kIDYgRmlsdGVyIEZyZXF1ZW5jeSIgdmFsdWU9IjMwNTAuMCIvPjxQQVJBTSBpZD0iQmFuZCA2IEZpbHRlciBHYWluIiB2YWx1ZT0iMC44NDk5OTk5NjQyMzcyMTMxIi8+PFBBUkFNIGlkPSJCYW5kIDYgRmlsdGVyIFF1YWxpdHkiIHZhbHVlPSIxLjcwOTk5OTkxODkzNzY4MyIvPjxQQVJBTSBpZD0iQmFuZCA2IEZpbHRlciBUeXBlIiB2YWx1ZT0iMi4wIi8+PFBBUkFNIGlkPSJCYW5kIDYgRmlsdGVyIFZpc2libGUiIHZhbHVlPSIxLjAiLz48UEFSQU0gaWQ9IkJhbmQgNyBGaWx0ZXIgQnlwYXNzIiB2YWx1ZT0iMC4wIi8+PFBBUkFNIGlkPSJCYW5kIDcgRmlsdGVyIEZyZXF1ZW5jeSIgdmFsdWU9IjIwLjAiLz48UEFSQU0gaWQ9IkJhbmQgNyBGaWx0ZXIgR2FpbiIgdmFsdWU9IjEuMCIvPjxQQVJBTSBpZD0iQmFuZCA3IEZpbHRlciBRdWFsaXR5IiB2YWx1ZT0iMC43MDk5OTk5Nzg1NDIzMjc5Ii8+PFBBUkFNIGlkPSJCYW5kIDcgRmlsdGVyIFR5cGUiIHZhbHVlPSIyLjAiLz48UEFSQU0gaWQ9IkJhbmQgNyBGaWx0ZXIgVmlzaWJsZSIgdmFsdWU9IjAuMCIvPjxQQVJBTSBpZD0iQmFuZCA4IEZpbHRlciBCeXBhc3MiIHZhbHVlPSIwLjAiLz48UEFSQU0gaWQ9IkJhbmQgOCBGaWx0ZXIgRnJlcXVlbmN5IiB2YWx1ZT0iMTc5MTUuMjAxMTcxODc1Ii8+PFBBUkFNIGlkPSJCYW5kIDggRmlsdGVyIEdhaW4iIHZhbHVlPSIxLjAiLz48UEFSQU0gaWQ9IkJhbmQgOCBGaWx0ZXIgUXVhbGl0eSIgdmFsdWU9IjAuNzA5OTk5OTc4NTQyMzI3OSIvPjxQQVJBTSBpZD0iQmFuZCA4IEZpbHRlciBUeXBlIiB2YWx1ZT0iNC4wIi8+PFBBUkFNIGlkPSJCYW5kIDggRmlsdGVyIFZpc2libGUiIHZhbHVlPSIxLjAiLz48L1BhcmFtZXRlcnM+PFBvcFVwIERvbnRTaG93QWdhaW49IjAiLz48RWRpdG9yIHNpemUteD0iODgwIiBzaXplLXk9IjU2MCIvPjwvV2hvbGVTdGF0ZT4AWFVudGl0bGVkAAgAGQAmACsAOABAAEgATQBfAGQAaQH5Af4CAAICAgUCBwINAhACFwIcAh4CIwxvAAAAAAAAAgEAAAAAAAAAGAAAAAAAAAAAAAAAAAAADHg=",
+                                "pluginCategory": "Elgato",
+                                "pluginDisplayName": "Elgato EQ",
+                                "pluginID": "/audiounit/aufx/B2bm/Manu/Elgato: Elgato EQ",
+                                "pluginOriginalName": "Elgato EQ",
+                                "pluginURL": "",
+                                "pluginVendor": ""
+                            },
+                            {
+                                "activeMixerIDs": [
+                                    "com.elgato.mix.local",
+                                    "com.elgato.mix.microphoneFX",
+                                    "com.elgato.mix.stream"
+                                ],
+                                "filterConfigID": "CCE344B4-5181-43AB-A7B2-47296A8A8372",
+                                "filterSettings": "YnBsaXN0MDDYAQIDBAUGBwgJCgsTFBUWF1xtYW51ZmFjdHVyZXJUZGF0YVxlbGVtZW50LW5hbWVXc3VidHlwZVd2ZXJzaW9uVHR5cGVfEA9qdWNlUGx1Z2luU3RhdGVUbmFtZRJNYW51TxBEAAAAAAAAAAAAAAAHADBLfwAAAAAGdFALPpaWlxR/73g/gAAAI+Hkaz+AAAAsHu5IP2JiNS4YbOgAAAAAQQEoBz7SpBTSDA0OEVExUTLRDxBRMFVJbnB1dNEPElZPdXRwdXQSSTB6ahAAEmF1ZnhPEQGbVkMyIZIBAAA8P3htbCB2ZXJzaW9uPSIxLjAiIGVuY29kaW5nPSJVVEYtOCI/PiA8Y29tcHJlc3NvclBhcmFtcz48UEFSQU0gaWQ9ImF0dGFjayIgdmFsdWU9IjEuNjA5NTYzODI3NTE0NjQ4Ii8+PFBBUkFNIGlkPSJhdXRvbWFrZXVwIiB2YWx1ZT0iMC4wIi8+PFBBUkFNIGlkPSJieXBhc3MiIHZhbHVlPSIwLjAiLz48UEFSQU0gaWQ9ImdhaW4iIHZhbHVlPSIyLjQzMTMyOTk2NTU5MTQzMSIvPjxQQVJBTSBpZD0icmF0aW8iIHZhbHVlPSI0LjAiLz48UEFSQU0gaWQ9InJlbGVhc2UiIHZhbHVlPSIxNDkuOTk5OTg0NzQxMjEwOSIvPjxQQVJBTSBpZD0idGhyZXNob2xkIiB2YWx1ZT0iLTIxLjA1MDAwMTE0NDQwOTE4Ii8+PGVkaXRvclNldHRpbmdzIHNob3VsZExvYWRUdXRvcmlhbD0iMCIvPjwvY29tcHJlc3NvclBhcmFtcz4AWFVudGl0bGVkAAgAGQAmACsAOABAAEgATQBfAGQAaQCwALUAtwC5ALwAvgDEAMcAzgDTANUA2gJ5AAAAAAAAAgEAAAAAAAAAGAAAAAAAAAAAAAAAAAAAAoI=",
+                                "pluginCategory": "Elgato",
+                                "pluginDisplayName": "Elgato Compressor",
+                                "pluginID": "/audiounit/aufx/I0zj/Manu/Elgato: Elgato Compressor",
+                                "pluginOriginalName": "Elgato Compressor",
+                                "pluginURL": "",
+                                "pluginVendor": ""
+                            }
+                        ],
+                        "identifier": "AppleUSBAudioEngine:Elgato Systems:Elgato Wave:1:AS44J1A06353:2,1",
+                        "microphoneSettings": {
+                            "Microphone ClipGuard": true,
+                            "Microphone Dial Function": 2,
+                            "Microphone DirectMonitor Volume": 1.0,
+                            "Microphone Gain": 0.5799804925918579,
+                            "Microphone GainLock": false,
+                            "Microphone LED Brightness": 0,
+                            "Microphone Led Flipped": false,
+                            "Microphone LowCut": true,
+                            "Microphone Mute": false,
+                            "Microphone Output Mute": false,
+                            "Microphone Output Volume": 1.0,
+                            "Microphone Phantom Power": false,
+                            "Microphone Polarization": 0.0,
+                            "XLR Gain Reduction Color": [
+                                255,
+                                55,
+                                0
+                            ],
+                            "XLR Gain Reduction LED": false,
+                            "XLR General Color": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "XLR Headphone Impedance": false,
+                            "XLR Low Cut Type": 0,
+                            "XLR Mute Color": [
+                                0,
+                                0,
+                                0
+                            ]
+                        },
+                        "mutedMixerIDs": [
+                            "com.elgato.mix.local"
+                        ],
+                        "name": "Elgato Wave:1",
+                        "nodeType": 1,
+                        "userProvidedName": "Elgato Wave:1",
+                        "volumes": {
+                            "com.elgato.mix.local": 1.0,
+                            "com.elgato.mix.microphoneFX": 1.0
+                        },
+                        "volumesLinked": true
+                    }
+                ],
+                "mutedMixerIDs": [
+                    "com.elgato.mix.local"
+                ],
+                "name": "Elgato Wave:1",
+                "nodeType": 1,
+                "userProvidedName": "Elgato Wave:1",
+                "volumes": {
+                    "com.elgato.mix.local": 1.0,
+                    "com.elgato.mix.microphoneFX": 1.0
+                },
+                "volumesLinked": true
+            }
+        ],
+        "outputs": [
+            {
+                "identifier": "20-F4-D4-82-ED-73:output@@SystemDefaultDevice@@",
+                "mixerID": "com.elgato.mix.local",
+                "muted": false,
+                "name": "AirPods Pro #2",
+                "nodeType": 1,
+                "systemDefaultDevice": true,
+                "terminalType": 1,
+                "volume": 1.0
+            },
+            {
+                "identifier": "ElgatoWaveLinkStreamOut",
+                "mixerID": "com.elgato.mix.stream",
+                "muted": false,
+                "name": "Add Additional Output",
+                "nodeType": 2,
+                "systemDefaultDevice": false,
+                "terminalType": 1,
+                "volume": 1.0
+            },
+            {
+                "identifier": "ElgatoWaveLinkMicrophoneFXOut",
+                "mixerID": "com.elgato.mix.microphoneFX",
+                "muted": false,
+                "name": "Wave Link MicrophoneFX",
+                "nodeType": 2,
+                "systemDefaultDevice": false,
+                "terminalType": 0,
+                "volume": 1.0
+            }
+        ]
+    },
+    "appVersion": "2.0.7.3795",
+    "format": 2,
+    "platform": "Mac",
+    "type": "WaveLinkSettings"
+}
