@@ -1,6 +1,5 @@
-import { createSpinner } from 'nanospinner'
+import task from 'tasuku'
 import $ from 'tinyspawn'
-import pMap from 'p-map'
 import * as os from 'os'
 
 const SKILLS = [
@@ -47,23 +46,44 @@ const SKILLS = [
 const command = agent =>
   `npx -y skills add ${agent} --agent cursor --agent codex --agent github-copilot --global --yes`
 
-// Remove all existing skills first
-const removeSpinner = createSpinner('Removing all existing skills...').start()
-await $('npx -y skills remove --all --global --yes')
-removeSpinner.success({ text: 'All existing skills removed' })
+const concurrency = Math.max(1, Math.floor(os.cpus().length / 2))
 
-const spinner = createSpinner(`Installed 0/${SKILLS.length} skills`).start()
+await task('Removing all existing skills', async () => {
+  await $('npx -y skills remove --all --global --yes')
+})
 
-let installed = 0
-
-await pMap(
-  SKILLS,
-  async skill => {
-    const cmd = command(skill)
-    await $(cmd)
-    spinner.update({ text: `Installed ${++installed}/${SKILLS.length} skills` })
-  },
-  { concurrency: os.cpus().length }
+const results = await task.group(
+  task =>
+    SKILLS.map(skill =>
+      task(`Installing ${skill}`, async ({ setWarning }) => {
+        try {
+          await $(command(skill))
+          return { skill, failed: false }
+        } catch (error) {
+          setWarning(error)
+          return { skill, failed: true }
+        }
+      })
+    ),
+  { concurrency }
 )
 
-spinner.success()
+const failed = results
+  .map(result => result.result)
+  .filter(result => result.failed)
+  .map(result => result.skill)
+
+if (failed.length > 0) {
+  await task('Installation summary', async ({ setWarning, setOutput }) => {
+    setWarning(`Installed ${SKILLS.length - failed.length}/${SKILLS.length} skills`)
+    setOutput(`Failures: ${failed.length}`)
+  })
+
+  for (const skill of failed) {
+    console.log(`  - ${skill}`)
+  }
+} else {
+  await task('Installation summary', async ({ setOutput }) => {
+    setOutput(`Installed ${SKILLS.length}/${SKILLS.length} skills`)
+  })
+}
