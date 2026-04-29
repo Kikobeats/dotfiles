@@ -195,7 +195,7 @@ function content-length
 end
 
 function content-length_pretty
-    curl -sI "$argv[1]" | awk '/content-length/ {print $2}' | tr -d '\r' | xargs -I{} pretty-bytes {}
+    content-length "$argv[1]" | xargs -I{} pretty-bytes {}
 end
 
 function gurl
