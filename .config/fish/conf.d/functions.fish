@@ -191,6 +191,10 @@ function gsync
 end
 
 function content-length
+    curl -sI "$argv[1]" | awk '/content-length/ {print $2}' | tr -d '\r' 
+end
+
+function content-length_pretty
     curl -sI "$argv[1]" | awk '/content-length/ {print $2}' | tr -d '\r' | xargs -I{} pretty-bytes {}
 end
 
@@ -216,4 +220,47 @@ function gurl
       echo "⚠️ Unsupported remote: $remote"
       return 1
     end
+end
+
+
+# like npx but faster and backed by pnpm
+# all the commands are installed under /tmp/npx
+function npx
+    if test (count $argv) -lt 1
+        echo "Usage: npx <package> [args...]"
+        return 1
+    end
+
+    set pkg $argv[1]
+    set args $argv[2..-1]
+
+    set root "/tmp/npx"
+
+    # ensure workspace exists
+    if not test -d $root
+        mkdir -p $root
+        pushd $root > /dev/null
+        pnpm init > /dev/null 2>&1
+        popd > /dev/null
+    end
+
+    # naive binary name (last part of package)
+    set name (string split "/" $pkg)[-1]
+
+    # install if missing
+    if not test -e "$root/node_modules/.bin/$name"
+        pushd $root > /dev/null
+        echo "Installing $pkg..."
+        pnpm add $pkg > /dev/null
+        or begin
+            echo "Install failed, falling back to real npx"
+            popd > /dev/null
+            command npx $argv
+            return $status
+        end
+        popd > /dev/null
+    end
+
+    # execute in current directory
+    "$root/node_modules/.bin/$name" $args
 end

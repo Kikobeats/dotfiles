@@ -5,6 +5,7 @@ cd "$(dirname "$0")"
 main() {
   rsync --exclude ".git/" \
         --exclude ".gitignore" \
+        --exclude ".config/fish/fish_variables" \
         --exclude "install-deps.sh" \
         --exclude ".DS_Store" \
         --exclude "sync-remote.sh" \
