@@ -6,6 +6,20 @@ if status is-interactive
     end
 end
 
+# Keep essential user paths in tracked config instead of universal variables.
+set -l dotfiles_bin "$HOME/dotfiles/bin"
+if test -d /opt/homebrew/bin
+    fish_add_path -g -p /opt/homebrew/bin
+end
+
+if test -d /opt/homebrew/sbin
+    fish_add_path -g -p /opt/homebrew/sbin
+end
+
+if test -d "$dotfiles_bin"
+    fish_add_path -g -p "$dotfiles_bin"
+end
+
 
 if type -q pnpm
     set -gx PNPM_HOME /Users/kikobeats/Library/pnpm

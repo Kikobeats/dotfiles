@@ -20,3 +20,6 @@ Thumbs.db
 
 # skills
 skills/node_modules
+
+# Fish universal variables are machine-local and should not be tracked
+.config/fish/fish_variables
