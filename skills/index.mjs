@@ -31,20 +31,20 @@ const SKILLS = [
   'https://github.com/microlinkhq/skills --skill nodejs-performance',
   'https://github.com/microlinkhq/skills --skill optimo',
   'https://github.com/microlinkhq/skills --skill use-pnpm',
+  'https://github.com/microlinkhq/skills --skill create-local-skill',
   'https://github.com/mindmorass/reflex --skill ffmpeg-patterns',
   'https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max',
-  'https://github.com/openai/skills --skill frontend-skill',
   'https://github.com/raphaelsalaja/userinterface-wiki --skill userinterface-wiki',
-  'https://github.com/siviter-xyz/dot-agent --skill create-skill',
+  'https://github.com/shadcn/ui --skill --skill shadcn',
+  // 'https://github.com/siviter-xyz/dot-agent --skill create-skill',
   'https://github.com/vercel-labs/agent-browser --skill agent-browser',
-  'https://github.com/vercel-labs/agent-browser --skill dogfood',
   'https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices',
   'https://github.com/vercel-labs/agent-skills --skill web-design-guidelines',
   'https://github.com/wshobson/agents --skill wcag-audit-patterns'
 ]
 
 const command = agent =>
-  `npx -y skills add ${agent} --agent cursor --agent codex --agent github-copilot --global --yes`
+  `command npx -y skills add ${agent} --agent claude-code --agent cursor --agent codex --agent github-copilot --global --yes`
 
 const concurrency = Math.max(1, Math.floor(os.cpus().length / 2))
 
@@ -75,7 +75,9 @@ const failed = results
 
 if (failed.length > 0) {
   await task('Installation summary', async ({ setWarning, setOutput }) => {
-    setWarning(`Installed ${SKILLS.length - failed.length}/${SKILLS.length} skills`)
+    setWarning(
+      `Installed ${SKILLS.length - failed.length}/${SKILLS.length} skills`
+    )
     setOutput(`Failures: ${failed.length}`)
   })
 
