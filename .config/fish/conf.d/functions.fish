@@ -246,6 +246,13 @@ function npx
 
     # naive binary name (last part of package)
     set name (string split "/" $pkg)[-1]
+    set local_bin "./node_modules/.bin/$name"
+
+    # prefer local project binary first (avoid install/download)
+    if test -e $local_bin
+        $local_bin $args
+        return $status
+    end
 
     # install if missing
     if not test -e "$root/node_modules/.bin/$name"
@@ -263,4 +270,23 @@ function npx
 
     # execute in current directory
     "$root/node_modules/.bin/$name" $args
+end
+
+function cloudflare-markdown
+    if test (count $argv) -lt 1
+        echo "Usage: cloudflare-markdown <url>"
+        return 1
+    end
+
+    set -l url "$argv[1]"
+
+    curl -sS -X POST "https://api.cloudflare.com/client/v4/accounts/$CF_ZONE_ID/browser-rendering/markdown" \
+        -H 'Content-Type: application/json' \
+        -H "Authorization: Bearer $CF_MARKDOWN_TOKEN" \
+        -d "{\"url\":\"$url\"}" | jq -r '.result'
+
+end
+
+function html
+    curl "$argv[1]" | npx prettier --parser html
 end
