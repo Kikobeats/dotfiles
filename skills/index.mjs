@@ -25,6 +25,7 @@ const SKILLS = [
   'https://github.com/emilkowalski/skill --skill emil-design-eng',
   'https://github.com/ibelick/ui-skills --skill fixing-accessibility',
   'https://github.com/ibelick/ui-skills --skill fixing-metadata',
+  'https://github.com/juliusbrussee/caveman --skill caveman-commit',
   'https://github.com/mcollina/skills --skill node',
   'https://github.com/mcollina/skills --skill nodejs-core',
   'https://github.com/microlinkhq/skills --skill k8s-hpa-cost-tuning',

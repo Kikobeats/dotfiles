@@ -121,4 +121,6 @@ alias k8s-unavatar 'watch curl -s https://k8s.microlink.io/unavatar'
 alias postgres_server '/opt/homebrew/opt/postgresql@14/bin/postgres -D /opt/homebrew/var/postgres/'
 
 alias claude "claude --dangerously-skip-permissions"
+alias codex "codex --dangerously-bypass-approvals-and-sandbox"
 alias curl-slack "curl -H 'user-agent: Slackbot 1.0 (+https://api.slack.com/robots)'"
+alias gd "diffdeck"
