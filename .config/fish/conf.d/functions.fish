@@ -290,3 +290,7 @@ end
 function html
     curl "$argv[1]" | npx prettier --parser html
 end
+
+function copy
+    realpath "$argv[1]" | pbcopy
+end
