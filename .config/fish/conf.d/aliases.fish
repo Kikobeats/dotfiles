@@ -68,13 +68,13 @@ alias grelease 'gh release create --generate-notes $(git describe --tags --abbre
 alias gpr 'gh pr create -w'
 
 # npm
-alias npm pnpm
 # alias jq jnv
 # alias npx pnpx
+alias npm pnpm
 alias p pnpm
 alias npmp "npm publish"
 alias npma "npm adduser"
-alias npmi "npm install --no-lock"
+alias npmi "pnpm install --dangerously-allow-all-builds --no-lockfile"
 alias npml "npm list --depth=3"
 alias npmu "npm uninstall"
 alias npmig "npm install -g"

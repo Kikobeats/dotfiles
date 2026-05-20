@@ -21,10 +21,8 @@ if test -d "$dotfiles_bin"
 end
 
 
-if type -q pnpm
-    set -gx PNPM_HOME /Users/kikobeats/Library/pnpm
-    set -gx PATH "$PNPM_HOME" $PATH
-end
+set -gx PNPM_HOME /Users/kikobeats/Library/pnpm
+fish_add_path -g "$PNPM_HOME/bin"
 
 fzf_configure_bindings \
     --history=\cr \
