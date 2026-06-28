@@ -16,6 +16,7 @@ main() {
         --exclude "utils" \
         --exclude "sync.sh" \
         --exclude "Caskfile" \
+        --exclude "skills/" \
         -av --no-perms . ~
   fish
 }
