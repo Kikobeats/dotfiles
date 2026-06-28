@@ -292,5 +292,25 @@ function html
 end
 
 function copy
-    realpath "$argv[1]" | pbcopy
+    printf "%s" (realpath "$argv[1]") | pbcopy
 end
+
+# open claude with the caveman skill loaded as system prompt
+function caveman
+    set -l skill "$HOME/.claude/skills/caveman/SKILL.md"
+    set -l prompt "$HOME/.claude/prompts/caveman.md"
+
+    if not test -f "$skill"
+        echo "caveman skill not found at $skill"
+        return 1
+    end
+
+    # regenerate the prompt from the skill, stripping the leading frontmatter
+    mkdir -p (dirname "$prompt")
+    awk 'NR==1 && /^---$/ {fm=1; next} fm && /^---$/ {fm=0; next} !fm' "$skill" > "$prompt"
+
+    claude --append-system-prompt-file "$prompt" $argv
+end
+
+# pnpm wrapper moved to a PATH shim at dotfiles/bin/pnpm so every shell (and
+# Claude, which runs via bash) picks it up. See that file for the logic.

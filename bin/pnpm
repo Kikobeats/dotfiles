@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# pnpm wrapper for mutating commands. On add/install/update/remove/link/etc it:
+#   * skips writing a lockfile          (--config.lockfile=false)
+#   * runs dependency build scripts     (--config.dangerouslyAllowAllBuilds=true)
+#     instead of dropping the pnpm-workspace.yaml approval stub pnpm v11 emits.
+# Pass --lockfile to keep the lockfile, or --no-dangerously-allow-all-builds /
+# the bare flag yourself to override either behavior for a single run.
+#
+# Lives on PATH (dotfiles/bin, ahead of the real pnpm) so every shell picks it
+# up — bash (what Claude uses), fish, sh, etc. — without needing to be sourced.
+#
+# Why the `--config.<key>` form: pnpm v11 dropped the `npm_config_lockfile` env
+# var, and the bare `--no-lockfile` / `--dangerously-allow-all-builds` flags are
+# rejected by `link` (Unknown option). The generic `--config.<key>=<val>`
+# override is honored by every command, including link/unlink.
+set -euo pipefail
+
+# Resolve the real pnpm, skipping this shim's own location to avoid recursion.
+self="$(cd "$(dirname "$0")" && pwd -P)/$(basename "$0")"
+real=""
+IFS=: read -ra _dirs <<<"$PATH"
+for d in "${_dirs[@]}"; do
+  cand="$d/pnpm"
+  [ -x "$cand" ] || continue
+  [ "$(cd "$d" && pwd -P)/pnpm" = "$self" ] && continue
+  real="$cand"
+  break
+done
+[ -n "$real" ] || { echo "pnpm: real binary not found on PATH" >&2; exit 127; }
+
+mutating=" add install i update up upgrade remove rm uninstall un link ln unlink "
+
+# Honor any explicit override the user already passed, per concern.
+lockset=0
+buildset=0
+for a in "$@"; do
+  case "$a" in
+  --lockfile | --no-lockfile | --config.lockfile=*) lockset=1 ;;
+  --dangerously-allow-all-builds | --no-dangerously-allow-all-builds | --config.dangerouslyAllowAllBuilds=*) buildset=1 ;;
+  esac
+done
+
+extra=()
+if [ "$#" -ge 1 ] && [[ "$mutating" == *" $1 "* ]]; then
+  [ "$lockset" -eq 0 ] && extra+=(--config.lockfile=false)
+  [ "$buildset" -eq 0 ] && extra+=(--config.dangerouslyAllowAllBuilds=true)
+fi
+
+exec "$real" "$@" ${extra[@]+"${extra[@]}"}
