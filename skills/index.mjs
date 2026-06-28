@@ -1,6 +1,7 @@
 import task from 'tasuku'
 import $ from 'tinyspawn'
 import * as os from 'os'
+import { installClaudeMd } from './claude-md.mjs'
 
 const SKILLS = [
   'https://github.com/alirezarezvani/claude-skills --skill karpathy-coder',
@@ -27,6 +28,8 @@ const command = agent =>
   `command npx -y skills add ${agent} --agent claude-code --agent cursor --agent codex --agent github-copilot --global --yes`
 
 const concurrency = Math.max(1, Math.floor(os.cpus().length / 2))
+
+await task('Installing global CLAUDE.md', installClaudeMd)
 
 await task('Removing all existing skills', async () => {
   await $('npx -y skills remove --all --global --yes')
