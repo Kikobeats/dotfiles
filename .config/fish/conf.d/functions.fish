@@ -237,11 +237,13 @@ function npx
     set root "/tmp/npx"
 
     # ensure workspace exists
-    if not test -d $root
+    # NOTE: don't use `pnpm init` here. On pnpm 11 it writes a
+    # devEngines.packageManager block with onFail:download, which makes the
+    # next `pnpm add` crash with "Cannot use 'in' operator to search for
+    # 'integrity' in undefined". A minimal package.json avoids it.
+    if not test -e "$root/package.json"
         mkdir -p $root
-        pushd $root > /dev/null
-        pnpm init > /dev/null 2>&1
-        popd > /dev/null
+        echo '{ "name": "npx", "version": "1.0.0", "private": true }' > "$root/package.json"
     end
 
     # naive binary name (last part of package)
