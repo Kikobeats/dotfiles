@@ -8,8 +8,23 @@ import { join, dirname } from 'path'
 // One source, many targets => max compatibility with zero content drift.
 const REPO = 'https://github.com/jbarbier/CLAUDE.md'
 
-// the only thing I customize vs upstream
 const REPLACE = [['Julien', 'Kiko']]
+
+// Upstream says nothing about code comments, and agents default to narrating
+// every line. Appended, not patched, so an upstream rewrite cannot drop it.
+const APPEND = `
+## Comments
+
+A comment earns its place by carrying what the code cannot: a measurement, a
+constraint, an ordering a future edit would silently break, a decision that was
+already tried and reversed. Everything else is noise.
+
+- Never restate the line below it. If the comment paraphrases the code, delete it.
+- One fact, one place. A fact asserted in three comments is believed in none.
+- Shorter than the code it guards. Two lines is normal, five is a smell, a paragraph belongs in the commit message.
+- No archaeology. Why the old code was wrong goes in the commit, not above the new code.
+- Rename before explaining. A comment excusing a bad name is two problems.
+`
 
 const HOME = os.homedir()
 const SOURCE_DIR = join(HOME, '.config', 'claude-md')
@@ -42,7 +57,7 @@ export const installClaudeMd = async ({ setOutput } = {}) => {
 
   let content = await fs.readFile(join(REPO_DIR, 'CLAUDE.md'), 'utf8')
   for (const [from, to] of REPLACE) content = content.replaceAll(from, to)
-  await fs.writeFile(SOURCE_FILE, content)
+  await fs.writeFile(SOURCE_FILE, content + APPEND)
 
   await Promise.all(TARGETS.map(link))
   setOutput?.(`Linked ${SOURCE_FILE} → ${TARGETS.join(', ')}`)
