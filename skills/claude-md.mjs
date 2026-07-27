@@ -15,15 +15,17 @@ const REPLACE = [['Julien', 'Kiko']]
 const APPEND = `
 ## Comments
 
-A comment earns its place by carrying what the code cannot: a measurement, a
-constraint, an ordering a future edit would silently break, a decision that was
-already tried and reversed. Everything else is noise.
+Make the code say it. Naming, decomposition and structure are the tools; a
+comment is the last resort, for the decision that genuinely cannot live in the
+code — an external behavior, a measurement, an approach already tried and
+reversed. Reaching for one is usually a signal the code is not clear enough yet.
 
+- Try the rename or the extracted function first. Most comments are a naming failure.
 - Never restate the line below it. If the comment paraphrases the code, delete it.
+- Encode ordering and coupling in structure — nesting, types, a single call site — not in a warning comment.
 - One fact, one place. A fact asserted in three comments is believed in none.
 - Shorter than the code it guards. Two lines is normal, five is a smell, a paragraph belongs in the commit message.
 - No archaeology. Why the old code was wrong goes in the commit, not above the new code.
-- Rename before explaining. A comment excusing a bad name is two problems.
 `
 
 const HOME = os.homedir()
