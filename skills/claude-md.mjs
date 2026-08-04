@@ -10,22 +10,36 @@ const REPO = 'https://github.com/jbarbier/CLAUDE.md'
 
 const REPLACE = [['Julien', 'Kiko']]
 
-// Upstream says nothing about code comments, and agents default to narrating
-// every line. Appended, not patched, so an upstream rewrite cannot drop it.
+// Upstream is silent on these; agents otherwise narrate every line, treat
+// perf as optional, and open PRs then walk away. Appended, not patched, so
+// an upstream rewrite cannot drop it.
 const APPEND = `
+## Performance
+
+Performance is always P0. Prefer the faster path when correctness is equal.
+Do not ship a slower design because it is easier to write, more abstract, or
+more "flexible". Measure when unsure; optimize the hot path first.
+
 ## Comments
 
-Make the code say it. Naming, decomposition and structure are the tools; a
-comment is the last resort, for the decision that genuinely cannot live in the
-code — an external behavior, a measurement, an approach already tried and
-reversed. Reaching for one is usually a signal the code is not clear enough yet.
+Do not add comments. The code must be self-explanatory through naming,
+decomposition, and structure. A comment is a last resort for a decision that
+genuinely cannot live in the code — an external behavior, a measurement, an
+approach already tried and reversed. Reaching for one usually means the code
+is not clear enough yet.
 
 - Try the rename or the extracted function first. Most comments are a naming failure.
 - Never restate the line below it. If the comment paraphrases the code, delete it.
 - Encode ordering and coupling in structure — nesting, types, a single call site — not in a warning comment.
 - One fact, one place. A fact asserted in three comments is believed in none.
-- Shorter than the code it guards. Two lines is normal, five is a smell, a paragraph belongs in the commit message.
 - No archaeology. Why the old code was wrong goes in the commit, not above the new code.
+
+## Pull requests
+
+Opening a PR is not the finish line. Stay on it until every review comment is
+addressed — resolved, fixed, or replied with a clear reason — then re-check
+CI and bot reviews. Iterate in the same PR rather than leaving follow-ups for
+later.
 `
 
 const HOME = os.homedir()

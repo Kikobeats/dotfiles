@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+# Sync GitHub description, homepage, and topics from package.json.
+#
+#   github-npm            # current directory
+#   github-npm .          # same
+#   github-npm ../foo     # another package dir
+#
+# Requires: gh auth login, git remote pointing at GitHub, package.json
+set -euo pipefail
+
+if ! command -v gh >/dev/null 2>&1; then
+  echo "github-npm: gh is required" >&2
+  exit 127
+fi
+
+if ! gh auth status >/dev/null 2>&1; then
+  echo "github-npm: gh is not authenticated. Run: gh auth login" >&2
+  exit 1
+fi
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "github-npm: node is required" >&2
+  exit 127
+fi
+
+resolve_slug() {
+  local dir="$1" url guess
+  url=$(git -C "$dir" remote get-url origin 2>/dev/null) || {
+    echo "github-npm: no git remote 'origin' in $dir" >&2
+    return 1
+  }
+  guess=$(printf '%s\n' "$url" | sed -E 's#.*github.com[:/]##' | sed 's/\.git$//')
+  # Follow renames via the GitHub API when possible
+  gh repo view "$guess" --json nameWithOwner -q .nameWithOwner 2>/dev/null || echo "$guess"
+}
+
+sync_one() {
+  local target="$1"
+  local dir pkg description homepage topics_json slug
+
+  dir=$(cd "$target" 2>/dev/null && pwd -P) || {
+    echo "github-npm: not a directory: $target" >&2
+    return 1
+  }
+
+  pkg="$dir/package.json"
+  if [ ! -f "$pkg" ]; then
+    echo "github-npm: no package.json in $dir" >&2
+    return 1
+  fi
+
+  if [ ! -d "$dir/.git" ] && ! git -C "$dir" rev-parse --git-dir >/dev/null 2>&1; then
+    echo "github-npm: not a git repository: $dir" >&2
+    return 1
+  fi
+
+  slug=$(resolve_slug "$dir") || return 1
+
+  description=$(node -e "const p=require(process.argv[1]); process.stdout.write((p.description||'').slice(0,350))" "$pkg")
+  homepage=$(node -e "const p=require(process.argv[1]); process.stdout.write((p.homepage||'').replace(/#readme$/,''))" "$pkg")
+  topics_json=$(node -e '
+    const p = require(process.argv[1])
+    const names = [...new Set(
+      (p.keywords || [])
+        .map(k => String(k).toLowerCase().trim()
+          .replace(/[^a-z0-9_-]+/g, "-")
+          .replace(/^-+|-+$/g, "")
+          .slice(0, 50))
+        .filter(Boolean)
+    )].slice(0, 20)
+    process.stdout.write(JSON.stringify({ names }))
+  ' "$pkg")
+
+  local edit_args=(repo edit "$slug")
+  [ -n "$description" ] && edit_args+=(--description "$description")
+  [ -n "$homepage" ] && edit_args+=(--homepage "$homepage")
+
+  if ! gh "${edit_args[@]}"; then
+    echo "github-npm: failed to update $slug description/homepage" >&2
+    return 1
+  fi
+
+  if ! gh api -X PUT \
+      -H "Accept: application/vnd.github+json" \
+      "/repos/$slug/topics" \
+      --input - <<<"$topics_json" >/dev/null; then
+    echo "github-npm: failed to update $slug topics" >&2
+    return 1
+  fi
+
+  local topic_count
+  topic_count=$(node -e "console.log(JSON.parse(process.argv[1]).names.length)" "$topics_json")
+  echo "OK $slug"
+  echo "  description: $description"
+  echo "  homepage:    ${homepage:-(none)}"
+  echo "  topics:      $topic_count"
+}
+
+if [ "$#" -eq 0 ]; then
+  set -- .
+fi
+
+status=0
+for target in "$@"; do
+  sync_one "$target" || status=1
+done
+exit "$status"
