@@ -11,7 +11,8 @@ const REPO = 'https://github.com/jbarbier/CLAUDE.md'
 const REPLACE = [['Julien', 'Kiko']]
 
 // Upstream is silent on these; agents otherwise narrate every line, treat
-// perf as optional, and open PRs then walk away. Appended, not patched, so
+// perf as optional, push straight to the default branch, and open PRs then
+// walk away. Appended, not patched, so
 // an upstream rewrite cannot drop it.
 const APPEND = `
 ## Performance
@@ -35,6 +36,12 @@ is not clear enough yet.
 - No archaeology. Why the old code was wrong goes in the commit, not above the new code.
 
 ## Pull requests
+
+Ship work as a pull request, never as a push to the default branch. Branch
+first, commit there, open the PR — including for a one-line fix, including
+when the change is obviously correct and the tests are green. A direct push
+skips CI, bot review, and any chance to read the diff in isolation. "It was
+small" is exactly when this gets skipped and exactly when it should not be.
 
 Opening a PR is not the finish line. Stay on it until every review comment is
 addressed — resolved, fixed, or replied with a clear reason — then re-check
