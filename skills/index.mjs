@@ -8,7 +8,7 @@ const SKILLS = [
   'https://github.com/alirezarezvani/claude-skills --skill karpathy-coder',
   'https://github.com/anthropics/skills --skill frontend-design --skill internal-comms',
   'https://github.com/brianlovin/claude-config --skill fix-sentry-issues',
-  'https://github.com/coreyhaines31/marketingskills --skill ai-seo --skill copywriting --skill schema --skill seo-audit',
+  'https://github.com/coreyhaines31/marketingskills --skill ai-seo --skill copywriting --skill schema --skill seo-audit --skill copy-editing',
   'https://github.com/datadog-labs/agent-skills --skill dd-pup --skill dd-monitors --skill dd-logs --full-depth',
   'https://github.com/dietrichgebert/ponytail --skill ponytail --skill ponytail-review',
   'https://github.com/emilkowalski/skill --skill emil-design-eng',
