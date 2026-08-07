@@ -33,44 +33,44 @@ const concurrency = Math.max(1, Math.floor(os.cpus().length / 2))
 
 await task('Installing global CLAUDE.md', installClaudeMd)
 
-await task('Removing all existing skills', async () => {
-  await $('npx -y skills remove --all --global --yes')
-})
+// await task('Removing all existing skills', async () => {
+//   await $('npx -y skills remove --all --global --yes')
+// })
 
-const results = await task.group(
-  task =>
-    SKILLS.map(skill =>
-      task(`Installing ${skill}`, async ({ setWarning }) => {
-        try {
-          await $(command(skill))
-          return { skill, failed: false }
-        } catch (error) {
-          setWarning(error)
-          return { skill, failed: true }
-        }
-      })
-    ),
-  { concurrency }
-)
+// const results = await task.group(
+//   task =>
+//     SKILLS.map(skill =>
+//       task(`Installing ${skill}`, async ({ setWarning }) => {
+//         try {
+//           await $(command(skill))
+//           return { skill, failed: false }
+//         } catch (error) {
+//           setWarning(error)
+//           return { skill, failed: true }
+//         }
+//       })
+//     ),
+//   { concurrency }
+// )
 
-const failed = results
-  .map(result => result.result)
-  .filter(result => result.failed)
-  .map(result => result.skill)
+// const failed = results
+//   .map(result => result.result)
+//   .filter(result => result.failed)
+//   .map(result => result.skill)
 
-if (failed.length > 0) {
-  await task('Installation summary', async ({ setWarning, setOutput }) => {
-    setWarning(
-      `Installed ${SKILLS.length - failed.length}/${SKILLS.length} skills`
-    )
-    setOutput(`Failures: ${failed.length}`)
-  })
+// if (failed.length > 0) {
+//   await task('Installation summary', async ({ setWarning, setOutput }) => {
+//     setWarning(
+//       `Installed ${SKILLS.length - failed.length}/${SKILLS.length} skills`
+//     )
+//     setOutput(`Failures: ${failed.length}`)
+//   })
 
-  for (const skill of failed) {
-    console.log(`  - ${skill}`)
-  }
-} else {
-  await task('Installation summary', async ({ setOutput }) => {
-    setOutput(`Installed ${SKILLS.length}/${SKILLS.length} skills`)
-  })
-}
+//   for (const skill of failed) {
+//     console.log(`  - ${skill}`)
+//   }
+// } else {
+//   await task('Installation summary', async ({ setOutput }) => {
+//     setOutput(`Installed ${SKILLS.length}/${SKILLS.length} skills`)
+//   })
+// }

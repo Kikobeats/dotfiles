@@ -1,87 +1,106 @@
-import $ from 'tinyspawn'
 import * as os from 'os'
 import { promises as fs } from 'fs'
 import { join, dirname } from 'path'
 
 // Pull jbarbier/CLAUDE.md fresh on every run, swap the author name for mine,
-// then symlink that single rendered file into every agent's expected filename.
-// One source, many targets => max compatibility with zero content drift.
-const REPO = 'https://github.com/jbarbier/CLAUDE.md'
-
-const REPLACE = [['Julien', 'Kiko']]
-
-// Upstream is silent on these; agents otherwise narrate every line, treat
-// perf as optional, push straight to the default branch, and open PRs then
-// walk away. Appended, not patched, so
-// an upstream rewrite cannot drop it.
-const APPEND = `
-## Performance
-
-Performance is always P0. Prefer the faster path when correctness is equal.
-Do not ship a slower design because it is easier to write, more abstract, or
-more "flexible". Measure when unsure; optimize the hot path first.
-
-## Comments
-
-Do not add comments. The code must be self-explanatory through naming,
-decomposition, and structure. A comment is a last resort for a decision that
-genuinely cannot live in the code — an external behavior, a measurement, an
-approach already tried and reversed. Reaching for one usually means the code
-is not clear enough yet.
-
-- Try the rename or the extracted function first. Most comments are a naming failure.
-- Never restate the line below it. If the comment paraphrases the code, delete it.
-- Encode ordering and coupling in structure — nesting, types, a single call site — not in a warning comment.
-- One fact, one place. A fact asserted in three comments is believed in none.
-- No archaeology. Why the old code was wrong goes in the commit, not above the new code.
-
-## Pull requests
-
-Ship work as a pull request, never as a push to the default branch. Branch
-first, commit there, open the PR — including for a one-line fix, including
-when the change is obviously correct and the tests are green. A direct push
-skips CI, bot review, and any chance to read the diff in isolation. "It was
-small" is exactly when this gets skipped and exactly when it should not be.
-
-Opening a PR is not the finish line. Stay on it until every review comment is
-addressed — resolved, fixed, or replied with a clear reason — then re-check
-CI and bot reviews. Iterate in the same PR rather than leaving follow-ups for
-later.
-`
+// then symlink rendered files into every agent's expected path.
+//
+// Claude: base CLAUDE.md + modular ~/.claude/rules/* (no paste → no double-load).
+// Cursor/Codex: AGENTS.md = base + all rules inlined (Cursor only loads AGENTS now).
+const UPSTREAM =
+  'https://raw.githubusercontent.com/jbarbier/CLAUDE.md/main/CLAUDE.md'
 
 const HOME = os.homedir()
 const SOURCE_DIR = join(HOME, '.config', 'claude-md')
-const REPO_DIR = join(SOURCE_DIR, 'repo')
-const SOURCE_FILE = join(SOURCE_DIR, 'CLAUDE.md')
+const SOURCE_BASE = join(SOURCE_DIR, 'CLAUDE.md')
+const SOURCE_AGENTS = join(SOURCE_DIR, 'AGENTS.md')
+const RULES_DIR = join(SOURCE_DIR, 'rules')
+const LOCAL_RULES_DIR = join(import.meta.dirname, 'rules')
 
-// agent => global instruction file it reads
-const TARGETS = [
-  '.claude/CLAUDE.md', // Claude Code
-  '.codex/AGENTS.md', // Codex
-  '.cursor/AGENTS.md' // Cursor
+/** Local rule files in this package → ~/.claude/rules/<name> (+ inlined into AGENTS.md) */
+const RULES = ['clean-code.md', 'performance.md', 'pr-review.md']
+
+const LINKS = [
+  ['.claude/CLAUDE.md', SOURCE_BASE],
+  ['.codex/AGENTS.md', SOURCE_AGENTS],
+  ['.cursor/AGENTS.md', SOURCE_AGENTS],
+  ...RULES.map(name => [`.claude/rules/${name}`, join(RULES_DIR, name)])
 ]
 
-const link = async target => {
+const homePath = path => path.replace(HOME, '~')
+const kB = bytes => `${(bytes / 1024).toFixed(1)} kB`
+
+const link = async ([target, source]) => {
   const dest = join(HOME, target)
   await fs.mkdir(dirname(dest), { recursive: true })
   const existing = await fs.lstat(dest).catch(() => null)
   // back up a real file before replacing it; symlinks are disposable
-  if (existing && !existing.isSymbolicLink()) await fs.rename(dest, `${dest}.bak`)
-  else if (existing) await fs.rm(dest)
-  await fs.symlink(SOURCE_FILE, dest)
+  let backedUp = false
+  if (existing && !existing.isSymbolicLink()) {
+    await fs.rename(dest, `${dest}.bak`)
+    backedUp = true
+  } else if (existing) {
+    await fs.rm(dest)
+  }
+  await fs.symlink(source, dest)
+  return { dest, source, backedUp }
 }
 
-export const installClaudeMd = async ({ setOutput } = {}) => {
-  await fs.mkdir(SOURCE_DIR, { recursive: true })
+export const installClaudeMd = async ({ task: nest } = {}) => {
+  const step = nest
+    ? (title, fn) => nest(title, fn)
+    : async (title, fn) => {
+        const api = {
+          setOutput: message => console.log(`  → ${message}`)
+        }
+        console.log(`• ${title}`)
+        await fn(api)
+      }
 
-  // fresh clone each run keeps us pinned to upstream HEAD
-  await fs.rm(REPO_DIR, { recursive: true, force: true })
-  await $(`git clone --depth 1 ${REPO} ${REPO_DIR}`)
+  await fs.mkdir(RULES_DIR, { recursive: true })
 
-  let content = await fs.readFile(join(REPO_DIR, 'CLAUDE.md'), 'utf8')
-  for (const [from, to] of REPLACE) content = content.replaceAll(from, to)
-  await fs.writeFile(SOURCE_FILE, content + APPEND)
+  let upstream
+  let rules
+  await step('Fetch upstream + rules', async ({ setOutput }) => {
+    ;[upstream, ...rules] = await Promise.all([
+      fetch(UPSTREAM).then(async response => {
+        if (!response.ok) {
+          throw new Error(`Failed to fetch ${UPSTREAM}: ${response.status}`)
+        }
+        return response.text()
+      }),
+      ...RULES.map(name => fs.readFile(join(LOCAL_RULES_DIR, name), 'utf8'))
+    ])
+    setOutput(
+      [
+        `${kB(upstream.length)} jbarbier/CLAUDE.md`,
+        ...RULES.map((name, i) => `${kB(rules[i].length)} ${name}`)
+      ].join(', ')
+    )
+  })
 
-  await Promise.all(TARGETS.map(link))
-  setOutput?.(`Linked ${SOURCE_FILE} → ${TARGETS.join(', ')}`)
+  const base = upstream.replaceAll('Julien', 'Kiko')
+  const agents = [base, ...rules].join('\n')
+
+  await step(`Write ${homePath(SOURCE_DIR)}`, async ({ setOutput }) => {
+    await Promise.all([
+      fs.writeFile(SOURCE_BASE, base),
+      fs.writeFile(SOURCE_AGENTS, agents),
+      ...RULES.map((name, i) => fs.writeFile(join(RULES_DIR, name), rules[i]))
+    ])
+    setOutput(
+      `CLAUDE.md ${kB(base.length)} (Claude + rules/); AGENTS.md ${kB(agents.length)} (Cursor/Codex, rules inlined)`
+    )
+  })
+
+  for (const [target, source] of LINKS) {
+    await step(`Link ~/${target}`, async ({ setOutput }) => {
+      const { dest, backedUp } = await link([target, source])
+      setOutput(
+        backedUp
+          ? `backed up ${homePath(dest)}.bak → ${homePath(source)}`
+          : homePath(source)
+      )
+    })
+  }
 }
