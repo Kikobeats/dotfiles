@@ -5,7 +5,6 @@ import { installClaudeMd } from './claude-md.mjs'
 
 const SKILLS = [
   'https://github.com/addyosmani/agent-skills --skill code-review-and-quality --skill code-simplification',
-  'https://github.com/alirezarezvani/claude-skills --skill karpathy-coder',
   'https://github.com/anthropics/skills --skill frontend-design --skill internal-comms',
   'https://github.com/brianlovin/claude-config --skill fix-sentry-issues',
   'https://github.com/coreyhaines31/marketingskills --skill ai-seo --skill copywriting --skill schema --skill seo-audit --skill copy-editing',
