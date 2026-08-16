@@ -9,7 +9,7 @@ end
 # Keep essential user paths in tracked config instead of universal variables.
 # ~/dotfiles/bin first so the pnpm shim wraps Homebrew's binary (`brew link` is fine).
 set -gx PNPM_HOME $HOME/Library/pnpm
-fish_add_path -g -p $HOME/dotfiles/bin $PNPM_HOME/bin /opt/homebrew/sbin /opt/homebrew/bin
+fish_add_path -g -m -p $HOME/dotfiles/bin $PNPM_HOME/bin /opt/homebrew/sbin /opt/homebrew/bin
 
 fzf_configure_bindings \
     --history=\cr \
