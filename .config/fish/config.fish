@@ -7,22 +7,10 @@ if status is-interactive
 end
 
 # Keep essential user paths in tracked config instead of universal variables.
-set -l dotfiles_bin "$HOME/dotfiles/bin"
-if test -d /opt/homebrew/bin
-    fish_add_path -g -p /opt/homebrew/bin
-end
-
-if test -d /opt/homebrew/sbin
-    fish_add_path -g -p /opt/homebrew/sbin
-end
-
-if test -d "$dotfiles_bin"
-    fish_add_path -g -p "$dotfiles_bin"
-end
-
-
-set -gx PNPM_HOME /Users/kikobeats/Library/pnpm
-fish_add_path -g "$PNPM_HOME/bin"
+# Shim first so ~/dotfiles/bin/pnpm wraps the real binary (Homebrew is unlinked).
+set -gx PNPM_HOME $HOME/Library/pnpm
+fish_add_path -g -p $HOME/dotfiles/bin $PNPM_HOME/bin /opt/homebrew/sbin /opt/homebrew/bin
+fish_add_path -g -a /opt/homebrew/opt/pnpm/bin
 
 fzf_configure_bindings \
     --history=\cr \
