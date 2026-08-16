@@ -18,6 +18,12 @@ main() {
         --exclude "Caskfile" \
         --exclude "skills/" \
         -av --no-perms . ~
+  # Cursor agents search /usr/local/bin before Homebrew; the shim must win there.
+  target="$HOME/dotfiles/bin/pnpm"
+  link=/usr/local/bin/pnpm
+  if [ -e "$target" ] && [ "$(readlink "$link" 2>/dev/null)" != "$target" ]; then
+    sudo ln -sfn "$target" "$link"
+  fi
   fish
 }
 
