@@ -24,6 +24,10 @@ main() {
   if [ -e "$target" ] && [ "$(readlink "$link" 2>/dev/null)" != "$target" ]; then
     sudo ln -sfn "$target" "$link"
   fi
+  # New laptops get this from bootstrap.sh; keep it true on sync too.
+  if [ "$(cat /etc/paths.d/dotfiles 2>/dev/null)" != "$HOME/dotfiles/bin" ]; then
+    echo "$HOME/dotfiles/bin" | sudo tee /etc/paths.d/dotfiles >/dev/null
+  fi
   fish
 }
 
