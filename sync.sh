@@ -28,6 +28,9 @@ main() {
   if [ "$(cat /etc/paths.d/dotfiles 2>/dev/null)" != "$HOME/dotfiles/bin" ]; then
     echo "$HOME/dotfiles/bin" | sudo tee /etc/paths.d/dotfiles >/dev/null
   fi
+  if [ "$(cat /etc/paths.d/pnpm 2>/dev/null)" != "$HOME/Library/pnpm/bin" ]; then
+    echo "$HOME/Library/pnpm/bin" | sudo tee /etc/paths.d/pnpm >/dev/null
+  fi
   fish
 }
 
