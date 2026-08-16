@@ -18,6 +18,19 @@ main() {
         --exclude "Caskfile" \
         --exclude "skills/" \
         -av --no-perms . ~
+  # Cursor agents search /usr/local/bin before Homebrew; the shim must win there.
+  target="$HOME/dotfiles/bin/pnpm"
+  link=/usr/local/bin/pnpm
+  if [ -e "$target" ] && [ "$(readlink "$link" 2>/dev/null)" != "$target" ]; then
+    sudo ln -sfn "$target" "$link"
+  fi
+  # New laptops get this from bootstrap.sh; keep it true on sync too.
+  if [ "$(cat /etc/paths.d/dotfiles 2>/dev/null)" != "$HOME/dotfiles/bin" ]; then
+    echo "$HOME/dotfiles/bin" | sudo tee /etc/paths.d/dotfiles >/dev/null
+  fi
+  if [ "$(cat /etc/paths.d/pnpm 2>/dev/null)" != "$HOME/Library/pnpm/bin" ]; then
+    echo "$HOME/Library/pnpm/bin" | sudo tee /etc/paths.d/pnpm >/dev/null
+  fi
   fish
 }
 

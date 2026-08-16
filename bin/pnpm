@@ -6,8 +6,8 @@
 # Pass --lockfile to keep the lockfile, or --no-dangerously-allow-all-builds /
 # the bare flag yourself to override either behavior for a single run.
 #
-# Lives on PATH (dotfiles/bin, ahead of the real pnpm) so every shell picks it
-# up — bash (what Claude uses), fish, sh, etc. — without needing to be sourced.
+# Lives at ~/dotfiles/bin/pnpm and is also linked to /usr/local/bin/pnpm so
+# Cursor agents (Homebrew-first PATH) still hit this wrapper.
 #
 # Why the `--config.<key>` form: pnpm v11 dropped the `npm_config_lockfile` env
 # var, and the bare `--no-lockfile` / `--dangerously-allow-all-builds` flags are
@@ -15,18 +15,25 @@
 # override is honored by every command, including link/unlink.
 set -euo pipefail
 
-# Resolve the real pnpm, skipping this shim's own location to avoid recursion.
+# Prefer Homebrew's Cellar path so we don't depend on PATH order.
 self="$(cd "$(dirname "$0")" && pwd -P)/$(basename "$0")"
 real=""
-IFS=: read -ra _dirs <<<"$PATH"
-for d in "${_dirs[@]}"; do
-  cand="$d/pnpm"
+for cand in /opt/homebrew/opt/pnpm/bin/pnpm /usr/local/opt/pnpm/bin/pnpm; do
   [ -x "$cand" ] || continue
-  [ "$(cd "$d" && pwd -P)/pnpm" = "$self" ] && continue
   real="$cand"
   break
 done
-[ -n "$real" ] || { echo "pnpm: real binary not found on PATH" >&2; exit 127; }
+if [ -z "$real" ]; then
+  IFS=: read -ra _dirs <<<"$PATH"
+  for d in "${_dirs[@]}"; do
+    cand="$d/pnpm"
+    [ -x "$cand" ] || continue
+    [ "$(cd "$d" && pwd -P)/pnpm" = "$self" ] && continue
+    real="$cand"
+    break
+  done
+fi
+[ -n "$real" ] || { echo "pnpm: real binary not found" >&2; exit 127; }
 
 mutating=" add install i update up upgrade remove rm uninstall un link ln unlink "
 
