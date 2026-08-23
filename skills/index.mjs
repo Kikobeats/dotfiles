@@ -2,6 +2,7 @@ import task from 'tasuku'
 import $ from 'tinyspawn'
 import * as os from 'os'
 import { installClaudeMd } from './claude-md.mjs'
+import { installLocalSkills } from './local-skills.mjs'
 
 const SKILLS = [
   'https://github.com/addyosmani/agent-skills --skill code-review-and-quality --skill code-simplification',
@@ -32,44 +33,46 @@ const concurrency = Math.max(1, Math.floor(os.cpus().length / 2))
 
 await task('Installing global CLAUDE.md', installClaudeMd)
 
-// await task('Removing all existing skills', async () => {
-//   await $('npx -y skills remove --all --global --yes')
-// })
+await task('Removing all existing skills', async () => {
+  await $('npx -y skills remove --all --global --yes')
+})
 
-// const results = await task.group(
-//   task =>
-//     SKILLS.map(skill =>
-//       task(`Installing ${skill}`, async ({ setWarning }) => {
-//         try {
-//           await $(command(skill))
-//           return { skill, failed: false }
-//         } catch (error) {
-//           setWarning(error)
-//           return { skill, failed: true }
-//         }
-//       })
-//     ),
-//   { concurrency }
-// )
+await task('Installing local skills', installLocalSkills)
 
-// const failed = results
-//   .map(result => result.result)
-//   .filter(result => result.failed)
-//   .map(result => result.skill)
+const results = await task.group(
+  task =>
+    SKILLS.map(skill =>
+      task(`Installing ${skill}`, async ({ setWarning }) => {
+        try {
+          await $(command(skill))
+          return { skill, failed: false }
+        } catch (error) {
+          setWarning(error)
+          return { skill, failed: true }
+        }
+      })
+    ),
+  { concurrency }
+)
 
-// if (failed.length > 0) {
-//   await task('Installation summary', async ({ setWarning, setOutput }) => {
-//     setWarning(
-//       `Installed ${SKILLS.length - failed.length}/${SKILLS.length} skills`
-//     )
-//     setOutput(`Failures: ${failed.length}`)
-//   })
+const failed = results
+  .map(result => result.result)
+  .filter(result => result.failed)
+  .map(result => result.skill)
 
-//   for (const skill of failed) {
-//     console.log(`  - ${skill}`)
-//   }
-// } else {
-//   await task('Installation summary', async ({ setOutput }) => {
-//     setOutput(`Installed ${SKILLS.length}/${SKILLS.length} skills`)
-//   })
-// }
+if (failed.length > 0) {
+  await task('Installation summary', async ({ setWarning, setOutput }) => {
+    setWarning(
+      `Installed ${SKILLS.length - failed.length}/${SKILLS.length} skills`
+    )
+    setOutput(`Failures: ${failed.length}`)
+  })
+
+  for (const skill of failed) {
+    console.log(`  - ${skill}`)
+  }
+} else {
+  await task('Installation summary', async ({ setOutput }) => {
+    setOutput(`Installed ${SKILLS.length}/${SKILLS.length} skills`)
+  })
+}
