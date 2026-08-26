@@ -10,3 +10,16 @@
 git clone https://github.com/Kikobeats/dotfiles && cd dotfiles && ./sync.sh
 ./boostrap.sh
 ```
+
+## Recording mode
+
+Fish shows a grey inline autosuggestion after the cursor, which reads as noise
+in a screen recording. Toggle it off before hitting record, back on after:
+
+```fish
+recording_on   # autosuggestions hidden
+recording_off  # autosuggestions restored
+```
+
+The flag is a universal variable, so every open terminal changes at once and
+the setting survives a restart. Run `./test/recording.sh` to verify.

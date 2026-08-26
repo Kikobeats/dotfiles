@@ -17,6 +17,7 @@ main() {
         --exclude "sync.sh" \
         --exclude "Caskfile" \
         --exclude "skills/" \
+        --exclude "test/" \
         -av --no-perms . ~
   # Cursor agents search /usr/local/bin before Homebrew; the shim must win there.
   target="$HOME/dotfiles/bin/pnpm"
