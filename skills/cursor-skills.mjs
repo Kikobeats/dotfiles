@@ -16,9 +16,17 @@ const link = async name => {
   const source = join(SOURCE_DIR, name)
   const dest = join(CLAUDE_SKILLS_DIR, name)
   if (!(await fs.stat(source).catch(() => null))) return null
-  await fs.rm(dest, { recursive: true, force: true })
+  const existing = await fs.lstat(dest).catch(() => null)
+  // back up a real directory before replacing it; symlinks are disposable
+  let backedUp = false
+  if (existing && !existing.isSymbolicLink()) {
+    await fs.rename(dest, `${dest}.bak`)
+    backedUp = true
+  } else if (existing) {
+    await fs.rm(dest)
+  }
   await fs.symlink(source, dest)
-  return dest
+  return { dest, backedUp }
 }
 
 export const installCursorSkills = async ({ task: nest } = {}) => {
@@ -33,8 +41,16 @@ export const installCursorSkills = async ({ task: nest } = {}) => {
 
   for (const name of SKILLS) {
     await step(`Link ~/.claude/skills/${name}`, async ({ setOutput }) => {
-      const dest = await link(name)
-      setOutput(dest ? homePath(dest) : `skipped, no ${homePath(join(SOURCE_DIR, name))}`)
+      const result = await link(name)
+      if (!result) {
+        return setOutput(`skipped, no ${homePath(join(SOURCE_DIR, name))}`)
+      }
+      const { dest, backedUp } = result
+      setOutput(
+        backedUp
+          ? `backed up ${homePath(dest)}.bak → ${homePath(dest)}`
+          : homePath(dest)
+      )
     })
   }
 }
