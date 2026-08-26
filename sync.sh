@@ -31,6 +31,9 @@ main() {
   if [ "$(cat /etc/paths.d/pnpm 2>/dev/null)" != "$HOME/Library/pnpm/bin" ]; then
     echo "$HOME/Library/pnpm/bin" | sudo tee /etc/paths.d/pnpm >/dev/null
   fi
+  if [ "$(cat /etc/paths.d/local 2>/dev/null)" != "$HOME/.local/bin" ]; then
+    echo "$HOME/.local/bin" | sudo tee /etc/paths.d/local >/dev/null
+  fi
   fish
 }
 

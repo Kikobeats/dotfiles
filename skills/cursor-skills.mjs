@@ -1,0 +1,56 @@
+import * as os from 'os'
+import { promises as fs } from 'fs'
+import { join } from 'path'
+
+// Skills that ship with Cursor and have no Claude Code equivalent, symlinked
+// after `skills remove --all` so the wipe never takes them out.
+const SKILLS = ['autopilot']
+
+const HOME = os.homedir()
+const SOURCE_DIR = join(HOME, '.cursor', 'skills-cursor')
+const CLAUDE_SKILLS_DIR = join(HOME, '.claude', 'skills')
+
+const homePath = path => path.replace(HOME, '~')
+
+const link = async name => {
+  const source = join(SOURCE_DIR, name)
+  const dest = join(CLAUDE_SKILLS_DIR, name)
+  if (!(await fs.stat(source).catch(() => null))) return null
+  const existing = await fs.lstat(dest).catch(() => null)
+  // back up a real directory before replacing it; symlinks are disposable
+  let backedUp = false
+  if (existing && !existing.isSymbolicLink()) {
+    await fs.rename(dest, `${dest}.bak`)
+    backedUp = true
+  } else if (existing) {
+    await fs.rm(dest)
+  }
+  await fs.symlink(source, dest)
+  return { dest, backedUp }
+}
+
+export const installCursorSkills = async ({ task: nest } = {}) => {
+  const step = nest
+    ? (title, fn) => nest(title, fn)
+    : async (title, fn) => {
+        console.log(`• ${title}`)
+        await fn({ setOutput: message => console.log(`  → ${message}`) })
+      }
+
+  await fs.mkdir(CLAUDE_SKILLS_DIR, { recursive: true })
+
+  for (const name of SKILLS) {
+    await step(`Link ~/.claude/skills/${name}`, async ({ setOutput }) => {
+      const result = await link(name)
+      if (!result) {
+        return setOutput(`skipped, no ${homePath(join(SOURCE_DIR, name))}`)
+      }
+      const { dest, backedUp } = result
+      setOutput(
+        backedUp
+          ? `backed up ${homePath(dest)}.bak → ${homePath(dest)}`
+          : homePath(dest)
+      )
+    })
+  }
+}
