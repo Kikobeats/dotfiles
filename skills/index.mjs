@@ -23,7 +23,7 @@ const SKILLS = [
   'https://github.com/vercel-labs/agent-browser --skill agent-browser',
   'https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices',
   'https://github.com/wshobson/agents --skill wcag-audit-patterns',
-  'https://specification.website/.well-known/agent-skills/specification-website/SKILL.md'
+  'https://specification.website --skill specification-website'
 ]
 
 const command = agent =>
