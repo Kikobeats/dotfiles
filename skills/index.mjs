@@ -17,6 +17,7 @@ const SKILLS = [
   'https://github.com/jakubantalik/transitions.dev --skill transitions-dev',
   'https://github.com/juliusbrussee/caveman --skill caveman-commit --skill caveman-stats --skill caveman',
   'https://github.com/mcollina/skills --skill node',
+  `${os.homedir()}/Projects/microlink/marketing/blog-style --skill write-blog-post`,
   'https://github.com/microlinkhq/skills --skill create-local-skill --skill nodejs-performance --skill use-pnpm --skill run-skill',
   'https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max',
   'https://github.com/remotion-dev/skills --skill remotion-best-practices',
@@ -24,7 +25,9 @@ const SKILLS = [
   'https://github.com/vercel-labs/agent-browser --skill agent-browser',
   'https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices',
   'https://github.com/wshobson/agents --skill wcag-audit-patterns',
-  'https://specification.website --skill specification-website'
+  'https://specification.website --skill specification-website',
+  'https://github.com/typesafe-ai/skills --skill typesafe-ai',
+  'https://github.com/cursor/plugins --skill why --skill tdd --skill bro --skill automate-me --skill how --skill teach --skill technical-writing'
 ]
 
 const command = agent =>
