@@ -18,7 +18,12 @@ const RULES_DIR = join(SOURCE_DIR, 'rules')
 const LOCAL_RULES_DIR = join(import.meta.dirname, 'rules')
 
 /** Local rule files in this package → ~/.claude/rules/<name> (+ inlined into AGENTS.md) */
-const RULES = ['clean-code.md', 'performance.md', 'pr-review.md']
+const RULES = [
+  'branching.md',
+  'clean-code.md',
+  'performance.md',
+  'pr-review.md'
+]
 
 const LINKS = [
   ['.claude/CLAUDE.md', SOURCE_BASE],
