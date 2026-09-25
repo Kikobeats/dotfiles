@@ -27,7 +27,7 @@ const SKILLS = [
   'https://github.com/wshobson/agents --skill wcag-audit-patterns',
   'https://specification.website --skill specification-website',
   'https://github.com/typesafe-ai/skills --skill typesafe-ai',
-  'https://github.com/cursor/plugins --skill why --skill tdd --skill bro --skill automate-me --skill how --skill teach --skill technical-writing'
+  'https://github.com/cursor/plugins --skill why --skill tdd --skill bro --skill automate-me --skill how --skill teach --skill technical-writing --skill principle-fix-root-causes'
 ]
 
 const command = agent =>
