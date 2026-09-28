@@ -69,7 +69,7 @@ alias gpr 'gh pr create -w'
 
 # npm
 # alias jq jnv
-# alias npx pnpx
+alias npx upx
 alias npm pnpm
 alias p pnpm
 alias npmp "npm publish"
