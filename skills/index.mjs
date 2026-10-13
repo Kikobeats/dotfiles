@@ -28,8 +28,7 @@ const SKILLS = [
   'https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices',
   'https://github.com/wshobson/agents --skill wcag-audit-patterns',
   'https://specification.website --skill specification-website',
-  'https://github.com/typesafe-ai/skills --skill typesafe-ai',
-  'https://github.com/cursor/plugins/tree/main/pstack --skill *'
+  'https://github.com/typesafe-ai/skills --skill typesafe-ai'
 ]
 
 const command = agent =>
@@ -41,10 +40,7 @@ await task('Installing global CLAUDE.md', installClaudeMd)
 
 await task('Installing Claude Code hooks', installHooks)
 
-await task(
-  'Installing pstack agents, docs and automations',
-  installPstackPlugin
-)
+await task('Installing pstack plugin', installPstackPlugin)
 
 await task('Removing all existing skills', async () => {
   await $('npx -y skills remove --all --global --yes')
