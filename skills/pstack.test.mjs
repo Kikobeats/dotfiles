@@ -130,7 +130,7 @@ test('a rerun updates changed files and drops files removed upstream', async t =
     )
   }
   assert.equal(await read(join(home, '.claude/README.md')), 'readme v2')
-  assert.deepEqual(await fs.readdir(join(home, '.agents/docs/guide')), [
+  assert.deepEqual((await fs.readdir(join(home, '.agents/docs/guide'))).sort(), [
     '02-poteto-mode.md',
     'images'
   ])
