@@ -1,6 +1,9 @@
 {
   "name": "@kikobeats/skills",
   "private": true,
+  "scripts": {
+    "test": "node --test"
+  },
   "dependencies": {
     "tasuku": "^2.3.0",
     "tinyspawn": "~1.5.5"

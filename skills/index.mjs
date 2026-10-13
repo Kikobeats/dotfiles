@@ -4,6 +4,7 @@ import * as os from 'os'
 import { installClaudeMd } from './claude-md.mjs'
 import { installCursorSkills } from './cursor-skills.mjs'
 import { installHooks } from './hooks.mjs'
+import { installPstackPlugin } from './pstack.mjs'
 
 const SKILLS = [
   'https://github.com/addyosmani/agent-skills --skill code-review-and-quality --skill code-simplification',
@@ -39,6 +40,11 @@ const concurrency = Math.max(1, Math.floor(os.cpus().length / 2))
 await task('Installing global CLAUDE.md', installClaudeMd)
 
 await task('Installing Claude Code hooks', installHooks)
+
+await task(
+  'Installing pstack agents, docs and automations',
+  installPstackPlugin
+)
 
 await task('Removing all existing skills', async () => {
   await $('npx -y skills remove --all --global --yes')
