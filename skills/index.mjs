@@ -4,6 +4,7 @@ import * as os from 'os'
 import { installClaudeMd } from './claude-md.mjs'
 import { installCursorSkills } from './cursor-skills.mjs'
 import { installHooks } from './hooks.mjs'
+import { installPstackPlugin } from './pstack.mjs'
 
 const SKILLS = [
   'https://github.com/addyosmani/agent-skills --skill code-review-and-quality --skill code-simplification',
@@ -27,8 +28,7 @@ const SKILLS = [
   'https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices',
   'https://github.com/wshobson/agents --skill wcag-audit-patterns',
   'https://specification.website --skill specification-website',
-  'https://github.com/typesafe-ai/skills --skill typesafe-ai',
-  'https://github.com/cursor/plugins/tree/main/pstack --skill why --skill tdd --skill bro --skill automate-me --skill how --skill teach --skill technical-writing --skill principle-fix-root-causes'
+  'https://github.com/typesafe-ai/skills --skill typesafe-ai'
 ]
 
 const command = agent =>
@@ -39,6 +39,8 @@ const concurrency = Math.max(1, Math.floor(os.cpus().length / 2))
 await task('Installing global CLAUDE.md', installClaudeMd)
 
 await task('Installing Claude Code hooks', installHooks)
+
+await task('Installing pstack plugin', installPstackPlugin)
 
 await task('Removing all existing skills', async () => {
   await $('npx -y skills remove --all --global --yes')
