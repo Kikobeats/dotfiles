@@ -20,7 +20,7 @@ const SKILLS = [
   'https://github.com/juliusbrussee/caveman --skill caveman-commit --skill caveman-stats --skill caveman',
   'https://github.com/mcollina/skills --skill node',
   `${os.homedir()}/Projects/microlink/marketing/blog-style --skill write-blog-post`,
-  'https://github.com/microlinkhq/skills --skill create-local-skill --skill nodejs-performance --skill use-pnpm --skill run-skill',
+  'https://github.com/microlinkhq/skills --skill skill-goal --skill create-local-skill --skill nodejs-performance --skill use-pnpm --skill run-skill',
   'https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max',
   'https://github.com/remotion-dev/skills --skill remotion-best-practices',
   'https://github.com/steipete/agent-scripts --skill skill-cleaner',
