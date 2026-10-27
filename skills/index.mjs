@@ -17,6 +17,7 @@ const SKILLS = [
   'https://github.com/emilkowalski/skill --skill emil-design-eng --skill review-animations --skill improve-animations --skill find-animation-opportunities --skill animation-vocabulary --skill apple-design',
   'https://github.com/ibelick/ui-skills --skill fixing-metadata',
   'https://github.com/jakubantalik/transitions.dev --skill transitions-dev',
+  'https://github.com/jakubkrehel/skills --skill teardown',
   'https://github.com/juliusbrussee/caveman --skill caveman-commit --skill caveman-stats --skill caveman',
   'https://github.com/mcollina/skills --skill node',
   `${os.homedir()}/Projects/microlink/marketing/blog-style --skill write-blog-post`,
