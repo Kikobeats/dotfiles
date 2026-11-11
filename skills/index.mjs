@@ -25,6 +25,7 @@ const SKILLS = [
   'https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max',
   'https://github.com/remotion-dev/skills --skill remotion-best-practices',
   'https://github.com/steipete/agent-scripts --skill skill-cleaner',
+  'https://github.com/upstash/skills --skill redis-best-practices',
   'https://github.com/vercel-labs/agent-browser --skill agent-browser',
   'https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices',
   'https://github.com/wheresryan22/anatomy --skill anatomy',
