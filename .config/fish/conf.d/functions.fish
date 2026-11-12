@@ -265,3 +265,7 @@ end
 
 # pnpm wrapper moved to a PATH shim at dotfiles/bin/pnpm so every shell (and
 # Claude, which runs via bash) picks it up. See that file for the logic.
+
+function review
+    agent --yolo /loop-review $argv
+end
