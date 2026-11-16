@@ -67,13 +67,18 @@ const findMonthIndex = name => {
   return MONTHS.findIndex(month => month.startsWith(word))
 }
 
+const formatDay = date => {
+  const pad = number => String(number).padStart(2, '0')
+  return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}`
+}
+
 const parseDay = text => {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(text)
   if (!match) return null
   const [year, month, day] = match.slice(1).map(Number)
   const date = startOfDay(year, month - 1, day)
-  const isRealDate = date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day
-  return isRealDate ? { year, monthIndex: month - 1, day } : null
+  if (formatDay(date) !== text) return null
+  return { year, monthIndex: month - 1, day }
 }
 
 const parsePeriod = (input, now = new Date()) => {
@@ -113,11 +118,6 @@ const parsePeriod = (input, now = new Date()) => {
   throw new Error(`unrecognized period "${input}"`)
 }
 
-const formatDay = date => {
-  const pad = number => String(number).padStart(2, '0')
-  return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}`
-}
-
 const shiftDays = (date, days) => new Date(date.getTime() + days * MS_PER_DAY)
 
 const sortRepositories = repositories =>
@@ -141,8 +141,8 @@ const addCounts = (counts, byRepository) => {
 }
 
 const isCapped = collection =>
-  collection.commitContributionsByRepository.length === GITHUB_MAX_REPOSITORIES ||
-  collection.pullRequestContributionsByRepository.length === GITHUB_MAX_REPOSITORIES
+  collection.commitContributionsByRepository.length >= GITHUB_MAX_REPOSITORIES ||
+  collection.pullRequestContributionsByRepository.length >= GITHUB_MAX_REPOSITORIES
 
 const summarizeGithub = collections => {
   const commits = new Map()
@@ -197,7 +197,11 @@ const summarizeGitlab = ({ projects, mergeRequests, commitsByProject, emails, un
 
   const pullRequests = new Map()
   for (const mergeRequest of mergeRequests) {
-    const name = nameById.get(mergeRequest.project_id) ?? mergeRequest.references?.full?.split('!')[0]
+    const projectId = mergeRequest.project_id
+    const name = nameById.get(projectId) ??
+      mergeRequest.references?.full?.split('!')[0] ??
+      (projectId === undefined || projectId === null ? null : String(projectId))
+    if (name === null) continue
     pullRequests.set(name, (pullRequests.get(name) ?? 0) + 1)
   }
 
@@ -310,8 +314,7 @@ const parseHttpResponse = raw => {
 }
 
 const glabAll = async path => {
-  const separator = path.includes('?') ? '&' : '?'
-  const pageUrl = page => `${path}${separator}per_page=${GITLAB_PAGE_SIZE}&page=${page}`
+  const pageUrl = page => `${path}&per_page=${GITLAB_PAGE_SIZE}&page=${page}`
   const first = parseHttpResponse(await run('glab', ['api', '--include', pageUrl(1)]))
   if (first.body.length < GITLAB_PAGE_SIZE) return first.body
 

@@ -35,8 +35,11 @@ test('a period is whole UTC days, ending at the last millisecond', () => {
 })
 
 test('YYYY-MM handles month lengths and leap years', () => {
+  assert.deepEqual(days(parsePeriod('2026-01')), ['2026-01-01', '2026-01-31'])
   assert.deepEqual(days(parsePeriod('2026-02')), ['2026-02-01', '2026-02-28'])
   assert.deepEqual(days(parsePeriod('2024-02')), ['2024-02-01', '2024-02-29'])
+  assert.deepEqual(days(parsePeriod('2026-12')), ['2026-12-01', '2026-12-31'])
+  assert.throws(() => parsePeriod('2026-00'), /unrecognized period/)
   assert.throws(() => parsePeriod('2026-13'), /unrecognized period/)
 })
 
@@ -50,7 +53,10 @@ test('FROM..TO is inclusive on both ends', () => {
 })
 
 test('FROM..TO rejects impossible dates and reversed ranges', () => {
+  assert.deepEqual(days(parsePeriod('2024-02-29..2024-02-29')), ['2024-02-29', '2024-02-29'])
+  assert.throws(() => parsePeriod('2026-02-29..2026-03-01'), /unrecognized period/)
   assert.throws(() => parsePeriod('2026-02-30..2026-03-01'), /unrecognized period/)
+  assert.throws(() => parsePeriod('2026-13-01..2026-13-02'), /unrecognized period/)
   assert.throws(() => parsePeriod('2026-10-15..2026-10-01'), /starts after it ends/)
   assert.throws(() => parsePeriod('2026-10-01..2026-10-02..2026-10-03'), /unrecognized period/)
   assert.throws(() => parsePeriod('yesterday'), /unrecognized period/)
@@ -79,16 +85,31 @@ test('GitHub projects are the union of repos with commits or PRs', () => {
 })
 
 test('GitHub marks the project count as truncated at the API cap', () => {
-  const many = Array.from({ length: 100 }, (_, index) => repository(`a/${index}`, 1))
-  const stats = summarizeGithub([{
-    totalCommitContributions: 100,
-    totalPullRequestContributions: 0,
+  const collection = (commits, pulls) => ({
+    totalCommitContributions: commits.length,
+    totalPullRequestContributions: pulls.length,
     restrictedContributionsCount: 0,
-    commitContributionsByRepository: many,
-    pullRequestContributionsByRepository: []
-  }])
+    commitContributionsByRepository: commits,
+    pullRequestContributionsByRepository: pulls
+  })
+  const many = Array.from({ length: 100 }, (_, index) => repository(`a/${index}`, 1))
+  const stats = summarizeGithub([collection(many, [])])
   assert.equal(stats.truncated, true)
   assert.match(render(parsePeriod('2026-10'), [{ name: 'GitHub', login: 'me', stats }], {}), /projects {3}100\+/)
+  assert.equal(summarizeGithub([collection([], many)]).truncated, true)
+  assert.equal(summarizeGithub([collection(Array.from({ length: 101 }, (_, index) => repository(`c/${index}`, 1)), [])]).truncated, true)
+  assert.equal(summarizeGithub([collection(Array.from({ length: 99 }, (_, index) => repository(`u/${index}`, 1)), [])]).truncated, false)
+})
+
+test('repositories sort by commits, then pull requests, then name', () => {
+  const stats = summarizeGithub([{
+    totalCommitContributions: 6,
+    totalPullRequestContributions: 10,
+    restrictedContributionsCount: 0,
+    commitContributionsByRepository: [repository('c/high', 2), repository('b/high', 2), repository('a/low', 2)],
+    pullRequestContributionsByRepository: [repository('c/high', 5), repository('b/high', 5), repository('a/low', 0)]
+  }])
+  assert.deepEqual(stats.repositories.map(({ name }) => name), ['b/high', 'c/high', 'a/low'])
 })
 
 test('GitHub sums chunks of a long period per repository', () => {
@@ -117,6 +138,10 @@ test('splitRange covers a period with contiguous, non-overlapping chunks', () =>
   }
   assert.equal(splitRange(parsePeriod('2024'), 365).length, 2)
   assert.equal(splitRange(parsePeriod('2026-10'), 365).length, 1)
+  const at = new Date(Date.UTC(2026, 9, 1))
+  const same = splitRange({ from: at, to: at }, 365)
+  assert.equal(same.length, 1)
+  assert.equal(same[0].to.getTime(), at.getTime())
 })
 
 test('GitLab counts own non-merge default-branch commits, matching emails case-insensitively', () => {
@@ -130,6 +155,8 @@ test('GitLab counts own non-merge default-branch commits, matching emails case-i
       [1, [
         { author_email: 'Me@Example.com', parent_ids: ['a'] },
         { author_email: 'me@example.com', parent_ids: ['b'] },
+        { author_email: 'me@example.com', parent_ids: [] },
+        { author_email: null, parent_ids: ['z'] },
         { author_email: 'me@example.com', parent_ids: ['c', 'd'] },
         { author_email: 'bot@noreply.gitlab.com', parent_ids: ['e'] }
       ]],
@@ -140,13 +167,13 @@ test('GitLab counts own non-merge default-branch commits, matching emails case-i
     emails: ['me@example.com'],
     unreadableProjects: 1
   })
-  assert.equal(stats.commits, 2)
+  assert.equal(stats.commits, 3)
   assert.equal(stats.unreadableProjects, 1)
   assert.match(render(parsePeriod('2026-10'), [{ name: 'GitLab', login: 'me', stats }], {}), /skipped unreadable projects: 1/)
   assert.equal(stats.pullRequests, 3)
   assert.equal(stats.projects, 2)
   assert.deepEqual(stats.repositories, [
-    { name: 'group/api', commits: 2, pullRequests: 1 },
+    { name: 'group/api', commits: 3, pullRequests: 1 },
     { name: 'group/mr-only', commits: 0, pullRequests: 2 }
   ])
 })
@@ -158,9 +185,31 @@ test('GitLab candidate projects come from in-range events only', () => {
     { project_id: 1, created_at: new Date(Date.UTC(2026, 9, 2)).toISOString() },
     { project_id: 2, created_at: new Date(Date.UTC(2026, 8, 30, 23, 59)).toISOString() },
     { project_id: 3, created_at: new Date(Date.UTC(2026, 10, 1)).toISOString() },
-    { project_id: null, created_at: new Date(Date.UTC(2026, 9, 5)).toISOString() }
+    { project_id: null, created_at: new Date(Date.UTC(2026, 9, 5)).toISOString() },
+    { project_id: 10, created_at: range.from.toISOString() },
+    { project_id: 11, created_at: range.to.toISOString() }
   ]
-  assert.deepEqual(candidateProjectIds(events, range), [1])
+  assert.deepEqual(candidateProjectIds(events, range), [1, 10, 11])
+})
+
+test('GitLab names an MR from its project, then its reference, then its id', () => {
+  const stats = summarizeGitlab({
+    projects: [{ id: 1, path_with_namespace: 'group/api' }],
+    commitsByProject: new Map([[1, [{ author_email: 'me@example.com', parent_ids: ['a'] }]]]),
+    mergeRequests: [
+      { project_id: 1 },
+      { project_id: 4, references: { full: 'group/hidden!8' } },
+      { project_id: 6 },
+      {},
+      { project_id: null }
+    ],
+    emails: ['me@example.com']
+  })
+  assert.equal(stats.pullRequests, 5)
+  assert.deepEqual(stats.repositories.map(({ name }) => name).sort(), ['6', 'group/api', 'group/hidden'])
+  const text = render(parsePeriod('2026-10'), [{ name: 'GitLab', login: 'me', stats }], { showRepositories: true })
+  assert.match(text, /group\/hidden/)
+  assert.match(text, /^\s+6\s+0\s+1$/m)
 })
 
 test('GitLab pagination reads X-Total-Pages from the response headers', () => {
@@ -198,17 +247,44 @@ test('render shows skipped providers and a total only when several answered', ()
   ], {})
   assert.match(one, /GitLab\n {2}skipped: glab is not installed/)
   assert.doesNotMatch(one, /total/)
+
+  const capped = render(range, [
+    { name: 'GitHub', login: 'me', stats: { ...sampleStats(10, 4, 100), truncated: true } },
+    { name: 'GitLab', login: 'me', stats: sampleStats(5, 2, 1) }
+  ], {})
+  assert.match(capped, /total\n {2}commits {4}15\n {2}PRs {8}6\n {2}projects {3}101\+/)
+})
+
+test('render separates private contributions from the totals', () => {
+  const range = parsePeriod('2026-10')
+  const text = render(range, [{
+    name: 'GitHub',
+    login: 'me',
+    stats: { ...sampleStats(1, 0, 1), privateContributions: 4 }
+  }], {})
+  assert.match(text, /commits {4}1/)
+  assert.match(text, /\+ 4 private contributions not broken down/)
+  assert.doesNotMatch(render(range, [{ name: 'GitHub', login: 'me', stats: sampleStats(1, 0, 1) }], {}), /private contributions/)
 })
 
 test('render lists projects with --repos', () => {
   const stats = { ...sampleStats(3, 1, 1), repositories: [{ name: 'a/one', commits: 3, pullRequests: 1 }] }
   const output = render(parsePeriod('2026-10'), [{ name: 'GitHub', login: 'me', stats }], { showRepositories: true })
   assert.match(output, /a\/one +3 +1$/)
+  const hidden = render(parsePeriod('2026-10'), [{ name: 'GitHub', login: 'me', stats }], {})
+  assert.doesNotMatch(hidden, /a\/one/)
+  const empty = render(parsePeriod('2026-10'), [{
+    name: 'GitHub', login: 'me', stats: sampleStats(0, 0, 0)
+  }], { showRepositories: true })
+  assert.doesNotMatch(empty, /project {2}commits/)
 })
 
 test('parseArgs takes one period and known flags only', () => {
   assert.deepEqual(parseArgs(['october', '--repos', '--json']),
     { period: 'october', showRepositories: true, json: true, help: false })
+  assert.equal(parseArgs(['-h']).help, true)
+  assert.equal(parseArgs(['--help']).help, true)
   assert.throws(() => parseArgs(['--user', 'x']), /unknown option --user/)
+  assert.throws(() => parseArgs(['-x']), /unknown option -x/)
   assert.throws(() => parseArgs(['october', 'november']), /unexpected argument november/)
 })

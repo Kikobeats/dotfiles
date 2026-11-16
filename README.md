@@ -47,8 +47,9 @@ logged out.
   contribution count. GitLab leaves merge commits out, so clicking Merge on
   an MR is not a commit.
 - **PRs**: pull requests (GitHub) and merge requests (GitLab) you opened.
-- **projects**: projects that got a commit or a PR from you. GitHub caps the
-  list at 100, shown as `100+`.
+- **projects**: projects that got a commit or a PR from you. GitHub returns
+  at most 100 repositories per list; a full list is a lower bound, shown
+  with `+`.
 
 Periods are whole UTC days, because GitHub rounds every query to UTC days.
 GitHub reports private contributions it will not attribute to a repository
@@ -56,4 +57,4 @@ GitHub reports private contributions it will not attribute to a repository
 they are not in the totals. A GitLab project you can no longer read is
 skipped and counted on a separate line.
 
-Run `node --test test/git-stats.test.js` to verify.
+Run `node --test test/git-stats.test.js test/git-stats.cli.test.js` to verify.
