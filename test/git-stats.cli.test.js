@@ -143,6 +143,15 @@ test('a missing provider is skipped, and both missing is a failure', () => {
   assert.match(one.stdout, /commits {4}10/)
 })
 
+test('a provider that cannot be executed reports the spawn error', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'git-stats-'))
+  fs.writeFileSync(path.join(dir, 'gh'), '#!/bin/sh\n')
+  fs.chmodSync(path.join(dir, 'gh'), 0o644)
+  const result = run(['2026-10'], dir)
+  assert.match(result.stdout, /GitHub\n {2}skipped: spawn gh EACCES/)
+  assert.match(result.stdout, /glab is not installed/)
+})
+
 test('a provider failure reports its first stderr line, or the spawn error when stderr is empty', () => {
   const failed = harness({ gh: true })
   const noisy = run(['2026-10'], failed, { GH_MODE: 'fail' })
