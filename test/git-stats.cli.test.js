@@ -147,7 +147,7 @@ test('a provider that cannot be executed reports the spawn error', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'git-stats-'))
   fs.writeFileSync(path.join(dir, 'gh'), '#!/bin/sh\n')
   fs.chmodSync(path.join(dir, 'gh'), 0o644)
-  const result = run(['2026-10'], dir)
+  const result = run(['2026-10'], dir, { PATH: dir })
   assert.match(result.stdout, /GitHub\n {2}skipped: spawn gh EACCES/)
   assert.match(result.stdout, /glab is not installed/)
 })
