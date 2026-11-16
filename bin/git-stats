@@ -282,7 +282,7 @@ const run = async (command, args) => {
     return stdout
   } catch (error) {
     if (error.code === 'ENOENT') throw new Error(`${command} is not installed`)
-    throw new Error(error.stderr?.trim() || error.message)
+    throw new Error(error.stderr.trim() || error.message)
   }
 }
 

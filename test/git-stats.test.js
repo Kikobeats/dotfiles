@@ -76,6 +76,7 @@ test('GitHub projects are the union of repos with commits or PRs', () => {
   assert.equal(stats.pullRequests, 3)
   assert.equal(stats.projects, 3)
   assert.equal(stats.privateContributions, 2)
+  assert.equal(stats.unreadableProjects, 0)
   assert.equal(stats.truncated, false)
   assert.deepEqual(stats.repositories, [
     { name: 'a/one', commits: 5, pullRequests: 0 },
@@ -168,6 +169,8 @@ test('GitLab counts own non-merge default-branch commits, matching emails case-i
     unreadableProjects: 1
   })
   assert.equal(stats.commits, 3)
+  assert.equal(stats.privateContributions, 0)
+  assert.equal(stats.truncated, false)
   assert.equal(stats.unreadableProjects, 1)
   assert.match(render(parsePeriod('2026-10'), [{ name: 'GitLab', login: 'me', stats }], {}), /skipped unreadable projects: 1/)
   assert.equal(stats.pullRequests, 3)
@@ -206,6 +209,7 @@ test('GitLab names an MR from its project, then its reference, then its id', () 
     emails: ['me@example.com']
   })
   assert.equal(stats.pullRequests, 5)
+  assert.equal(stats.unreadableProjects, 0)
   assert.deepEqual(stats.repositories.map(({ name }) => name).sort(), ['6', 'group/api', 'group/hidden'])
   const text = render(parsePeriod('2026-10'), [{ name: 'GitLab', login: 'me', stats }], { showRepositories: true })
   assert.match(text, /group\/hidden/)
