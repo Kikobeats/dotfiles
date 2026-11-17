@@ -400,6 +400,12 @@ check "a cache of only a broken worktree explains why" output_has "not a working
 check "a cache of only a broken worktree counts one skip" output_has "removed 0, kept 0, skipped 1"
 check "a cache of only a broken worktree exits 0" [ "$status" -eq 0 ]
 
+status=0
+( cd "$broken/github.com/acme/gone/79" && LOOP_REVIEW_CACHE="$broken" "$prune" >"$sandbox/output" ) || status=$?
+check "a broken worktree is kept when prune runs from inside it" exists "$broken/github.com/acme/gone/79"
+check "a broken worktree run from inside is not the current directory" output_has "not a working git worktree"
+check "a broken worktree run from inside exits 0" [ "$status" -eq 0 ]
+
 mkdir -p "$sandbox/wrap-status" "$sandbox/wrap-ls"
 cat >"$sandbox/wrap-status/git" <<EOF
 #!/usr/bin/env bash
