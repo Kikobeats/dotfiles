@@ -242,6 +242,9 @@ rm -rf "$gone"
 review_tree "$app" "$edge/github.com/acme/.github/24"
 github_pull_request acme/.github 24 merged "$(head_of "$edge/github.com/acme/.github/24")"
 
+review_tree "$app" "$edge/github.com/acme/..tools/26"
+github_pull_request "acme/..tools" 26 merged "$(head_of "$edge/github.com/acme/..tools/26")"
+
 large="$edge_app/25"
 review_tree "$app" "$large"
 mkdir "$large/many"
@@ -259,6 +262,7 @@ git -C "$app" config --unset status.showUntrackedFiles
 check "an untracked file hidden by showUntrackedFiles=no keeps the tree" exists "$edge_app/20/hidden-untracked.txt"
 check "an edit to a skip-worktree file keeps the tree" exists "$edge_app/21/tracked.txt"
 check "a repository whose name starts with a dot is searched" missing "$edge/github.com/acme/.github/24"
+check "a repository whose name starts with two dots is searched" missing "$edge/github.com/acme/..tools/26"
 check "a skip-worktree edit keeps the tree when ls-files output overflows a pipe" exists "$large/0-first.txt"
 check "a repository named with digits is searched" missing "$edge/github.com/acme/2048/5"
 check "a pull request state without a head sha is unreadable" output_has "acme/app#22                              cannot read"
