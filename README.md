@@ -38,8 +38,10 @@ loop-review-prune --closed    # also remove pull requests closed without merging
 ```
 
 It asks `gh` (GitHub) or `glab` (GitLab) for each pull request's state. A tree
-with uncommitted changes, with commits the pull request does not have, or
-switched off its `loop-review/<number>` branch is kept and reported. Cached
+with uncommitted changes, with commits that are neither in the pull request
+nor on any remote branch, or switched off its `loop-review/<number>` branch is
+kept and reported. Commits already pushed to some remote branch do not keep
+the tree, since removing it loses nothing. Cached
 clones (`_clone`) are kept for the next review. Run
 `./test/loop-review-prune.sh` to verify.
 

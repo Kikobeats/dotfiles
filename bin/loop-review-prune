@@ -12,8 +12,9 @@ Usage: loop-review-prune [--dry-run] [--closed]
 Removes what /loop-review keeps under $CACHE
 for pull requests that are merged: the review worktree, its loop-review/<number>
 branch, and the directories left empty. A tree with uncommitted or untracked
-changes, with commits its pull request does not have, or off its loop-review
-branch is kept. Ignored files (node_modules, build output) are removed with it.
+changes, with commits that are neither in its pull request nor on any remote
+branch, or off its loop-review branch is kept. Ignored files (node_modules,
+build output) are removed with it.
 
   -n, --dry-run   print what would be removed, remove nothing
   -c, --closed    also remove trees of pull requests closed without merging
@@ -40,7 +41,7 @@ pull_request_state() {
         --jq '(.state | ascii_downcase) + " " + .headRefOid'
       ;;
     gitlab.com)
-      glab api "projects/${slug//\//%2F}/merge_requests/$number" |
+      glab api --hostname "$host" "projects/${slug//\//%2F}/merge_requests/$number" |
         python3 -c 'import json, sys; mr = json.load(sys.stdin); print({"opened": "open"}.get(mr["state"], mr["state"]), mr["sha"])'
       ;;
     *) return 1 ;;
@@ -65,7 +66,7 @@ is_review_tree() {
 
 numbered_trees() {
   local dir
-  for dir in "$1"/*/; do
+  for dir in "$1"/*/ "$1"/.[!.]*/ "$1"/..?*/; do
     dir="${dir%/}"
     [ -d "$dir" ] && [ ! -L "$dir" ] || continue
     case "$(basename "$dir")" in _clone | node_modules) continue ;; esac
@@ -82,7 +83,7 @@ has_local_changes() {
   changes="$(git -C "$1" status --porcelain --untracked-files=all)" || return 0
   [ -n "$changes" ] && return 0
   flags="$(git -C "$1" ls-files -v)" || return 0
-  printf '%s\n' "$flags" | grep -q '^[a-zS]'
+  grep -q '^[a-zS]' <<<"$flags"
 }
 
 has_unpublished_commits() {

@@ -21,7 +21,8 @@ cat "$FAKE_PULL_REQUESTS/github.com/${pull_request/\/pull\///}"
 EOF
 cat >"$sandbox/fakebin/glab" <<'EOF'
 #!/usr/bin/env bash
-path="${2#projects/}"
+[ "$2 $3" = "--hostname gitlab.com" ] || exit 1
+path="${4#projects/}"
 project="${path%/merge_requests/*}"
 cat "$FAKE_PULL_REQUESTS/gitlab.com/${project//%2F//}/${path##*/}"
 EOF
@@ -222,10 +223,27 @@ review_tree "$gone" "$edge/github.com/acme/gone/23"
 github_pull_request acme/gone 23 merged "$(head_of "$edge/github.com/acme/gone/23")"
 rm -rf "$gone"
 
+review_tree "$app" "$edge/github.com/acme/.github/24"
+github_pull_request acme/.github 24 merged "$(head_of "$edge/github.com/acme/.github/24")"
+
+large="$edge_app/25"
+review_tree "$app" "$large"
+mkdir "$large/many"
+for i in $(seq 1 3000); do : >"$large/many/file-$i-with-a-name-long-enough-to-fill-the-pipe.txt"; done
+echo original >"$large/0-first.txt"
+git -C "$large" add .
+git -C "$large" commit -q -m "add enough files to overflow a pipe"
+git -C "$large" push -q origin HEAD:refs/heads/feature-25
+github_pull_request acme/app 25 merged "$(head_of "$large")"
+git -C "$large" update-index --skip-worktree 0-first.txt
+echo edited >"$large/0-first.txt"
+
 "$prune" >"$sandbox/output" || true
 git -C "$app" config --unset status.showUntrackedFiles
 check "an untracked file hidden by showUntrackedFiles=no keeps the tree" exists "$edge_app/20/hidden-untracked.txt"
 check "an edit to a skip-worktree file keeps the tree" exists "$edge_app/21/tracked.txt"
+check "a repository whose name starts with a dot is searched" missing "$edge/github.com/acme/.github/24"
+check "a skip-worktree edit keeps the tree when ls-files output overflows a pipe" exists "$large/0-first.txt"
 check "a repository named with digits is searched" missing "$edge/github.com/acme/2048/5"
 check "a pull request state without a head sha is unreadable" output_has "acme/app#22                              cannot read"
 check "a tree whose clone was deleted is reported" output_has "acme/gone#23"
