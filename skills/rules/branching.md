@@ -41,5 +41,6 @@ Same as the base CLAUDE.md: rebase on `$BASE`, push the branch, open a PR with
 merge your own PR unless Kiko says so. `git config claude.mode solo` does not
 change this: solo only means no worktree here, it never means no PR.
 
-After the PR is open, switch back to the branch you started on so the next
-task does not stack on this one.
+After the PR is open, stay on its branch. Kiko often has a dev server running
+on this checkout, and switching away hides the work from it. The next task
+does not stack on this one: setup branches from `$BASE`, never from `HEAD`.
