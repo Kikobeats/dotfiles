@@ -1,6 +1,6 @@
 'use strict'
 
-const { test } = require('node:test')
+const { test, after } = require('node:test')
 const assert = require('node:assert/strict')
 const { spawnSync } = require('node:child_process')
 const fs = require('node:fs')
@@ -8,7 +8,8 @@ const os = require('node:os')
 const path = require('node:path')
 
 const statsBin = path.join(__dirname, '..', 'bin', 'git-stats')
-const EMPTY_PATH = '/usr/bin:/bin'
+const ISOLATED = fs.mkdtempSync(path.join(os.tmpdir(), 'git-stats-isolated-'))
+after(() => fs.rmSync(ISOLATED, { recursive: true, force: true }))
 
 const GH = `
 const fs = require('node:fs')
@@ -125,7 +126,7 @@ const harness = ({ gh = false, glab = false } = {}) => {
 
 const run = (args, dir, env = {}) => spawnSync(process.execPath, [statsBin, ...args], {
   encoding: 'utf8',
-  env: { HOME: os.homedir(), PATH: dir ? `${dir}${path.delimiter}${EMPTY_PATH}` : EMPTY_PATH, CALLS: dir ? path.join(dir, 'calls.log') : '', ...env }
+  env: { HOME: ISOLATED, PATH: dir ?? ISOLATED, CALLS: dir ? path.join(dir, 'calls.log') : '', ...env }
 })
 
 const calls = dir => {
