@@ -56,6 +56,14 @@ const send = (body, totalPages) => {
   process.stdout.write(head.join('\\r\\n') + '\\r\\n\\r\\n' + json)
 }
 const day = '2026-10-15T00:00:00.000Z'
+if (process.env.CONCURRENCY_DIR) {
+  const marker = require('node:path').join(process.env.CONCURRENCY_DIR, String(process.pid))
+  fs.writeFileSync(marker, '')
+  fs.appendFileSync(process.env.CONCURRENCY_DIR + '.log', fs.readdirSync(process.env.CONCURRENCY_DIR).length + '\\n')
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 40)
+  fs.unlinkSync(marker)
+}
+const manyProjects = Number(process.env.MANY_PROJECTS || 0)
 if (target === 'user') {
   send({ id: 7, username: 'me', email: 'primary@example.com', commit_email: 'commit@example.com', public_email: 'public@example.com' })
 } else if (target.startsWith('user/emails')) {
@@ -70,6 +78,10 @@ if (target === 'user') {
   if (page === 1) send(Array.from({ length: 100 }, () => ({ project_id: 1 })), 2)
   else if (page === 2) send([{ project_id: 4, references: { full: 'group/hidden!8' } }, { project_id: 6 }])
   else fail('merge requests page ' + page)
+} else if (target.includes('projects?') && manyProjects) {
+  send(Array.from({ length: manyProjects }, (_, index) => ({ id: 1000 + index, path_with_namespace: 'group/p' + index, default_branch: 'main' })))
+} else if (target.includes('/repository/commits') && manyProjects) {
+  send([{ author_email: 'primary@example.com', parent_ids: ['a'] }])
 } else if (target.includes('projects?')) {
   if (page === 1) {
     send([
@@ -79,6 +91,7 @@ if (target === 'user') {
   } else send([{ id: 99, path_with_namespace: 'group/poison', default_branch: 'main' }])
 } else if (target.includes('/repository/commits')) {
   if (target.includes('projects/1/')) {
+    if (process.env.COMMITS_FAIL) fail('glab: 429 Too Many Requests (HTTP 429)')
     send([
       { author_email: 'primary@example.com', parent_ids: ['a'] },
       { author_email: 'commit@example.com', parent_ids: ['b'] },
@@ -93,7 +106,7 @@ if (target === 'user') {
 } else if (target.startsWith('projects/')) {
   const id = target.split('/')[1]
   if (id === '3') send({ id: 3, path_with_namespace: 'group/other', default_branch: 'main' })
-  else fail('404 ' + id)
+  else fail('glab: 404 Project Not Found (HTTP 404)')
 } else fail('unexpected ' + target)
 `
 
@@ -228,4 +241,26 @@ test('GitLab still counts profile emails when the emails endpoint fails', () => 
   assert.equal(result.status, 0, result.stderr + result.stdout)
   assert.match(result.stdout, /commits {4}5$/m)
   assert.doesNotMatch(result.stdout, /403 forbidden/)
+})
+
+test('GitLab reports a rate limit as a failure instead of an unreadable project', () => {
+  const dir = harness({ glab: true })
+  const result = run(['2026-10'], dir, { COMMITS_FAIL: '1' })
+  assert.match(result.stdout, /GitLab\n {2}skipped: glab: 429 Too Many Requests/)
+  assert.doesNotMatch(result.stdout, /skipped unreadable projects/)
+})
+
+test('provider processes run at most 8 at a time and every project is still counted', () => {
+  const dir = harness({ glab: true })
+  const running = path.join(dir, 'running')
+  fs.mkdirSync(running)
+  const result = run(['2026-10', '--json'], dir, { MANY_PROJECTS: '40', CONCURRENCY_DIR: running })
+  assert.equal(result.status, 0, result.stderr + result.stdout)
+  const gitlab = JSON.parse(result.stdout).providers.find(({ name }) => name === 'GitLab')
+  const many = gitlab.stats.repositories.filter(({ name }) => name.startsWith('group/p'))
+  assert.equal(many.length, 40)
+  assert.ok(many.every(({ commits }) => commits === 1))
+  const peak = Math.max(...fs.readFileSync(running + '.log', 'utf8').trim().split('\n').map(Number))
+  assert.ok(peak <= 8, `peak concurrency ${peak}`)
+  assert.ok(peak >= 2, `calls ran in parallel, peak ${peak}`)
 })

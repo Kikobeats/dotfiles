@@ -35,6 +35,8 @@ const GITHUB_MAX_RANGE_DAYS = 365
 const GITLAB_PAGE_SIZE = 100
 const MS_PER_DAY = 86_400_000
 const MAX_OUTPUT_BYTES = 256 * 1024 * 1024
+const MAX_CONCURRENT_PROCESSES = 8
+const UNREADABLE = /\(HTTP 40[34]\)/
 
 const GITHUB_QUERY = `query($login: String!, $from: DateTime!, $to: DateTime!) {
   user(login: $login) {
@@ -276,7 +278,28 @@ const parseArgs = argv => {
   return options
 }
 
-const run = async (command, args) => {
+const limitConcurrency = limit => {
+  let active = 0
+  const queue = []
+  const release = () => {
+    const next = queue.shift()
+    if (next) next()
+    else active--
+  }
+  return async task => {
+    if (active >= limit) await new Promise(resolve => queue.push(resolve))
+    else active++
+    try {
+      return await task()
+    } finally {
+      release()
+    }
+  }
+}
+
+const withProcessSlot = limitConcurrency(MAX_CONCURRENT_PROCESSES)
+
+const run = (command, args) => withProcessSlot(async () => {
   try {
     const { stdout } = await execFileAsync(command, args, { encoding: 'utf8', maxBuffer: MAX_OUTPUT_BYTES })
     return stdout
@@ -284,7 +307,7 @@ const run = async (command, args) => {
     if (error.code === 'ENOENT') throw new Error(`${command} is not installed`)
     throw new Error(error.stderr.trim() || error.message)
   }
-}
+})
 
 const fetchGithubCollection = async (login, { from, to }) => {
   const response = JSON.parse(await run('gh', [
@@ -336,7 +359,10 @@ const fetchGitlabEmails = async user => {
   return [user.email, user.commit_email, user.public_email, ...emails.map(({ email }) => email)].filter(Boolean)
 }
 
-const settle = promise => promise.then(value => value, () => null)
+const skipUnreadable = promise => promise.catch(error => {
+  if (UNREADABLE.test(error.message)) return null
+  throw error
+})
 
 const fetchDefaultBranchCommits = (project, range) => glabAll(
   `projects/${project.id}/repository/commits?ref_name=${encodeURIComponent(project.default_branch)}` +
@@ -358,11 +384,11 @@ const fetchGitlab = async range => {
   const knownIds = new Set(activeProjects.map(project => project.id))
   const otherIds = [...new Set([...candidateProjectIds(events, range), ...mergeRequests.map(mr => mr.project_id)])]
     .filter(id => !knownIds.has(id))
-  const otherProjects = await Promise.all(otherIds.map(id => settle(glab(`projects/${id}`))))
+  const otherProjects = await Promise.all(otherIds.map(id => skipUnreadable(glab(`projects/${id}`))))
   const projects = [...activeProjects, ...otherProjects.filter(Boolean)]
 
   const withRepository = projects.filter(project => project.default_branch)
-  const commitLists = await Promise.all(withRepository.map(project => settle(fetchDefaultBranchCommits(project, range))))
+  const commitLists = await Promise.all(withRepository.map(project => skipUnreadable(fetchDefaultBranchCommits(project, range))))
   const commitsByProject = new Map(withRepository
     .map((project, index) => [project.id, commitLists[index]])
     .filter(([, commits]) => commits !== null))
