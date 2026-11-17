@@ -1,0 +1,440 @@
+#!/usr/bin/env node
+'use strict'
+
+const { execFile } = require('node:child_process')
+const { promisify } = require('node:util')
+
+const execFileAsync = promisify(execFile)
+
+const USAGE = `Count your commits, pull requests and projects touched on GitHub and GitLab.
+
+  git-stats                        # current month
+  git-stats october                # most recent October (also: oct)
+  git-stats 2026-10                # a given month
+  git-stats 2026                   # a whole year
+  git-stats 2026-10-01..2026-10-15
+  git-stats october --repos --json
+
+Options:
+  --repos          List every project with its commit and PR count
+  --json           Machine-readable output
+
+Periods are whole UTC days, because GitHub rounds every query to UTC days.
+Commits count once they are on a project's default branch, by commit date,
+so rebases and force-pushes are not counted twice. GitLab merge commits are
+left out.
+A provider whose CLI (gh, glab) is missing or logged out is skipped.`
+
+const MONTHS = [
+  'january', 'february', 'march', 'april', 'may', 'june',
+  'july', 'august', 'september', 'october', 'november', 'december'
+]
+const MIN_MONTH_PREFIX = 3
+const GITHUB_MAX_REPOSITORIES = 100
+const GITHUB_MAX_RANGE_DAYS = 365
+const GITLAB_PAGE_SIZE = 100
+const MS_PER_DAY = 86_400_000
+const MAX_OUTPUT_BYTES = 256 * 1024 * 1024
+const MAX_CONCURRENT_PROCESSES = 8
+const UNREADABLE = /\(HTTP 40[34]\)/
+
+const GITHUB_QUERY = `query($login: String!, $from: DateTime!, $to: DateTime!) {
+  user(login: $login) {
+    contributionsCollection(from: $from, to: $to) {
+      totalCommitContributions
+      totalPullRequestContributions
+      restrictedContributionsCount
+      commitContributionsByRepository(maxRepositories: ${GITHUB_MAX_REPOSITORIES}) {
+        repository { nameWithOwner }
+        contributions { totalCount }
+      }
+      pullRequestContributionsByRepository(maxRepositories: ${GITHUB_MAX_REPOSITORIES}) {
+        repository { nameWithOwner }
+        contributions { totalCount }
+      }
+    }
+  }
+}`
+
+const startOfDay = (year, monthIndex, day) => new Date(Date.UTC(year, monthIndex, day))
+const endOfDay = (year, monthIndex, day) => new Date(Date.UTC(year, monthIndex, day, 23, 59, 59, 999))
+const monthRange = (year, monthIndex) => ({
+  from: startOfDay(year, monthIndex, 1),
+  to: endOfDay(year, monthIndex + 1, 0)
+})
+
+const findMonthIndex = name => {
+  const word = name.toLowerCase()
+  if (word.length < MIN_MONTH_PREFIX) return -1
+  return MONTHS.findIndex(month => month.startsWith(word))
+}
+
+const formatDay = date => {
+  const pad = number => String(number).padStart(2, '0')
+  return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}`
+}
+
+const parseDay = text => {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(text)
+  if (!match) return null
+  const [year, month, day] = match.slice(1).map(Number)
+  const date = startOfDay(year, month - 1, day)
+  if (formatDay(date) !== text) return null
+  return { year, monthIndex: month - 1, day }
+}
+
+const parsePeriod = (input, now = new Date()) => {
+  if (!input) return monthRange(now.getUTCFullYear(), now.getUTCMonth())
+
+  const monthIndex = findMonthIndex(input)
+  if (monthIndex !== -1) {
+    const year = monthIndex > now.getUTCMonth() ? now.getUTCFullYear() - 1 : now.getUTCFullYear()
+    return monthRange(year, monthIndex)
+  }
+
+  const yearMonth = /^(\d{4})-(\d{2})$/.exec(input)
+  if (yearMonth) {
+    const month = Number(yearMonth[2])
+    if (month >= 1 && month <= 12) return monthRange(Number(yearMonth[1]), month - 1)
+  }
+
+  if (/^\d{4}$/.test(input)) {
+    const year = Number(input)
+    return { from: startOfDay(year, 0, 1), to: endOfDay(year, 11, 31) }
+  }
+
+  const [fromText, toText, ...rest] = input.split('..')
+  if (toText !== undefined && rest.length === 0) {
+    const from = parseDay(fromText)
+    const to = parseDay(toText)
+    if (from && to) {
+      const range = {
+        from: startOfDay(from.year, from.monthIndex, from.day),
+        to: endOfDay(to.year, to.monthIndex, to.day)
+      }
+      if (range.from > range.to) throw new Error('the period starts after it ends')
+      return range
+    }
+  }
+
+  throw new Error(`unrecognized period "${input}"`)
+}
+
+const shiftDays = (date, days) => new Date(date.getTime() + days * MS_PER_DAY)
+
+const sortRepositories = repositories =>
+  repositories.sort((a, b) =>
+    b.commits - a.commits || b.pullRequests - a.pullRequests || a.name.localeCompare(b.name))
+
+const mergeCounts = (commits, pullRequests) => {
+  const names = new Set([...commits.keys(), ...pullRequests.keys()])
+  return sortRepositories([...names].map(name => ({
+    name,
+    commits: commits.get(name) ?? 0,
+    pullRequests: pullRequests.get(name) ?? 0
+  })))
+}
+
+const addCounts = (counts, byRepository) => {
+  for (const { repository, contributions } of byRepository) {
+    counts.set(repository.nameWithOwner, (counts.get(repository.nameWithOwner) ?? 0) + contributions.totalCount)
+  }
+  return counts
+}
+
+const isCapped = collection =>
+  collection.commitContributionsByRepository.length >= GITHUB_MAX_REPOSITORIES ||
+  collection.pullRequestContributionsByRepository.length >= GITHUB_MAX_REPOSITORIES
+
+const summarizeGithub = collections => {
+  const commits = new Map()
+  const pullRequests = new Map()
+  for (const collection of collections) {
+    addCounts(commits, collection.commitContributionsByRepository)
+    addCounts(pullRequests, collection.pullRequestContributionsByRepository)
+  }
+  const repositories = mergeCounts(commits, pullRequests)
+  const sum = key => collections.reduce((total, collection) => total + collection[key], 0)
+  return {
+    commits: sum('totalCommitContributions'),
+    pullRequests: sum('totalPullRequestContributions'),
+    projects: repositories.length,
+    privateContributions: sum('restrictedContributionsCount'),
+    unreadableProjects: 0,
+    truncated: collections.some(isCapped),
+    repositories
+  }
+}
+
+const splitRange = ({ from, to }, maxDays) => {
+  const chunks = []
+  for (let start = from; start <= to; start = new Date(start.getTime() + maxDays * MS_PER_DAY)) {
+    const end = new Date(Math.min(start.getTime() + maxDays * MS_PER_DAY - 1, to.getTime()))
+    chunks.push({ from: start, to: end })
+  }
+  return chunks
+}
+
+const isWithin = (isoDate, { from, to }) => {
+  const date = new Date(isoDate)
+  return date >= from && date <= to
+}
+
+const candidateProjectIds = (events, range) =>
+  [...new Set(events
+    .filter(event => event.project_id && isWithin(event.created_at, range))
+    .map(event => event.project_id))]
+
+const summarizeGitlab = ({ projects, mergeRequests, commitsByProject, emails, unreadableProjects = 0 }) => {
+  const ownEmails = new Set(emails.map(email => email.toLowerCase()))
+  const nameById = new Map(projects.map(project => [project.id, project.path_with_namespace]))
+
+  const isOwnWork = commit => commit.parent_ids.length <= 1 && ownEmails.has(commit.author_email?.toLowerCase())
+
+  const commits = new Map()
+  for (const [projectId, projectCommits] of commitsByProject) {
+    const own = projectCommits.filter(isOwnWork).length
+    if (own > 0) commits.set(nameById.get(projectId), own)
+  }
+
+  const pullRequests = new Map()
+  for (const mergeRequest of mergeRequests) {
+    const projectId = mergeRequest.project_id
+    const name = nameById.get(projectId) ??
+      mergeRequest.references?.full?.split('!')[0] ??
+      (projectId === undefined || projectId === null ? null : String(projectId))
+    if (name === null) continue
+    pullRequests.set(name, (pullRequests.get(name) ?? 0) + 1)
+  }
+
+  const repositories = mergeCounts(commits, pullRequests)
+  return {
+    commits: repositories.reduce((sum, { commits }) => sum + commits, 0),
+    pullRequests: mergeRequests.length,
+    projects: repositories.length,
+    privateContributions: 0,
+    unreadableProjects,
+    truncated: false,
+    repositories
+  }
+}
+
+const totalOf = providers => {
+  const reported = providers.filter(provider => provider.stats)
+  const sum = key => reported.reduce((total, { stats }) => total + stats[key], 0)
+  return {
+    commits: sum('commits'),
+    pullRequests: sum('pullRequests'),
+    projects: sum('projects'),
+    truncated: reported.some(({ stats }) => stats.truncated)
+  }
+}
+
+const renderStats = (lines, stats, showRepositories) => {
+  lines.push(
+    `  commits    ${stats.commits}`,
+    `  PRs        ${stats.pullRequests}`,
+    `  projects   ${stats.projects}${stats.truncated ? '+' : ''}`
+  )
+  if (stats.privateContributions > 0) {
+    lines.push(`  + ${stats.privateContributions} private contributions not broken down`)
+  }
+  if (stats.unreadableProjects > 0) {
+    lines.push(`  ! skipped unreadable projects: ${stats.unreadableProjects}`)
+  }
+  if (showRepositories && stats.repositories.length > 0) {
+    const width = Math.max('project'.length, ...stats.repositories.map(({ name }) => name.length))
+    lines.push('', `    ${'project'.padEnd(width)}  commits  PRs`)
+    for (const { name, commits, pullRequests } of stats.repositories) {
+      lines.push(`    ${name.padEnd(width)}  ${String(commits).padStart(7)}  ${String(pullRequests).padStart(3)}`)
+    }
+  }
+}
+
+const render = (range, providers, { showRepositories }) => {
+  const lines = [`${formatDay(range.from)} → ${formatDay(range.to)}`]
+  for (const { name, login, stats, error } of providers) {
+    lines.push('', login ? `${name} · ${login}` : name)
+    if (error) lines.push(`  skipped: ${error}`)
+    else renderStats(lines, stats, showRepositories)
+  }
+  if (providers.filter(provider => provider.stats).length > 1) {
+    const total = totalOf(providers)
+    lines.push('', 'total', `  commits    ${total.commits}`, `  PRs        ${total.pullRequests}`, `  projects   ${total.projects}${total.truncated ? '+' : ''}`)
+  }
+  return lines.join('\n')
+}
+
+const parseArgs = argv => {
+  const options = { period: undefined, showRepositories: false, json: false, help: false }
+  for (const arg of argv) {
+    if (arg === '-h' || arg === '--help') options.help = true
+    else if (arg === '--repos') options.showRepositories = true
+    else if (arg === '--json') options.json = true
+    else if (arg.startsWith('-')) throw new Error(`unknown option ${arg}`)
+    else if (options.period === undefined) options.period = arg
+    else throw new Error(`unexpected argument ${arg}`)
+  }
+  return options
+}
+
+const limitConcurrency = limit => {
+  let active = 0
+  const queue = []
+  const release = () => {
+    const next = queue.shift()
+    if (next) next()
+    else active--
+  }
+  return async task => {
+    if (active >= limit) await new Promise(resolve => queue.push(resolve))
+    else active++
+    try {
+      return await task()
+    } finally {
+      release()
+    }
+  }
+}
+
+const withProcessSlot = limitConcurrency(MAX_CONCURRENT_PROCESSES)
+
+const run = (command, args) => withProcessSlot(async () => {
+  try {
+    const { stdout } = await execFileAsync(command, args, { encoding: 'utf8', maxBuffer: MAX_OUTPUT_BYTES })
+    return stdout
+  } catch (error) {
+    if (error.code === 'ENOENT') throw new Error(`${command} is not installed`)
+    throw new Error(error.stderr.trim() || error.message)
+  }
+})
+
+const fetchGithubCollection = async (login, { from, to }) => {
+  const response = JSON.parse(await run('gh', [
+    'api', 'graphql',
+    '-f', `query=${GITHUB_QUERY}`,
+    '-f', `login=${login}`,
+    '-f', `from=${from.toISOString()}`,
+    '-f', `to=${to.toISOString()}`
+  ]))
+  return response.data.user.contributionsCollection
+}
+
+const fetchGithub = async range => {
+  const login = (await run('gh', ['api', 'user', '--jq', '.login'])).trim()
+  const chunks = splitRange(range, GITHUB_MAX_RANGE_DAYS)
+  const collections = await Promise.all(chunks.map(chunk => fetchGithubCollection(login, chunk)))
+  return { login, stats: summarizeGithub(collections) }
+}
+
+const glab = async path => JSON.parse(await run('glab', ['api', path]))
+
+const parseHttpResponse = raw => {
+  const boundary = raw.search(/\r?\n\r?\n/)
+  const head = raw.slice(0, boundary)
+  const totalPages = /^x-total-pages:\s*(\d+)/im.exec(head)
+  return { body: JSON.parse(raw.slice(boundary).trim()), totalPages: totalPages ? Number(totalPages[1]) : null }
+}
+
+const glabAll = async path => {
+  const pageUrl = page => `${path}&per_page=${GITLAB_PAGE_SIZE}&page=${page}`
+  const first = parseHttpResponse(await run('glab', ['api', '--include', pageUrl(1)]))
+  if (first.body.length < GITLAB_PAGE_SIZE) return first.body
+
+  if (first.totalPages === null) {
+    const items = [...first.body]
+    for (let page = 2; ; page++) {
+      const batch = await glab(pageUrl(page))
+      items.push(...batch)
+      if (batch.length < GITLAB_PAGE_SIZE) return items
+    }
+  }
+
+  const pages = Array.from({ length: first.totalPages - 1 }, (_, index) => glab(pageUrl(index + 2)))
+  return [first.body, ...(await Promise.all(pages))].flat()
+}
+
+const fetchGitlabEmails = async user => {
+  const emails = await glab('user/emails').catch(() => [])
+  return [user.email, user.commit_email, user.public_email, ...emails.map(({ email }) => email)].filter(Boolean)
+}
+
+const skipUnreadable = promise => promise.catch(error => {
+  if (UNREADABLE.test(error.message)) return null
+  throw error
+})
+
+const fetchDefaultBranchCommits = (project, range) => glabAll(
+  `projects/${project.id}/repository/commits?ref_name=${encodeURIComponent(project.default_branch)}` +
+  `&since=${range.from.toISOString()}&until=${range.to.toISOString()}`
+)
+
+const fetchGitlab = async range => {
+  const user = await glab('user')
+  const from = range.from.toISOString()
+  const to = range.to.toISOString()
+  const window = `after=${formatDay(shiftDays(range.from, -1))}&before=${formatDay(shiftDays(range.to, 1))}`
+  const [events, mergeRequests, emails, activeProjects] = await Promise.all([
+    glabAll(`users/${user.id}/events?${window}`),
+    glabAll(`merge_requests?scope=created_by_me&state=all&created_after=${from}&created_before=${to}`),
+    fetchGitlabEmails(user),
+    glabAll(`projects?membership=true&simple=true&last_activity_after=${from}`)
+  ])
+
+  const knownIds = new Set(activeProjects.map(project => project.id))
+  const otherIds = [...new Set([...candidateProjectIds(events, range), ...mergeRequests.map(mr => mr.project_id)])]
+    .filter(id => !knownIds.has(id))
+  const otherProjects = await Promise.all(otherIds.map(id => skipUnreadable(glab(`projects/${id}`))))
+  const projects = [...activeProjects, ...otherProjects.filter(Boolean)]
+
+  const withRepository = projects.filter(project => project.default_branch)
+  const commitLists = await Promise.all(withRepository.map(project => skipUnreadable(fetchDefaultBranchCommits(project, range))))
+  const commitsByProject = new Map(withRepository
+    .map((project, index) => [project.id, commitLists[index]])
+    .filter(([, commits]) => commits !== null))
+
+  const unreadableProjects = otherProjects.filter(project => project === null).length +
+    commitLists.filter(commits => commits === null).length
+  return {
+    login: user.username,
+    stats: summarizeGitlab({ projects, mergeRequests, commitsByProject, emails, unreadableProjects })
+  }
+}
+
+const PROVIDERS = [
+  { name: 'GitHub', fetch: fetchGithub },
+  { name: 'GitLab', fetch: fetchGitlab }
+]
+
+const collect = range => Promise.all(PROVIDERS.map(async ({ name, fetch }) => {
+  try {
+    return { name, ...(await fetch(range)) }
+  } catch (error) {
+    return { name, error: error.message.split('\n')[0] }
+  }
+}))
+
+const main = async () => {
+  const options = parseArgs(process.argv.slice(2))
+  if (options.help) return console.log(USAGE)
+
+  const range = parsePeriod(options.period)
+  const providers = await collect(range)
+
+  if (options.json) {
+    const report = { from: formatDay(range.from), to: formatDay(range.to), providers, total: totalOf(providers) }
+    console.log(JSON.stringify(report, null, 2))
+  } else {
+    console.log(render(range, providers, options))
+  }
+  if (providers.every(provider => provider.error)) process.exitCode = 1
+}
+
+if (require.main === module) {
+  main().catch(error => {
+    console.error(`git-stats: ${error.message}`)
+    process.exit(1)
+  })
+}
+
+module.exports = { parsePeriod, formatDay, parseHttpResponse, splitRange, summarizeGithub, summarizeGitlab, candidateProjectIds, totalOf, render, parseArgs }
