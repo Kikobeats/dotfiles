@@ -17,7 +17,20 @@ mkdir -p "$sandbox/fakebin"
 cat >"$sandbox/fakebin/gh" <<'EOF'
 #!/usr/bin/env bash
 pull_request="${3#https://github.com/}"
-cat "$FAKE_PULL_REQUESTS/github.com/${pull_request/\/pull\///}"
+file="$FAKE_PULL_REQUESTS/github.com/${pull_request/\/pull\///}"
+expr=""
+prev=""
+for arg in "$@"; do
+  if [ "$prev" = "--jq" ]; then
+    expr=$arg
+  fi
+  prev=$arg
+done
+if [ -z "$expr" ]; then
+  echo "expected --jq" >&2
+  exit 1
+fi
+jq -r "$expr" "$file"
 EOF
 cat >"$sandbox/fakebin/glab" <<'EOF'
 #!/usr/bin/env bash
@@ -60,7 +73,9 @@ review_tree() {
 github_pull_request() {
   local slug="$1" number="$2" state="$3" sha="$4"
   mkdir -p "$FAKE_PULL_REQUESTS/github.com/$slug"
-  echo "$state $sha" >"$FAKE_PULL_REQUESTS/github.com/$slug/$number"
+  # gh returns uppercase states; the script lowercases them with --jq.
+  printf '{"state":"%s","headRefOid":"%s"}\n' "$(printf '%s' "$state" | tr '[:lower:]' '[:upper:]')" "$sha" \
+    >"$FAKE_PULL_REQUESTS/github.com/$slug/$number"
 }
 
 gitlab_merge_request() {
@@ -141,6 +156,7 @@ check "a dry run reports what it would remove" output_has "would remove  acme/ap
 check "a dry run removes nothing" exists "$cache_app/1"
 check "a dry run keeps the branch" has_branch "$app" loop-review/1
 check "a dry run exits 1 when a pull request cannot be read" [ "$status" -eq 1 ]
+check "a dry run summary names what it would remove" output_has "would remove 6, kept 2, skipped 4"
 
 status=0
 "$prune" >"$sandbox/output" || status=$?
@@ -274,5 +290,141 @@ check "a symlinked cache directory keeps its link" eval '[ -L "$linked" ]'
 
 export LOOP_REVIEW_CACHE="$sandbox/missing-cache"
 check "a missing cache is not an error" "$prune"
+
+help_status=0
+"$prune" --help >"$sandbox/help" 2>"$sandbox/help.err" || help_status=$?
+check "--help exits 0" [ "$help_status" -eq 0 ]
+check "--help shows how to run a dry run" grep -q -- '--dry-run' "$sandbox/help"
+
+bad_status=0
+"$prune" --nope >"$sandbox/bad.out" 2>"$sandbox/bad.err" || bad_status=$?
+check "an unknown option exits 2" [ "$bad_status" -eq 2 ]
+
+locked="$sandbox/locked-cache"
+export LOOP_REVIEW_CACHE="$locked"
+review_tree "$app" "$locked/github.com/acme/app/80"
+github_pull_request acme/app 80 locked "$(head_of "$locked/github.com/acme/app/80")"
+status=0
+"$prune" >"$sandbox/output" || status=$?
+check "a locked pull request is kept" exists "$locked/github.com/acme/app/80"
+check "a locked pull request is reported kept" grep -Eq 'kept[[:space:]]+acme/app#80' "$sandbox/output"
+check "a locked pull request is not an error" [ "$status" -eq 0 ]
+
+gl_open="$sandbox/gl-open"
+export LOOP_REVIEW_CACHE="$gl_open"
+gl_tree="$gl_open/gitlab.com/microlink/tools/api/2040"
+review_tree "$api" "$gl_tree"
+gitlab_merge_request microlink/tools/api 2040 opened "$(head_of "$gl_tree")"
+status=0
+"$prune" >"$sandbox/output" || status=$?
+check "an opened gitlab merge request is kept" exists "$gl_tree"
+check "an opened gitlab merge request is reported kept" grep -Eq 'kept[[:space:]]+microlink/tools/api!2040' "$sandbox/output"
+check "an opened gitlab merge request is not an error" [ "$status" -eq 0 ]
+
+foreign="$sandbox/foreign-cache"
+export LOOP_REVIEW_CACHE="$foreign"
+review_tree "$app" "$foreign/bitbucket.org/acme/app/73"
+status=0
+"$prune" >"$sandbox/output" || status=$?
+check "an unknown host is kept" exists "$foreign/bitbucket.org/acme/app/73"
+check "an unknown host is unreadable" output_has "cannot read the pull request state"
+check "an unknown host fails the run" [ "$status" -eq 1 ]
+
+assume="$sandbox/assume-cache"
+export LOOP_REVIEW_CACHE="$assume"
+review_tree "$app" "$assume/github.com/acme/app/75"
+echo original >"$assume/github.com/acme/app/75/f.txt"
+git -C "$assume/github.com/acme/app/75" add f.txt
+git -C "$assume/github.com/acme/app/75" commit -q -m "add tracked file"
+git -C "$assume/github.com/acme/app/75" push -q origin HEAD:refs/heads/feature-75
+git -C "$assume/github.com/acme/app/75" update-index --assume-unchanged f.txt
+echo edited >"$assume/github.com/acme/app/75/f.txt"
+github_pull_request acme/app 75 merged "$(head_of "$assume/github.com/acme/app/75")"
+"$prune" >"$sandbox/output" || true
+check "an assume-unchanged edit keeps the tree" [ "$(cat "$assume/github.com/acme/app/75/f.txt")" = edited ]
+check "an assume-unchanged edit is named as the reason" output_has "uncommitted changes"
+
+delref="$sandbox/delref-cache"
+export LOOP_REVIEW_CACHE="$delref"
+review_tree "$app" "$delref/github.com/acme/app/74"
+github_pull_request acme/app 74 merged "$(head_of "$delref/github.com/acme/app/74")"
+git -C "$delref/github.com/acme/app/74" update-ref -d refs/heads/loop-review/74
+"$prune" >"$sandbox/output" || true
+check "a deleted branch ref keeps the tree" exists "$delref/github.com/acme/app/74"
+check "a deleted branch ref is named as the reason" output_has "not on loop-review/74"
+
+mkdir -p "$sandbox/linkfarm" "$sandbox/symlink-cache/github.com/acme/app"
+review_tree "$app" "$sandbox/linkfarm/70"
+ln -s "$sandbox/linkfarm/70" "$sandbox/symlink-cache/github.com/acme/app/70"
+github_pull_request acme/app 70 merged "$(head_of "$sandbox/linkfarm/70")"
+LOOP_REVIEW_CACHE="$sandbox/symlink-cache" "$prune" >"$sandbox/output" || true
+check "a symlinked numbered directory is not followed" exists "$sandbox/linkfarm/70"
+check "a symlinked numbered directory is left in place" eval '[ -L "$sandbox/symlink-cache/github.com/acme/app/70" ]'
+
+nm="$sandbox/nm-cache"
+review_tree "$app" "$nm/github.com/acme/node_modules/71"
+github_pull_request acme/node_modules 71 merged "$(head_of "$nm/github.com/acme/node_modules/71")"
+LOOP_REVIEW_CACHE="$nm" "$prune" >"$sandbox/output" || true
+check "a worktree under node_modules is not pruned" exists "$nm/github.com/acme/node_modules/71"
+
+clone_skip="$sandbox/clone-skip"
+mkdir -p "$clone_skip/github.com/acme/lib/_clone"
+review_tree "$app" "$clone_skip/github.com/acme/lib/_clone/72"
+github_pull_request acme/lib/_clone 72 merged "$(head_of "$clone_skip/github.com/acme/lib/_clone/72")"
+LOOP_REVIEW_CACHE="$clone_skip" "$prune" >"$sandbox/output" || true
+check "a worktree under a clone directory is not pruned" exists "$clone_skip/github.com/acme/lib/_clone/72"
+
+only="$sandbox/only-cache"
+touch "$sandbox/only-sibling"
+review_tree "$app" "$only/github.com/acme/app/78"
+github_pull_request acme/app 78 merged "$(head_of "$only/github.com/acme/app/78")"
+LOOP_REVIEW_CACHE="$only" "$prune" >"$sandbox/output" || true
+check "the cache root stays when its last tree is removed" exists "$only"
+check "a path next to the cache stays" exists "$sandbox/only-sibling"
+check "empty parents inside the cache are removed" missing "$only/github.com"
+
+broken_clone="$sandbox/broken-clone"
+broken="$sandbox/broken-only"
+new_clone "$broken_clone"
+review_tree "$broken_clone" "$broken/github.com/acme/gone/79"
+github_pull_request acme/gone 79 merged "$(head_of "$broken/github.com/acme/gone/79")"
+rm -rf "$broken_clone"
+status=0
+LOOP_REVIEW_CACHE="$broken" "$prune" >"$sandbox/output" || status=$?
+check "a cache of only a broken worktree keeps it" exists "$broken/github.com/acme/gone/79"
+check "a cache of only a broken worktree explains why" output_has "not a working git worktree"
+check "a cache of only a broken worktree counts one skip" output_has "removed 0, kept 0, skipped 1"
+check "a cache of only a broken worktree exits 0" [ "$status" -eq 0 ]
+
+mkdir -p "$sandbox/wrap-status" "$sandbox/wrap-ls"
+cat >"$sandbox/wrap-status/git" <<EOF
+#!/usr/bin/env bash
+case " \$* " in
+  *" status "*) exit 128 ;;
+esac
+exec "$real_git" "\$@"
+EOF
+cat >"$sandbox/wrap-ls/git" <<EOF
+#!/usr/bin/env bash
+case " \$* " in
+  *" ls-files "*) exit 128 ;;
+esac
+exec "$real_git" "\$@"
+EOF
+chmod +x "$sandbox/wrap-status/git" "$sandbox/wrap-ls/git"
+
+status_cache="$sandbox/status-cache"
+review_tree "$app" "$status_cache/github.com/acme/app/76"
+github_pull_request acme/app 76 merged "$(head_of "$status_cache/github.com/acme/app/76")"
+PATH="$sandbox/wrap-status:$PATH" LOOP_REVIEW_CACHE="$status_cache" "$prune" >"$sandbox/output" || true
+check "a failing status keeps the tree" exists "$status_cache/github.com/acme/app/76"
+check "a failing status is named as uncommitted changes" output_has "uncommitted changes"
+
+ls_cache="$sandbox/ls-cache"
+review_tree "$app" "$ls_cache/github.com/acme/app/77"
+github_pull_request acme/app 77 merged "$(head_of "$ls_cache/github.com/acme/app/77")"
+PATH="$sandbox/wrap-ls:$PATH" LOOP_REVIEW_CACHE="$ls_cache" "$prune" >"$sandbox/output" || true
+check "a failing ls-files keeps the tree" exists "$ls_cache/github.com/acme/app/77"
+check "a failing ls-files is named as uncommitted changes" output_has "uncommitted changes"
 
 exit "$failures"

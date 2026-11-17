@@ -60,7 +60,7 @@ lookup() {
 is_review_tree() {
   local tree="$1" top
   [ -e "$tree/.git" ] || return 1
-  top="$(git -C "$tree" rev-parse --show-toplevel 2>/dev/null)" || return 1
+  top="$(git -C "$tree" rev-parse --show-toplevel 2>/dev/null)"
   [ "$(cd "$tree" && pwd -P)" = "$(cd "$top" && pwd -P)" ]
 }
 
@@ -96,7 +96,7 @@ has_unpublished_commits() {
 remove_empty_parents() {
   local dir
   dir="$(dirname "$1")"
-  while [ "$dir" != "$CACHE" ] && [ "${dir#"$CACHE"/}" != "$dir" ] && rmdir "$dir" 2>/dev/null; do
+  while [ "${dir#"$CACHE"/}" != "$dir" ] && rmdir "$dir" 2>/dev/null; do
     dir="$(dirname "$dir")"
   done
 }
