@@ -24,6 +24,27 @@ recording_off  # autosuggestions restored
 The flag is a universal variable, so every open terminal changes at once and
 the setting survives a restart. Run `./test/recording.sh` to verify.
 
+## Loop review cleanup
+
+`/loop-review` keeps one worktree per pull request under
+`~/.cache/loop-review/<host>/<repo>/<number>`, on a `loop-review/<number>`
+branch, so the next run on that pull request reuses it. Once the pull request
+is merged, the tree is dead weight:
+
+```bash
+loop-review-prune --dry-run   # list what would go
+loop-review-prune             # remove merged trees and their branches
+loop-review-prune --closed    # also remove pull requests closed without merging
+```
+
+It asks `gh` (GitHub) or `glab` (GitLab) for each pull request's state. A tree
+with uncommitted changes, with commits that are neither in the pull request
+nor on any remote branch, or switched off its `loop-review/<number>` branch is
+kept and reported. Commits already pushed to some remote branch do not keep
+the tree, since removing it loses nothing. Cached
+clones (`_clone`) are kept for the next review. Run
+`./test/loop-review-prune.sh` to verify.
+
 ## Contribution stats
 
 How many commits, pull requests and projects you touched in a period,

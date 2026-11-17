@@ -1,0 +1,201 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CACHE="${LOOP_REVIEW_CACHE:-$HOME/.cache/loop-review}"
+PARALLEL_LOOKUPS=8
+PULL_REQUEST_STATE='^(open|merged|closed|locked) [0-9a-f]{40}$'
+
+usage() {
+  cat <<EOF
+Usage: loop-review-prune [--dry-run] [--closed]
+
+Removes what /loop-review keeps under $CACHE
+for pull requests that are merged: the review worktree, its loop-review/<number>
+branch, and the directories left empty. A tree with uncommitted or untracked
+changes, with commits that are neither in its pull request nor on any remote
+branch, or off its loop-review branch is kept. Ignored files (node_modules,
+build output) are removed with it.
+
+  -n, --dry-run   print what would be removed, remove nothing
+  -c, --closed    also remove trees of pull requests closed without merging
+  -h, --help      show this help
+EOF
+}
+
+host_of() { local rel="${1#"$CACHE"/}"; echo "${rel%%/*}"; }
+slug_of() { local rel="${1#"$CACHE"/}"; rel="${rel#*/}"; echo "${rel%/*}"; }
+number_of() { basename "$1"; }
+
+label_of() {
+  local separator='#'
+  [ "$(host_of "$1")" = gitlab.com ] && separator='!'
+  echo "$(slug_of "$1")$separator$(number_of "$1")"
+}
+
+pull_request_state() {
+  local host slug number
+  host="$(host_of "$1")" slug="$(slug_of "$1")" number="$(number_of "$1")"
+  case "$host" in
+    github.com)
+      gh pr view "https://github.com/$slug/pull/$number" --json state,headRefOid \
+        --jq '(.state | ascii_downcase) + " " + .headRefOid'
+      ;;
+    gitlab.com)
+      glab api --hostname "$host" "projects/${slug//\//%2F}/merge_requests/$number" |
+        python3 -c 'import json, sys; mr = json.load(sys.stdin); print({"opened": "open"}.get(mr["state"], mr["state"]), mr["sha"])'
+      ;;
+    *) return 1 ;;
+  esac
+}
+
+lookup() {
+  local result
+  if result="$(pull_request_state "$1" 2>/dev/null)" && printf '%s' "$result" | grep -Eq "$PULL_REQUEST_STATE"; then
+    printf '%s\t%s\n' "$1" "$result"
+  else
+    printf '%s\terror -\n' "$1"
+  fi
+}
+
+is_review_tree() {
+  local tree="$1" top
+  [ -e "$tree/.git" ] || return 1
+  top="$(git -C "$tree" rev-parse --show-toplevel 2>/dev/null)" || return 1
+  [ "$(cd "$tree" && pwd -P)" = "$(cd "$top" && pwd -P)" ]
+}
+
+numbered_trees() {
+  local dir
+  for dir in "$1"/*/ "$1"/.[!.]*/ "$1"/..?*/; do
+    dir="${dir%/}"
+    [ -d "$dir" ] && [ ! -L "$dir" ] || continue
+    case "$(basename "$dir")" in _clone | node_modules) continue ;; esac
+    if [ ! -e "$dir/.git" ]; then
+      numbered_trees "$dir"
+    elif [[ "$(basename "$dir")" =~ ^[0-9]+$ ]]; then
+      echo "$dir"
+    fi
+  done
+}
+
+has_local_changes() {
+  local changes flags
+  changes="$(git -C "$1" status --porcelain --untracked-files=all)" || return 0
+  [ -n "$changes" ] && return 0
+  flags="$(git -C "$1" ls-files -v)" || return 0
+  grep -q '^[a-zS]' <<<"$flags"
+}
+
+has_unpublished_commits() {
+  local tree="$1" head="$2" head_sha="$3" outside
+  git -C "$tree" merge-base --is-ancestor "$head" "$head_sha" 2>/dev/null && return 1
+  outside="$(git -C "$tree" rev-list -n 1 "$head" --not --remotes)" || return 0
+  [ -n "$outside" ]
+}
+
+remove_empty_parents() {
+  local dir
+  dir="$(dirname "$1")"
+  while [ "${dir#"$CACHE"/}" != "$dir" ] && rmdir "$dir" 2>/dev/null; do
+    dir="$(dirname "$dir")"
+  done
+}
+
+remove_tree() {
+  local tree="$1" branch="$2" head="$3" main
+  main="$(dirname "$(git -C "$tree" rev-parse --path-format=absolute --git-common-dir)")" &&
+    git -C "$main" worktree remove "$tree" &&
+    remove_empty_parents "$tree" &&
+    git -C "$main" update-ref -d "refs/heads/$branch" "$head"
+}
+
+report() { printf '%-13s %-40s %s\n' "$1" "$2" "$3"; }
+
+main() {
+  local dry_run=false include_closed=false
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      -n | --dry-run) dry_run=true ;;
+      -c | --closed) include_closed=true ;;
+      -h | --help) usage; return 0 ;;
+      *) usage >&2; return 2 ;;
+    esac
+    shift
+  done
+
+  local removed=0 kept=0 skipped=0 failed=0
+  local tree trees=""
+  if [ -d "$CACHE" ]; then
+    while IFS= read -r tree; do
+      if is_review_tree "$tree"; then
+        trees="$trees$tree"$'\n'
+      else
+        report skipped "$(label_of "$tree")" "not a working git worktree, its clone may be gone: $tree"
+        skipped=$((skipped + 1))
+      fi
+    done < <(numbered_trees "$CACHE")
+  fi
+  trees="${trees%$'\n'}"
+  if [ -z "$trees" ] && [ "$skipped" -eq 0 ]; then
+    echo "no loop-review trees under $CACHE"
+    return 0
+  fi
+
+  local lookups=""
+  [ -n "$trees" ] && lookups="$(printf '%s\n' "$trees" | tr '\n' '\0' |
+    xargs -0 -n 1 -P "$PARALLEL_LOOKUPS" bash "$0" __lookup | sort -V)"
+
+  local state_and_sha state head_sha head label branch removable verb
+  while IFS=$'\t' read -r tree state_and_sha; do
+    [ -n "$tree" ] || continue
+    state="${state_and_sha%% *}" head_sha="${state_and_sha#* }"
+    label="$(label_of "$tree")" branch="loop-review/$(number_of "$tree")"
+
+    if [ "$state" = error ]; then
+      report skipped "$label" "cannot read the pull request state"
+      failed=$((failed + 1))
+      continue
+    fi
+
+    removable=false
+    [ "$state" = merged ] && removable=true
+    [ "$state" = closed ] && $include_closed && removable=true
+    if ! $removable; then
+      report kept "$label" "$state"
+      kept=$((kept + 1))
+      continue
+    fi
+
+    head="$(git -C "$tree" rev-parse -q --verify "refs/heads/$branch" 2>/dev/null || true)"
+    if [ -z "$head" ] || [ "$(git -C "$tree" branch --show-current 2>/dev/null)" != "$branch" ]; then
+      report skipped "$label" "not on $branch"
+      skipped=$((skipped + 1))
+    elif has_local_changes "$tree"; then
+      report skipped "$label" "uncommitted changes in $tree"
+      skipped=$((skipped + 1))
+    elif has_unpublished_commits "$tree" "$head" "$head_sha"; then
+      report skipped "$label" "commits the pull request does not have, in $tree"
+      skipped=$((skipped + 1))
+    elif $dry_run; then
+      report "would remove" "$label" "$state"
+      removed=$((removed + 1))
+    elif remove_tree "$tree" "$branch" "$head"; then
+      report removed "$label" "$state"
+      removed=$((removed + 1))
+    else
+      report skipped "$label" "removing $tree or $branch failed, check both"
+      failed=$((failed + 1))
+    fi
+  done <<<"$lookups"
+
+  verb=removed
+  $dry_run && verb="would remove"
+  echo "$verb $removed, kept $kept, skipped $((skipped + failed))"
+  [ "$failed" -eq 0 ]
+}
+
+if [ "${1:-}" = __lookup ]; then
+  lookup "$2"
+else
+  main "$@"
+fi
