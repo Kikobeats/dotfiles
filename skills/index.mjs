@@ -9,6 +9,7 @@ import { installPstackPlugin } from './pstack.mjs'
 const SKILLS = [
   'https://github.com/addyosmani/agent-skills --skill code-review-and-quality --skill code-simplification',
   'https://github.com/anthropics/skills --skill frontend-design --skill internal-comms',
+  'https://github.com/caldoai/skills --skill untangle-codebase --skill prune-tests',
   'https://github.com/cathrynlavery/diagram-design --skill diagram-design',
   'https://github.com/coreyhaines31/marketingskills --skill ai-seo --skill copywriting --skill schema --skill seo-audit --skill copy-editing',
   'https://github.com/datadog-labs/agent-skills --skill dd-pup --skill dd-monitors --skill dd-logs --full-depth',
