@@ -15,8 +15,8 @@ export const SKILLS = [
 
 const homePath = path => path.replace(HOME, '~')
 
-const link = async ({ name, source }) => {
-  const dest = join(CLAUDE_SKILLS_DIR, name)
+export const linkSkill = async ({ name, source }, dir = CLAUDE_SKILLS_DIR) => {
+  const dest = join(dir, name)
   if (!(await fs.stat(source).catch(() => null))) return null
   const existing = await fs.lstat(dest).catch(() => null)
   // back up a real directory before replacing it; symlinks are disposable
@@ -43,7 +43,7 @@ export const installLinkedSkills = async ({ task: nest } = {}) => {
 
   for (const skill of SKILLS) {
     await step(`Link ~/.claude/skills/${skill.name}`, async ({ setOutput }) => {
-      const result = await link(skill)
+      const result = await linkSkill(skill)
       if (!result) {
         return setOutput(`skipped, no ${homePath(skill.source)}`)
       }

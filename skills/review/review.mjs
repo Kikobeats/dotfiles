@@ -12,11 +12,13 @@ const fail = message => {
   process.exit(1)
 }
 
+export const failureLine = error => String(error.stderr || error.message || error).trim().split('\n')[0]
+
 const attempt = (fn, message) => {
   try {
     return fn()
   } catch (error) {
-    fail(`${message}: ${(error.stderr || error.message).trim().split('\n')[0]}`)
+    fail(`${message}: ${failureLine(error)}`)
   }
 }
 
@@ -46,7 +48,7 @@ export const targetOf = argv => {
 
 export const startReview = ({ target = null, tree, origin, remotes = [], pull, worktree, launch }) => {
   const originRepo = remoteRepo(origin ?? '')
-  const have = [origin, ...remotes].map(remote => remoteRepo(remote ?? '')).filter(Boolean)
+  const have = [origin, ...remotes].map(remote => remoteRepo(remote ?? ''))
   if (target && isPullRequestUrl(target) && !have.includes(pullRequestRepo(target))) {
     return { ok: false, message: `${target} belongs to ${pullRequestRepo(target)}, but this checkout is ${originRepo}` }
   }

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 
 import { launchArgs } from './lib.mjs'
-import { pullRequest, readOrca, startReview, targetOf } from './review.mjs'
+import { failureLine, pullRequest, readOrca, startReview, targetOf } from './review.mjs'
 
 const GITHUB = 'https://github.com/Kikobeats/dotfiles/pull/27'
 const GITLAB = 'https://gitlab.com/microlink/api/-/merge_requests/2097'
@@ -91,6 +91,13 @@ test('a closed pull request, a tree Orca does not know, and a failed launch stop
 
 test('an origin that is neither GitHub nor GitLab is refused', () => {
   assert.match(review({ origin: 'git@bitbucket.org:x/y.git' }).message, /neither GitHub nor GitLab/)
+  assert.match(review({ origin: null, remotes: [] }).message, /neither GitHub nor GitLab/)
+})
+
+test('a command failure reports its first line of stderr', () => {
+  assert.equal(failureLine({ stderr: 'no such ref\nmore' }), 'no such ref')
+  assert.equal(failureLine({ message: 'down' }), 'down')
+  assert.equal(failureLine('down'), 'down')
 })
 
 test('github and gitlab report their own open state', () => {
