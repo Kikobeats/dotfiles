@@ -47,7 +47,7 @@ export const mergeHooks = (existing = {}, ours = HOOKS) => {
 
 const scriptOf = command => command.replace(/^node\s+/, '').replace(/^"(.*)"$/, '$1')
 
-const hookNames = () =>
+export const hookNames = () =>
   Object.entries(HOOKS).map(([event, entries]) => {
     const names = entries.flatMap(entry => entry.hooks.map(hook => scriptOf(hook.command).slice(HOOKS_DIR.length + 1)))
     return `${event}: ${names.join(', ')}`

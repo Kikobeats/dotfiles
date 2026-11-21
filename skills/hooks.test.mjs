@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { HOOKS, HOOKS_DIR, mergeHooks } from './hooks.mjs'
+import { HOOKS, HOOKS_DIR, hookNames, mergeHooks } from './hooks.mjs'
 
 const orcaStop = { hooks: [{ type: 'command', command: 'sh ~/.orca/agent-hooks/claude-hook.sh' }] }
 const ourOldStop = { hooks: [{ type: 'command', command: `node ${join(HOOKS_DIR, 'auto-loop-review', 'stop.mjs')}`, timeout: 15 }] }
@@ -44,4 +44,5 @@ test('every hook command points at a file in this repo, quoted so a space in the
     assert.ok(file.startsWith(HOOKS_DIR), command)
     assert.ok(existsSync(file), command)
   }
+  assert.deepEqual(hookNames(), ['PostToolUse: no-comments.mjs'])
 })
