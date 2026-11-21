@@ -13,6 +13,7 @@ test('a pull request url names its repo, any case, nested gitlab groups included
   assert.equal(pullRequestRepo('https://github.com/Kikobeats/dotfiles'), null)
   assert.equal(pullRequestRepo(`${GITHUB}/files`), 'github.com/kikobeats/dotfiles')
   assert.equal(pullRequestRepo(`${GITHUB}?diff=1`), 'github.com/kikobeats/dotfiles')
+  assert.equal(pullRequestRepo(`${GITHUB}#discussion`), 'github.com/kikobeats/dotfiles')
   assert.equal(pullRequestRepo(`${GITLAB}/diffs`), 'gitlab.com/microlink/api')
 })
 
