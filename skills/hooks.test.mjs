@@ -6,6 +6,7 @@ import { HOOKS, HOOKS_DIR, mergeHooks } from './hooks.mjs'
 
 const orcaStop = { hooks: [{ type: 'command', command: 'sh ~/.orca/agent-hooks/claude-hook.sh' }] }
 const ourOldStop = { hooks: [{ type: 'command', command: `node ${join(HOOKS_DIR, 'auto-loop-review', 'stop.mjs')}`, timeout: 15 }] }
+const ourQuotedStop = { hooks: [{ type: 'command', command: `node ${JSON.stringify(join(HOOKS_DIR, 'auto-loop-review', 'stop.mjs'))}` }] }
 const commands = entries => entries.flatMap(entry => entry.hooks.map(hook => hook.command))
 const scriptOf = command => command.replace(/^node\s+/, '').replace(/^"(.*)"$/, '$1')
 
@@ -16,7 +17,9 @@ test('another tool hook on an event we hook is kept, and ours goes after it', ()
 
 test('a hook we no longer ship is removed, and other tools keep theirs on that event', () => {
   assert.deepEqual(mergeHooks({ Stop: [orcaStop, ourOldStop] }).Stop, [orcaStop])
+  assert.deepEqual(mergeHooks({ Stop: [orcaStop, ourQuotedStop] }).Stop, [orcaStop])
   assert.equal('Stop' in mergeHooks({ Stop: [ourOldStop] }), false)
+  assert.equal('Stop' in mergeHooks({ Stop: [ourQuotedStop] }), false)
 })
 
 test('a foreign command that shares an entry with ours is kept', () => {

@@ -61,7 +61,7 @@ line of output. It reads the pull request with `gh` or `glab`, and stops with on
 line saying why when the checkout is not the pull request's repo, the pull
 request is not open, or the checkout is not open in Orca. `node
 skills/index.mjs` links it into `~/.claude/skills/review`. Run `cd skills &&
-node --test` to verify.
+node --test hooks.test.mjs linked-skills.test.mjs review/lib.test.mjs review/review.test.mjs` to verify.
 
 ## Contribution stats
 
