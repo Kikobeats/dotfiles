@@ -37,6 +37,47 @@ test('gitlab and github answer with their own open state', () => {
   assert.equal(pullRequest(GITHUB, () => JSON.stringify({ state: 'CLOSED', createdAt: '2026-11-21T00:00:00.000Z' })).open, false)
 })
 
+test('a launch that throws is not tried again, and a file deleted during the host check is not launched', async () => {
+  let ran = 0
+  await assert.rejects(
+    launch({
+      launch: () => {
+        ran++
+        throw new Error('launched')
+      }
+    })
+  )
+  assert.equal(ran, 1)
+
+  ran = 0
+  let reads = 0
+  const cancelled = await launch({
+    readState: () => {
+      reads++
+      return reads < 3 ? state() : null
+    },
+    launch: () => {
+      ran++
+    }
+  })
+  assert.equal(ran, 0)
+  assert.deepEqual(cancelled.writes, [])
+
+  ran = 0
+  reads = 0
+  const launchedThenDeleted = await launch({
+    readState: () => {
+      reads++
+      return reads < 4 ? state() : null
+    },
+    launch: () => {
+      ran++
+    }
+  })
+  assert.equal(ran, 1)
+  assert.deepEqual(launchedThenDeleted.writes, [])
+})
+
 test('a launch reply that is not ok raises its message', () => {
   assert.equal(launchedReply({ ok: true }).ok, true)
   assert.throws(() => launchedReply({ ok: false, error: { message: 'selector_not_found' } }), /selector_not_found/)

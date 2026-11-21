@@ -65,28 +65,34 @@ const launchReview = ({ url, tree }) =>
 export const runLaunch = async ({ readState, writeState, load, launch, notify, log: writeLog, sleep: pause, attempts = ATTEMPTS }) => {
   if (!readState()) return writeLog('cancelled')
   let lastError = null
+  let ready = null
   for (let attempt = 0; attempt < attempts; attempt++) {
     if (attempt > 0) await pause()
     const state = readState()
     if (!state) return writeLog('cancelled')
     try {
-      const reason = skipReason({ ...load(state.url), calledAtMs: state.calledAtMs })
-      if (reason) {
-        writeState({ skipped: reason })
-        return writeLog(`skipped: ${reason}`)
-      }
-      launch(state)
-      writeState({ launchedAtMs: Date.now() })
-      writeLog(`launched ${reviewPrompt(state.url)} in ${state.tree}`)
-      return notify(`Started review of ${state.url}`)
+      ready = { state, ...load(state.url) }
+      break
     } catch (error) {
       lastError = error
     }
   }
   if (!readState()) return writeLog('cancelled')
-  writeState({ error: lastError.message })
-  writeLog(`failed: ${lastError.message}`)
-  notify(`Could not start the review: ${lastError.message}`)
+  if (!ready) {
+    writeState({ error: lastError.message })
+    writeLog(`failed: ${lastError.message}`)
+    return notify(`Could not start the review: ${lastError.message}`)
+  }
+  const reason = skipReason({ open: ready.open, createdAtMs: ready.createdAtMs, calledAtMs: ready.state.calledAtMs })
+  if (reason) {
+    writeState({ skipped: reason })
+    return writeLog(`skipped: ${reason}`)
+  }
+  launch(ready.state)
+  if (!readState()) return writeLog('cancelled')
+  writeState({ launchedAtMs: Date.now() })
+  writeLog(`launched ${reviewPrompt(ready.state.url)} in ${ready.state.tree}`)
+  notify(`Started review of ${ready.state.url}`)
 }
 
 const direct = process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href

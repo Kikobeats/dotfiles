@@ -62,6 +62,9 @@ const quoteMask = script => {
   const ranges = heredocRanges(script)
   const inside = Array(script.length).fill(false)
   let quote = null
+  let subst = 0
+  let substOpen = false
+  let tick = false
   for (let i = 0; i < script.length; i++) {
     if (!quote && rangeAt(ranges, i)) continue
     const char = script[i]
@@ -71,6 +74,25 @@ const quoteMask = script => {
       continue
     }
     if (quote === '"') {
+      if (tick) {
+        if (char === '`') tick = false
+        continue
+      }
+      if (subst > 0) {
+        if (substOpen) substOpen = false
+        else if (char === '(') subst++
+        else if (char === ')') subst--
+        continue
+      }
+      if (char === '`') {
+        tick = true
+        continue
+      }
+      if (char === '$' && script[i + 1] === '(') {
+        subst = 1
+        substOpen = true
+        continue
+      }
       inside[i] = true
       if (char === '"' && !oddSlashes(script, i)) quote = null
       continue
@@ -85,38 +107,40 @@ const quoteMask = script => {
 
 const cdStart = match => match.index + match[0].search(/\bcd\b/)
 
-export const createCommandDir = (command, cwd) => {
-  if (typeof command !== 'string') return null
+export const createCommandDirs = (command, cwd) => {
+  if (typeof command !== 'string') return []
   const { inside, ranges } = quoteMask(command)
-  let createAt = -1
+  const creates = []
   for (const match of command.matchAll(CREATE_COMMAND)) {
-    if (!inside[match.index]) {
-      createAt = match.index
-      break
-    }
+    if (!inside[match.index]) creates.push(match.index)
   }
-  if (createAt === -1) return null
-  const createBody = rangeAt(ranges, createAt)
-  const cds = [...command.matchAll(CD_COMMAND)].filter(match => {
-    const start = cdStart(match)
-    if (start >= createAt || inside[start]) return false
-    const cdBody = rangeAt(ranges, start)
-    return createBody ? !cdBody || cdBody === createBody : !cdBody
-  })
+  if (creates.length === 0) return []
+  const cds = [...command.matchAll(CD_COMMAND)]
     .map(match => ({ at: cdStart(match), arg: match[1] }))
+    .filter(cd => !inside[cd.at])
   const dirs = [cwd]
+  const found = []
   let cdIndex = 0
-  for (let i = 0; i < createAt; i++) {
-    if (cdIndex < cds.length && cds[cdIndex].at === i) {
+  let createIndex = 0
+  for (let i = 0; i < command.length && createIndex < creates.length; i++) {
+    if (ranges.some(([, end]) => end === i) && dirs.length > 1) dirs.pop()
+    if (ranges.some(([start]) => start === i)) dirs.push(dirs.at(-1))
+    while (cdIndex < cds.length && cds[cdIndex].at === i) {
       dirs[dirs.length - 1] = path.resolve(dirs.at(-1), cdTarget(cds[cdIndex].arg))
       cdIndex++
+    }
+    if (creates[createIndex] === i) {
+      found.push(dirs.at(-1))
+      createIndex++
     }
     if (inside[i] || rangeAt(ranges, i)) continue
     if (command[i] === '(') dirs.push(dirs.at(-1))
     else if (command[i] === ')' && dirs.length > 1) dirs.pop()
   }
-  return dirs.at(-1)
+  return found
 }
+
+export const createCommandDir = (command, cwd) => createCommandDirs(command, cwd)[0] ?? null
 
 export const createdPullRequests = (entries, cwd = '/') => {
   const createCalls = new Map(
@@ -126,16 +150,19 @@ export const createdPullRequests = (entries, cwd = '/') => {
         contentBlocks(entry)
           .filter(block => block.type === 'tool_use')
           .flatMap(block => {
-            const dir = createCommandDir(block.input?.command, cwd)
-            return dir === null ? [] : [[block.id, { dir, calledAtMs: Date.parse(entry.timestamp) || 0 }]]
+            const dirs = createCommandDirs(block.input?.command, cwd)
+            return dirs.length === 0 ? [] : [[block.id, { dirs, calledAtMs: Date.parse(entry.timestamp) || 0 }]]
           })
       )
   )
   const found = new Map()
   for (const block of entries.filter(entry => entry.type === 'user').flatMap(contentBlocks)) {
     if (block.type !== 'tool_result' || block.is_error || !createCalls.has(block.tool_use_id)) continue
+    const call = createCalls.get(block.tool_use_id)
+    let nth = 0
     for (const url of resultText(block).match(PR_URL) ?? []) {
-      if (!found.has(url)) found.set(url, { url, ...createCalls.get(block.tool_use_id) })
+      if (!found.has(url)) found.set(url, { url, dir: call.dirs[Math.min(nth, call.dirs.length - 1)], calledAtMs: call.calledAtMs })
+      nth++
     }
   }
   return [...found.values()]

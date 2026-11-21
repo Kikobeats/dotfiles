@@ -4,7 +4,7 @@ import { homedir } from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
 
-import { createCommandDir, createdByCall, createdPullRequests, lastTurn, parseTranscript, pullRequestRepo, remoteRepo, reviewDisabled, reviewPrompt, stateKey } from './lib.mjs'
+import { createCommandDir, createCommandDirs, createdByCall, createdPullRequests, lastTurn, parseTranscript, pullRequestRepo, remoteRepo, reviewDisabled, reviewPrompt, stateKey } from './lib.mjs'
 
 const GITLAB = 'https://gitlab.com/microlink/api/-/merge_requests/2096'
 const GITHUB = 'https://github.com/microlinkhq/browserless/pull/1044'
@@ -66,6 +66,25 @@ test('a create call is found after a push, an env prefix or inside $(...)', () =
   for (const command of ['git push -u origin HEAD && gh pr create --fill', 'env -u GH_TOKEN gh pr create', 'URL=$(glab mr create --yes)', "git push; cat <<'EOF' | gh pr create --body-file -\nbody\nEOF"]) {
     assert.equal(createCommandDir(command, '/repo'), '/repo', command)
   }
+})
+
+test('a create inside a double-quoted substitution still runs, and one in single quotes does not', () => {
+  assert.equal(createCommandDir('URL="$(gh pr create --fill)"', '/repo'), '/repo')
+  assert.equal(createCommandDir('URL="`gh pr create --fill`"', '/repo'), '/repo')
+  assert.equal(createCommandDir("URL='$(gh pr create --fill)'", '/repo'), null)
+})
+
+test('two creates in one call keep the directory each one ran in', () => {
+  const command = 'cd /a && gh pr create && cd /b && gh pr create'
+  const second = 'https://github.com/microlinkhq/browserless/pull/1045'
+  assert.deepEqual(createCommandDirs(command, '/repo'), ['/a', '/b'])
+  assert.deepEqual(
+    createdPullRequests([call('a', command), result('a', `${GITHUB}\n${second}`)], '/repo').map(({ url, dir }) => [url, dir]),
+    [
+      [GITHUB, '/a'],
+      [second, '/b']
+    ]
+  )
 })
 
 test('a cd inside quotes or a finished subshell does not move the checkout, and a quoted create is not a create', () => {
