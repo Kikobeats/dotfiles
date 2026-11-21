@@ -10,7 +10,11 @@ export const remoteRepo = remote => {
   return match ? `${match[1]}/${match[2]}`.toLowerCase() : null
 }
 
-export const forgeOf = repo => (repo?.startsWith('gitlab.com/') ? 'gitlab' : repo?.startsWith('github.com/') ? 'github' : null)
+export const forgeOf = repo => {
+  if (repo?.startsWith('gitlab.com/')) return 'gitlab'
+  if (repo?.startsWith('github.com/')) return 'github'
+  return null
+}
 
 export const isPullRequestUrl = value => PULL_REQUEST_URL.test(value)
 

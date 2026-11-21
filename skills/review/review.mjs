@@ -49,10 +49,11 @@ export const targetOf = argv => {
 export const startReview = ({ target = null, tree, origin, remotes = [], pull, worktree, launch }) => {
   const originRepo = remoteRepo(origin ?? '')
   const have = [origin, ...remotes].map(remote => remoteRepo(remote ?? ''))
-  if (target && isPullRequestUrl(target) && !have.includes(pullRequestRepo(target))) {
-    return { ok: false, message: `${target} belongs to ${pullRequestRepo(target)}, but this checkout is ${originRepo}` }
+  const requested = target && isPullRequestUrl(target) ? pullRequestRepo(target) : null
+  if (requested && !have.includes(requested)) {
+    return { ok: false, message: `${target} belongs to ${requested}, but this checkout is ${originRepo}` }
   }
-  const repo = target && isPullRequestUrl(target) ? pullRequestRepo(target) : originRepo
+  const repo = requested ?? originRepo
   const forge = forgeOf(repo)
   if (!forge) return { ok: false, message: `origin ${originRepo} is neither GitHub nor GitLab` }
   const { url, open } = pull({ forge, target, tree })
@@ -80,7 +81,7 @@ const main = () => {
     tree,
     origin,
     remotes,
-    pull: spec => pullRequest(spec),
+    pull: pullRequest,
     worktree: dir => readOrca(run, ['worktree', 'show', '--worktree', `path:${dir}`, '--json']),
     launch: spec => readOrca(run, launchArgs(spec))
   })
