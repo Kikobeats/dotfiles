@@ -4,7 +4,7 @@ import { homedir } from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
 
-import { createCommandDir, createdByCall, createdPullRequests, isQuiet, lastTurn, parseTranscript, pullRequestRepo, remoteRepo, reviewPrompt, startedByHand, stateKey } from './lib.mjs'
+import { createCommandDir, createdByCall, createdPullRequests, lastTurn, parseTranscript, pullRequestRepo, remoteRepo, reviewPrompt, stateKey } from './lib.mjs'
 
 const GITLAB = 'https://gitlab.com/microlink/api/-/merge_requests/2096'
 const GITHUB = 'https://github.com/microlinkhq/browserless/pull/1044'
@@ -112,18 +112,6 @@ test('a tool result is not a prompt, so it does not end the turn', () => {
 
 test('a broken transcript line is skipped', () => {
   assert.equal(parseTranscript('{"type":"user"}\nnot json\n\n{"type":"assistant"}').length, 2)
-})
-
-test('the session is quiet only after the whole quiet window', () => {
-  assert.equal(isQuiet({ lastWriteMs: 0, nowMs: 599_999, quietMs: 600_000 }), false)
-  assert.equal(isQuiet({ lastWriteMs: 0, nowMs: 600_000, quietMs: 600_000 }), true)
-})
-
-test('a review started by hand after scheduling skips the launch, an older one does not', () => {
-  const chats = [{ createdAtMs: 100, prompts: [`/loop-review ${GITLAB}`] }]
-  assert.equal(startedByHand({ chats, url: GITLAB, sinceMs: 50 }), true)
-  assert.equal(startedByHand({ chats, url: GITLAB, sinceMs: 150 }), false)
-  assert.equal(startedByHand({ chats, url: GITHUB, sinceMs: 50 }), false)
 })
 
 test('two pull requests get two state files', () => {

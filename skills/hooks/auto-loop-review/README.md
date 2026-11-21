@@ -12,23 +12,21 @@ between 2026-11-08 and 2026-11-21).
   repo and that checkout is open in Orca (`orca worktree show`); otherwise it
   says so and schedules nothing. It writes
   `~/.cache/auto-loop-review/<url>.json` (one per pull request, so it never
-  schedules one twice) and starts `wait.mjs` detached.
-- `wait.mjs` first asks GitHub or GitLab when the pull request was created
-  and drops it if that is more than a minute before the call that printed it:
-  a create call can print an old URL (an MR that already exists, a script that
-  echoes one). Detection itself stays a plain match on the command text,
-  because a create that runs from a script written in a heredoc is real. It
-  then waits until the session's transcript has not changed for 10 minutes,
-  so a reviewer never edits the tree while the session is still pushing or
-  watching CI, skips a pull request that is no longer open or that got a
-  `/loop-review` typed by hand after it was scheduled, and otherwise runs
-  `orca agent launch --agent cursor --worktree path:<tree> --prompt
-  "/loop-review <url>" --surface terminal --focus`, so Orca switches to the
-  new tab. It gives up after 4 hours. The outcome goes to the state file,
-  `waiter.log` and a macOS notification.
+  schedules one twice) and starts `launch.mjs` detached, so the turn ends at
+  once.
+- `launch.mjs` asks GitHub or GitLab for the pull request and skips it if it
+  is no longer open, or if it was created more than a minute before the call
+  that printed it: a create call can print an old URL (an MR that already
+  exists, a script that echoes one). Detection itself stays a plain match on
+  the command text, because a create that runs from a script written in a
+  heredoc is real. Otherwise it runs `orca agent launch --agent cursor
+  --worktree path:<tree> --prompt "/loop-review <url>" --surface terminal
+  --focus`, so the review starts right when the turn that opened the pull
+  request ends, and Orca switches to its tab. The outcome goes to the state
+  file, `launcher.log` and a macOS notification.
 
 Turn it off: `CLAUDE_AUTO_LOOP_REVIEW=off`, or per repo
-`git config claude.autoLoopReview false`. Cancel one pending review by
-deleting its state file.
+`git config claude.autoLoopReview false`. Deleting a pull request's state file
+lets it be scheduled again.
 
 Tests: `node --test lib.test.mjs`.

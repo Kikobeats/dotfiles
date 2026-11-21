@@ -6,7 +6,7 @@ import path from 'node:path'
 import { createdPullRequests, lastTurn, parseTranscript, pullRequestRepo, remoteRepo, stateKey } from './lib.mjs'
 
 export const STATE_DIR = path.join(homedir(), '.cache', 'auto-loop-review')
-const WAITER = path.join(import.meta.dirname, 'wait.mjs')
+const LAUNCHER = path.join(import.meta.dirname, 'launch.mjs')
 
 const readStdin = () => {
   try {
@@ -44,12 +44,12 @@ const openInOrca = tree => {
 
 const optedOut = tree => git(tree, ['config', 'claude.autoLoopReview']) === 'false'
 
-const schedule = ({ url, tree, transcriptPath, calledAtMs }) => {
+const schedule = ({ url, tree, calledAtMs }) => {
   const stateFile = path.join(STATE_DIR, `${stateKey(url)}.json`)
   if (existsSync(stateFile)) return false
-  writeFileSync(stateFile, JSON.stringify({ url, tree, transcriptPath, calledAtMs, scheduledAtMs: Date.now() }, null, 2))
-  const log = openSync(path.join(STATE_DIR, 'waiter.log'), 'a')
-  spawn(process.execPath, [WAITER, stateFile], { detached: true, stdio: ['ignore', log, log] }).unref()
+  writeFileSync(stateFile, JSON.stringify({ url, tree, calledAtMs, scheduledAtMs: Date.now() }, null, 2))
+  const log = openSync(path.join(STATE_DIR, 'launcher.log'), 'a')
+  spawn(process.execPath, [LAUNCHER, stateFile], { detached: true, stdio: ['ignore', log, log] }).unref()
   return true
 }
 
@@ -67,10 +67,10 @@ const main = () => {
     if (!tree) notScheduled.push(`${url}: no checkout of its repo where it was created`)
     else if (optedOut(tree)) continue
     else if (!openInOrca(tree)) notScheduled.push(`${url}: ${tree} is not open in Orca`)
-    else if (schedule({ url, tree, transcriptPath, calledAtMs })) scheduled.push(url)
+    else if (schedule({ url, tree, calledAtMs })) scheduled.push(url)
   }
   const lines = [
-    scheduled.length && `loop-review will start in Orca for ${scheduled.join(', ')} once this session has been quiet for 10 minutes. Cancel with: rm ${STATE_DIR}/<file>.json`,
+    scheduled.length && `loop-review starting in Orca for ${scheduled.join(', ')}.`,
     ...notScheduled.map(reason => `loop-review not scheduled for ${reason}.`)
   ].filter(Boolean)
   if (lines.length) process.stdout.write(JSON.stringify({ systemMessage: lines.join('\n') }))

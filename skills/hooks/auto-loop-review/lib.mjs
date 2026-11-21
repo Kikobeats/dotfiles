@@ -82,9 +82,4 @@ export const stateKey = url => url.replace(/^https:\/\//, '').replace(/[^\w.-]+/
 
 export const createdByCall = ({ createdAtMs, calledAtMs }) => createdAtMs >= calledAtMs - CLOCK_SKEW_MS
 
-export const isQuiet = ({ lastWriteMs, nowMs, quietMs }) => nowMs - lastWriteMs >= quietMs
-
-export const startedByHand = ({ chats, url, sinceMs }) =>
-  chats.some(({ createdAtMs, prompts }) => createdAtMs >= sinceMs && prompts.some(prompt => prompt.includes(url)))
-
 export const reviewPrompt = url => `/loop-review ${url}`
