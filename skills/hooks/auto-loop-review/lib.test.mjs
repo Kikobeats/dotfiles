@@ -4,7 +4,7 @@ import { homedir } from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
 
-import { createCommandDir, createdByCall, createdPullRequests, lastTurn, parseTranscript, pullRequestRepo, remoteRepo, reviewPrompt, stateKey } from './lib.mjs'
+import { createCommandDir, createdByCall, createdPullRequests, lastTurn, parseTranscript, pullRequestRepo, remoteRepo, reviewDisabled, reviewPrompt, stateKey } from './lib.mjs'
 
 const GITLAB = 'https://gitlab.com/microlink/api/-/merge_requests/2096'
 const GITHUB = 'https://github.com/microlinkhq/browserless/pull/1044'
@@ -40,6 +40,8 @@ test('a pull request counts only if it was created after the call that printed i
   const calledAtMs = Date.parse('2026-11-21T21:18:00Z')
   assert.equal(createdByCall({ createdAtMs: calledAtMs + 5_000, calledAtMs }), true)
   assert.equal(createdByCall({ createdAtMs: calledAtMs - 30_000, calledAtMs }), true)
+  assert.equal(createdByCall({ createdAtMs: calledAtMs - 60_000, calledAtMs }), true)
+  assert.equal(createdByCall({ createdAtMs: calledAtMs - 60_001, calledAtMs }), false)
   assert.equal(createdByCall({ createdAtMs: Date.parse('2026-11-19T10:00:00Z'), calledAtMs }), false)
   assert.equal(createdByCall({ createdAtMs: NaN, calledAtMs }), false)
 })
@@ -64,6 +66,33 @@ test('a create call is found after a push, an env prefix or inside $(...)', () =
   for (const command of ['git push -u origin HEAD && gh pr create --fill', 'env -u GH_TOKEN gh pr create', 'URL=$(glab mr create --yes)', "git push; cat <<'EOF' | gh pr create --body-file -\nbody\nEOF"]) {
     assert.equal(createCommandDir(command, '/repo'), '/repo', command)
   }
+})
+
+test('a cd inside quotes or a finished subshell does not move the checkout, and a quoted create is not a create', () => {
+  assert.equal(createCommandDir('echo "x && cd /wrong" && gh pr create', '/repo'), '/repo')
+  assert.equal(createCommandDir('(cd /wrong) && gh pr create', '/repo'), '/repo')
+  assert.equal(createCommandDir('(cd /wrong && gh pr create)', '/repo'), '/wrong')
+  assert.equal(createCommandDir('echo "gh pr create"', '/repo'), null)
+})
+
+test('a heredoc body does not swallow the create after it, and its cd stays in the script', () => {
+  assert.equal(createCommandDir("cat > note <<'EOF'\nsee \"the quote\nEOF\ngh pr create --fill", '/repo'), '/repo')
+  assert.equal(createCommandDir("cd /repo && cat > s <<'EOF'\ncd /wrong\nEOF\ngh pr create", '/work'), '/repo')
+  assert.equal(createCommandDir("cat > s <<'EOF'\ncd /real && gh pr create\nEOF\nbash s", '/work'), '/real')
+})
+
+test('a command that is not text opens nothing', () => {
+  const turn = [call('a', 'gh pr create'), result('a', GITHUB)]
+  turn[0].message.content[0].input.command = 1
+  assert.deepEqual(urls(turn), [])
+})
+
+test('the review is off only for the off switch and a false repo config', () => {
+  assert.equal(reviewDisabled({ env: 'off', config: null }), true)
+  assert.equal(reviewDisabled({ env: 'false', config: null }), false)
+  assert.equal(reviewDisabled({ env: null, config: 'false' }), true)
+  assert.equal(reviewDisabled({ env: null, config: 'true' }), false)
+  assert.equal(reviewDisabled({ env: null, config: null }), false)
 })
 
 test('a create call after cd runs in that directory, relative cds resolve in order', () => {

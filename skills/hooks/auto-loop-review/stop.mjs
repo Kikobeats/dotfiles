@@ -1,16 +1,25 @@
 import { spawn, execFileSync } from 'node:child_process'
-import { existsSync, mkdirSync, openSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, openSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 
-import { createdPullRequests, lastTurn, parseTranscript, pullRequestRepo, remoteRepo, stateKey } from './lib.mjs'
+import {
+  createdPullRequests,
+  lastTurn,
+  parseTranscript,
+  pullRequestRepo,
+  remoteRepo,
+  reviewDisabled,
+  stateKey
+} from './lib.mjs'
 
 export const STATE_DIR = path.join(homedir(), '.cache', 'auto-loop-review')
 const LAUNCHER = path.join(import.meta.dirname, 'launch.mjs')
 
-const readStdin = () => {
+export const parseHookInput = text => {
   try {
-    return JSON.parse(readFileSync(0, 'utf8'))
+    return JSON.parse(text)
   } catch {
     return {}
   }
@@ -24,60 +33,114 @@ const git = (dir, args) => {
   }
 }
 
-const checkoutOf = (url, dirs) =>
-  dirs
-    .map(dir => git(dir, ['rev-parse', '--show-toplevel']))
-    .find(tree => tree && remoteRepo(git(tree, ['remote', 'get-url', 'origin']) ?? '') === pullRequestRepo(url)) ?? null
+export const matchingRemote = (names, url, remoteOf) => {
+  const want = pullRequestRepo(url)
+  if (!want || names == null) return false
+  return names.split('\n').some(name => remoteOf(name) === want)
+}
 
-const openInOrca = tree => {
+const remotesMatch = (tree, url) =>
+  matchingRemote(git(tree, ['remote']), url, name => remoteRepo(git(tree, ['remote', 'get-url', name]) ?? ''))
+
+export const checkoutOf = (url, dirs) => {
+  for (const dir of dirs) {
+    const tree = git(dir, ['rev-parse', '--show-toplevel'])
+    if (tree && remotesMatch(tree, url)) return tree
+  }
+  return null
+}
+
+export const worktreeShown = reply => reply?.ok === true
+
+export const orcaHasWorktree = (tree, runCommand) => {
   try {
-    const reply = execFileSync('orca', ['worktree', 'show', '--worktree', `path:${tree}`, '--json'], {
-      encoding: 'utf8',
-      timeout: 5_000,
-      stdio: ['ignore', 'pipe', 'ignore']
-    })
-    return JSON.parse(reply).ok === true
+    return worktreeShown(JSON.parse(runCommand('orca', ['worktree', 'show', '--worktree', `path:${tree}`, '--json'])))
   } catch {
     return false
   }
 }
 
-const optedOut = tree => git(tree, ['config', 'claude.autoLoopReview']) === 'false'
+const openInOrca = tree =>
+  orcaHasWorktree(tree, (cmd, args) =>
+    execFileSync(cmd, args, { encoding: 'utf8', timeout: 5_000, stdio: ['ignore', 'pipe', 'ignore'] })
+  )
 
-const schedule = ({ url, tree, calledAtMs }) => {
-  const stateFile = path.join(STATE_DIR, `${stateKey(url)}.json`)
-  if (existsSync(stateFile)) return false
-  writeFileSync(stateFile, JSON.stringify({ url, tree, calledAtMs, scheduledAtMs: Date.now() }, null, 2))
-  const log = openSync(path.join(STATE_DIR, 'launcher.log'), 'a')
-  spawn(process.execPath, [LAUNCHER, stateFile], { detached: true, stdio: ['ignore', log, log] }).unref()
+export const scheduleReview = ({
+  url,
+  tree,
+  calledAtMs,
+  stateDir = STATE_DIR,
+  launcher = LAUNCHER,
+  spawnProcess = spawn,
+  now = Date.now
+}) => {
+  mkdirSync(stateDir, { recursive: true })
+  const stateFile = path.join(stateDir, `${stateKey(url)}.json`)
+  const logFd = openSync(path.join(stateDir, 'launcher.log'), 'a')
+  try {
+    writeFileSync(stateFile, JSON.stringify({ url, tree, calledAtMs, scheduledAtMs: now() }, null, 2), { flag: 'wx' })
+  } catch (error) {
+    if (error.code === 'EEXIST') return false
+    throw error
+  }
+  try {
+    spawnProcess(process.execPath, [launcher, stateFile], { detached: true, stdio: ['ignore', logFd, logFd] }).unref()
+  } catch (error) {
+    unlinkSync(stateFile)
+    throw error
+  }
   return true
 }
 
-const main = () => {
-  const { transcript_path: transcriptPath, cwd } = readStdin()
-  if (!transcriptPath || !cwd || !existsSync(transcriptPath)) return
-  if (process.env.CLAUDE_AUTO_LOOP_REVIEW === 'off') return
-  const created = createdPullRequests(lastTurn(parseTranscript(readFileSync(transcriptPath, 'utf8'))), cwd)
-  if (created.length === 0) return
-  mkdirSync(STATE_DIR, { recursive: true })
-  const scheduled = []
-  const notScheduled = []
-  for (const { url, dir, calledAtMs } of created) {
-    const tree = checkoutOf(url, [dir, cwd])
-    if (!tree) notScheduled.push(`${url}: no checkout of its repo where it was created`)
-    else if (optedOut(tree)) continue
-    else if (!openInOrca(tree)) notScheduled.push(`${url}: ${tree} is not open in Orca`)
-    else if (schedule({ url, tree, calledAtMs })) scheduled.push(url)
-  }
+export const reviewMessage = ({ scheduled, notScheduled }) => {
   const lines = [
     scheduled.length && `loop-review starting in Orca for ${scheduled.join(', ')}.`,
-    ...notScheduled.map(reason => `loop-review not scheduled for ${reason}.`)
+    ...notScheduled
   ].filter(Boolean)
-  if (lines.length) process.stdout.write(JSON.stringify({ systemMessage: lines.join('\n') }))
+  return lines.join('\n')
 }
 
-try {
-  main()
-} catch (error) {
-  process.stderr.write(`auto-loop-review: ${error.message}\n`)
+export const handle = ({
+  transcriptPath,
+  cwd,
+  env = {},
+  readTranscript,
+  schedule = scheduleReview,
+  worktreeOpen = openInOrca,
+  configOf = tree => git(tree, ['config', 'claude.autoLoopReview'])
+}) => {
+  const scheduled = []
+  const notScheduled = []
+  if (reviewDisabled({ env: env.CLAUDE_AUTO_LOOP_REVIEW, config: null })) return { scheduled, notScheduled }
+  if (!transcriptPath || !cwd) return { scheduled, notScheduled }
+  const text = readTranscript(transcriptPath)
+  if (text == null) return { scheduled, notScheduled }
+  const created = createdPullRequests(lastTurn(parseTranscript(text)), cwd)
+  for (const { url, dir, calledAtMs } of created) {
+    const tree = checkoutOf(url, [dir, cwd])
+    if (!tree) notScheduled.push(`loop-review not scheduled for ${url}: no checkout of its repo where it was created.`)
+    else if (reviewDisabled({ env: null, config: configOf(tree) })) continue
+    else if (!worktreeOpen(tree)) notScheduled.push(`loop-review not scheduled for ${url}: ${tree} is not open in Orca.`)
+    else if (schedule({ url, tree, calledAtMs })) scheduled.push(url)
+  }
+  return { scheduled, notScheduled }
+}
+
+const direct = process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href
+
+if (direct) {
+  try {
+    const input = parseHookInput(readFileSync(0, 'utf8'))
+    const message = reviewMessage(
+      handle({
+        transcriptPath: input.transcript_path,
+        cwd: input.cwd,
+        env: process.env,
+        readTranscript: file => (existsSync(file) ? readFileSync(file, 'utf8') : null)
+      })
+    )
+    if (message) process.stdout.write(JSON.stringify({ systemMessage: message }))
+  } catch (error) {
+    process.stderr.write(`auto-loop-review: ${error.message}\n`)
+  }
 }

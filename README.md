@@ -58,7 +58,7 @@ CLAUDE_AUTO_LOOP_REVIEW=off claude           # off for one session
 git config claude.autoLoopReview false       # off for one repo
 ```
 
-Run `cd skills && node --test` to verify.
+Run `cd skills && node --test hooks.test.mjs hooks/auto-loop-review` to verify.
 
 ## Contribution stats
 
