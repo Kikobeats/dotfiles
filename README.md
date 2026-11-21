@@ -45,6 +45,24 @@ the tree, since removing it loses nothing. Cached
 clones (`_clone`) are kept for the next review. Run
 `./test/loop-review-prune.sh` to verify.
 
+## Automatic loop review
+
+When a Claude Code session opens a pull request (`gh pr create` or
+`glab mr create`), a `Stop` hook starts `/loop-review <url>` in a Cursor
+`agent` tab in Orca and switches to it, once the session has been quiet for 10
+minutes so the reviewer never edits the tree while the session still works on
+it. It skips pull requests that are closed or that got a `/loop-review` typed
+by hand. `node skills/index.mjs` wires it into `~/.claude/settings.json`; see
+`skills/hooks/auto-loop-review/README.md`.
+
+```bash
+CLAUDE_AUTO_LOOP_REVIEW=off claude           # off for one session
+git config claude.autoLoopReview false       # off for one repo
+rm ~/.cache/auto-loop-review/<pr>.json       # cancel one pending review
+```
+
+Run `cd skills && node --test` to verify.
+
 ## Contribution stats
 
 How many commits, pull requests and projects you touched in a period,
