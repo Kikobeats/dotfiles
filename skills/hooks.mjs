@@ -6,16 +6,18 @@ const HOME = os.homedir()
 const SETTINGS = join(HOME, '.claude', 'settings.json')
 export const HOOKS_DIR = join(import.meta.dirname, 'hooks')
 
+const nodeCommand = file => `node ${JSON.stringify(join(HOOKS_DIR, file))}`
+
 export const HOOKS = {
   PostToolUse: [
     {
       matcher: 'Edit|Write|MultiEdit',
-      hooks: [{ type: 'command', command: `node ${join(HOOKS_DIR, 'no-comments.mjs')}` }]
+      hooks: [{ type: 'command', command: nodeCommand('no-comments.mjs') }]
     }
   ],
   Stop: [
     {
-      hooks: [{ type: 'command', command: `node ${join(HOOKS_DIR, 'auto-loop-review', 'stop.mjs')}`, timeout: 15 }]
+      hooks: [{ type: 'command', command: nodeCommand(join('auto-loop-review', 'stop.mjs')), timeout: 15 }]
     }
   ]
 }
@@ -30,23 +32,28 @@ const readSettings = async () => {
   }
 }
 
-const isOurs = entry =>
-  entry.hooks?.some(hook => hook.command?.includes(HOOKS_DIR))
+const isOurs = hook => hook.command?.includes(HOOKS_DIR)
+
+const withoutOurs = entries =>
+  entries.flatMap(entry => {
+    if (!entry.hooks?.some(isOurs)) return [entry]
+    const hooks = entry.hooks.filter(hook => !isOurs(hook))
+    return hooks.length ? [{ ...entry, hooks }] : []
+  })
 
 export const mergeHooks = (existing = {}, ours = HOOKS) => {
   const merged = { ...existing }
   for (const [event, entries] of Object.entries(ours)) {
-    const theirs = (existing[event] ?? []).filter(entry => !isOurs(entry))
-    merged[event] = [...theirs, ...entries]
+    merged[event] = [...withoutOurs(existing[event] ?? []), ...entries]
   }
   return merged
 }
 
+const scriptOf = command => command.replace(/^node\s+/, '').replace(/^"(.*)"$/, '$1')
+
 const hookNames = () =>
   Object.entries(HOOKS).map(([event, entries]) => {
-    const names = entries.flatMap(entry =>
-      entry.hooks.map(hook => hook.command.slice(hook.command.indexOf(HOOKS_DIR) + HOOKS_DIR.length + 1))
-    )
+    const names = entries.flatMap(entry => entry.hooks.map(hook => scriptOf(hook.command).slice(HOOKS_DIR.length + 1)))
     return `${event}: ${names.join(', ')}`
   })
 
