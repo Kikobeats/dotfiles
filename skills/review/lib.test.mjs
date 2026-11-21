@@ -11,6 +11,9 @@ test('a pull request url names its repo, any case, nested gitlab groups included
   assert.equal(pullRequestRepo(GITHUB), 'github.com/kikobeats/dotfiles')
   assert.equal(pullRequestRepo('https://gitlab.com/group/sub/project/-/merge_requests/1'), 'gitlab.com/group/sub/project')
   assert.equal(pullRequestRepo('https://github.com/Kikobeats/dotfiles'), null)
+  assert.equal(pullRequestRepo(`${GITHUB}/files`), 'github.com/kikobeats/dotfiles')
+  assert.equal(pullRequestRepo(`${GITHUB}?diff=1`), 'github.com/kikobeats/dotfiles')
+  assert.equal(pullRequestRepo(`${GITLAB}/diffs`), 'gitlab.com/microlink/api')
 })
 
 test('ssh, scp-style and https remotes name the same repo as the url', () => {

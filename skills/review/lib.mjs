@@ -1,4 +1,4 @@
-const PULL_REQUEST_URL = /^https:\/\/([^/]+)\/(.+?)\/(?:-\/merge_requests|pull)\/(\d+)\/?$/
+const PULL_REQUEST_URL = /^https:\/\/([^/]+)\/(.+?)\/(?:-\/merge_requests|pull)\/(\d+)(?:[/?#].*)?$/
 
 export const pullRequestRepo = url => {
   const match = url.match(PULL_REQUEST_URL)

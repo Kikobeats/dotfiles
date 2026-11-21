@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 
 import { launchArgs } from './lib.mjs'
-import { pullRequest, readOrca, startReview } from './review.mjs'
+import { pullRequest, readOrca, startReview, targetOf } from './review.mjs'
 
 const GITHUB = 'https://github.com/Kikobeats/dotfiles/pull/27'
 const GITLAB = 'https://gitlab.com/microlink/api/-/merge_requests/2097'
@@ -17,6 +17,12 @@ const review = (over = {}) =>
     launch: () => ({ ok: true }),
     ...over
   })
+
+test('one argument is the target, and a second is refused', () => {
+  assert.deepEqual(targetOf(['node', 'review.mjs']), { ok: true, target: null })
+  assert.deepEqual(targetOf(['node', 'review.mjs', ' 2097 ']), { ok: true, target: '2097' })
+  assert.equal(targetOf(['node', 'review.mjs', '2097', 'extra']).ok, false)
+})
 
 test('the pull request of this checkout is opened in Orca', () => {
   const calls = []
@@ -42,6 +48,30 @@ test('a number is passed through, and a gitlab checkout uses glab', () => {
     }
   })
   assert.deepEqual(calls[0], { forge: 'gitlab', target: '2097', tree: '/repo' })
+})
+
+test('a url of another forge that this checkout has as a remote uses that forge', () => {
+  const calls = []
+  const result = review({
+    target: GITLAB,
+    origin: 'git@github.com:someone/fork.git',
+    remotes: ['git@gitlab.com:microlink/api.git'],
+    pull: spec => {
+      calls.push(spec)
+      return { url: GITLAB, open: true }
+    }
+  })
+  assert.equal(result.ok, true)
+  assert.equal(calls[0].forge, 'gitlab')
+})
+
+test('a files tab or a query on another repo is still that other repo', () => {
+  const files = review({ target: `${GITLAB}/diffs` })
+  assert.equal(files.ok, false)
+  assert.match(files.message, /belongs to gitlab.com\/microlink\/api/)
+  const query = review({ target: 'https://github.com/other/repo/pull/27?diff=1' })
+  assert.equal(query.ok, false)
+  assert.match(query.message, /belongs to github.com\/other\/repo/)
 })
 
 test('a url is accepted from any remote of the checkout', () => {

@@ -38,6 +38,12 @@ export const pullRequest = ({ forge, target, tree, runCommand = run }) => {
   return { url: mr.web_url, open: mr.state === 'opened' }
 }
 
+export const targetOf = argv => {
+  const args = argv.slice(2).map(item => item.trim()).filter(Boolean)
+  if (args.length > 1) return { ok: false, message: 'pass one pull request, a url or a number' }
+  return { ok: true, target: args[0] ?? null }
+}
+
 export const startReview = ({ target = null, tree, origin, remotes = [], pull, worktree, launch }) => {
   const originRepo = remoteRepo(origin ?? '')
   const have = [origin, ...remotes].map(remote => remoteRepo(remote ?? '')).filter(Boolean)
@@ -57,7 +63,9 @@ export const startReview = ({ target = null, tree, origin, remotes = [], pull, w
 }
 
 const main = () => {
-  const target = process.argv[2]?.trim() || null
+  const parsed = targetOf(process.argv)
+  if (!parsed.ok) fail(parsed.message)
+  const target = parsed.target
   const tree = attempt(() => run('git', ['rev-parse', '--show-toplevel']), 'not in a git checkout')
   const names = attempt(() => run('git', ['remote'], tree), 'no origin remote').split('\n').filter(Boolean)
   if (!names.includes('origin')) fail('no origin remote')
