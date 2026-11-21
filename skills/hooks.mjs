@@ -14,11 +14,6 @@ export const HOOKS = {
       matcher: 'Edit|Write|MultiEdit',
       hooks: [{ type: 'command', command: nodeCommand('no-comments.mjs') }]
     }
-  ],
-  Stop: [
-    {
-      hooks: [{ type: 'command', command: nodeCommand(join('auto-loop-review', 'stop.mjs')), timeout: 15 }]
-    }
   ]
 }
 
@@ -42,9 +37,10 @@ const withoutOurs = entries =>
   })
 
 export const mergeHooks = (existing = {}, ours = HOOKS) => {
-  const merged = { ...existing }
-  for (const [event, entries] of Object.entries(ours)) {
-    merged[event] = [...withoutOurs(existing[event] ?? []), ...entries]
+  const merged = {}
+  for (const event of new Set([...Object.keys(existing), ...Object.keys(ours)])) {
+    const entries = [...withoutOurs(existing[event] ?? []), ...(ours[event] ?? [])]
+    if (entries.length) merged[event] = entries
   }
   return merged
 }

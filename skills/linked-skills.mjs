@@ -2,18 +2,20 @@ import * as os from 'os'
 import { promises as fs } from 'fs'
 import { join } from 'path'
 
-// Skills that ship with Cursor and have no Claude Code equivalent, symlinked
-// after `skills remove --all` so the wipe never takes them out.
-const SKILLS = ['autopilot']
-
 const HOME = os.homedir()
-const SOURCE_DIR = join(HOME, '.cursor', 'skills-cursor')
 const CLAUDE_SKILLS_DIR = join(HOME, '.claude', 'skills')
+
+// Symlinked after `skills remove --all` so the wipe never takes them out:
+// skills that ship with Cursor and have no Claude Code equivalent, and
+// skills that live in this repo.
+export const SKILLS = [
+  { name: 'autopilot', source: join(HOME, '.cursor', 'skills-cursor', 'autopilot') },
+  { name: 'review', source: join(import.meta.dirname, 'review') }
+]
 
 const homePath = path => path.replace(HOME, '~')
 
-const link = async name => {
-  const source = join(SOURCE_DIR, name)
+const link = async ({ name, source }) => {
   const dest = join(CLAUDE_SKILLS_DIR, name)
   if (!(await fs.stat(source).catch(() => null))) return null
   const existing = await fs.lstat(dest).catch(() => null)
@@ -29,7 +31,7 @@ const link = async name => {
   return { dest, backedUp }
 }
 
-export const installCursorSkills = async ({ task: nest } = {}) => {
+export const installLinkedSkills = async ({ task: nest } = {}) => {
   const step = nest
     ? (title, fn) => nest(title, fn)
     : async (title, fn) => {
@@ -39,11 +41,11 @@ export const installCursorSkills = async ({ task: nest } = {}) => {
 
   await fs.mkdir(CLAUDE_SKILLS_DIR, { recursive: true })
 
-  for (const name of SKILLS) {
-    await step(`Link ~/.claude/skills/${name}`, async ({ setOutput }) => {
-      const result = await link(name)
+  for (const skill of SKILLS) {
+    await step(`Link ~/.claude/skills/${skill.name}`, async ({ setOutput }) => {
+      const result = await link(skill)
       if (!result) {
-        return setOutput(`skipped, no ${homePath(join(SOURCE_DIR, name))}`)
+        return setOutput(`skipped, no ${homePath(skill.source)}`)
       }
       const { dest, backedUp } = result
       setOutput(

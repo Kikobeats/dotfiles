@@ -45,20 +45,23 @@ the tree, since removing it loses nothing. Cached
 clones (`_clone`) are kept for the next review. Run
 `./test/loop-review-prune.sh` to verify.
 
-## Automatic loop review
+## Review command
 
-When a Claude Code session opens a pull request (`gh pr create` or
-`glab mr create`), a `Stop` hook starts `/loop-review <url>` in a Cursor
-`agent` tab in Orca as soon as that turn ends, and switches to it. It skips
-pull requests that are closed or that the session did not create. `node skills/index.mjs` wires it into `~/.claude/settings.json`; see
-`skills/hooks/auto-loop-review/README.md`.
+`/review` in Claude Code starts `/loop-review` in a Cursor `agent` tab in Orca,
+the way it is typed by hand, and switches to that tab:
 
-```bash
-CLAUDE_AUTO_LOOP_REVIEW=off claude           # off for one session
-git config claude.autoLoopReview false       # off for one repo
+```
+/review                  # the pull request of this branch
+/review 2097             # a pull request of this repo by number
+/review <pr url>         # a pull request of this repo by URL
 ```
 
-Run `cd skills && node --test hooks.test.mjs hooks/auto-loop-review` to verify.
+`skills/review/review.mjs` does the work and the model only repeats its one
+line of output. It reads the pull request with `gh` or `glab`, and stops with one
+line saying why when the checkout is not the pull request's repo, the pull
+request is not open, or the checkout is not open in Orca. `node
+skills/index.mjs` links it into `~/.claude/skills/review`. Run `cd skills &&
+node --test` to verify.
 
 ## Contribution stats
 
