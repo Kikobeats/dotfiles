@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, openSync, readFileSync, writeFileSync } from 'no
 import { homedir } from 'node:os'
 import path from 'node:path'
 
-import { createdPullRequests, lastTurn, parseTranscript, stateKey } from './lib.mjs'
+import { createdPullRequests, lastTurn, parseTranscript, pullRequestRepo, remoteRepo, stateKey } from './lib.mjs'
 
 export const STATE_DIR = path.join(homedir(), '.cache', 'auto-loop-review')
 const WAITER = path.join(import.meta.dirname, 'wait.mjs')
@@ -16,27 +16,25 @@ const readStdin = () => {
   }
 }
 
-const gitTopLevel = cwd => {
+const git = (dir, args) => {
   try {
-    return execFileSync('git', ['-C', cwd, 'rev-parse', '--show-toplevel'], { encoding: 'utf8' }).trim()
+    return execFileSync('git', ['-C', dir, ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim()
   } catch {
     return null
   }
 }
 
-const optedOut = tree => {
-  if (process.env.CLAUDE_AUTO_LOOP_REVIEW === 'off') return true
-  try {
-    return execFileSync('git', ['-C', tree, 'config', 'claude.autoLoopReview'], { encoding: 'utf8' }).trim() === 'false'
-  } catch {
-    return false
-  }
-}
+const checkoutOf = (url, dirs) =>
+  dirs
+    .map(dir => git(dir, ['rev-parse', '--show-toplevel']))
+    .find(tree => tree && remoteRepo(git(tree, ['remote', 'get-url', 'origin']) ?? '') === pullRequestRepo(url)) ?? null
 
-const schedule = ({ url, tree, transcriptPath }) => {
+const optedOut = tree => git(tree, ['config', 'claude.autoLoopReview']) === 'false'
+
+const schedule = ({ url, tree, transcriptPath, calledAtMs }) => {
   const stateFile = path.join(STATE_DIR, `${stateKey(url)}.json`)
   if (existsSync(stateFile)) return false
-  writeFileSync(stateFile, JSON.stringify({ url, tree, transcriptPath, scheduledAtMs: Date.now() }, null, 2))
+  writeFileSync(stateFile, JSON.stringify({ url, tree, transcriptPath, calledAtMs, scheduledAtMs: Date.now() }, null, 2))
   const log = openSync(path.join(STATE_DIR, 'waiter.log'), 'a')
   spawn(process.execPath, [WAITER, stateFile], { detached: true, stdio: ['ignore', log, log] }).unref()
   return true
@@ -45,18 +43,22 @@ const schedule = ({ url, tree, transcriptPath }) => {
 const main = () => {
   const { transcript_path: transcriptPath, cwd } = readStdin()
   if (!transcriptPath || !cwd || !existsSync(transcriptPath)) return
-  const tree = gitTopLevel(cwd)
-  if (!tree || optedOut(tree)) return
-  const urls = createdPullRequests(lastTurn(parseTranscript(readFileSync(transcriptPath, 'utf8'))))
-  if (urls.length === 0) return
+  if (process.env.CLAUDE_AUTO_LOOP_REVIEW === 'off') return
+  const created = createdPullRequests(lastTurn(parseTranscript(readFileSync(transcriptPath, 'utf8'))), cwd)
+  if (created.length === 0) return
   mkdirSync(STATE_DIR, { recursive: true })
-  const scheduled = urls.filter(url => schedule({ url, tree, transcriptPath }))
-  if (scheduled.length === 0) return
-  process.stdout.write(
-    JSON.stringify({
-      systemMessage: `loop-review will start in Orca for ${scheduled.join(', ')} once this session has been quiet for 10 minutes. Cancel with: rm ${STATE_DIR}/<file>.json`
-    })
-  )
+  const scheduled = []
+  const noCheckout = []
+  for (const { url, dir, calledAtMs } of created) {
+    const tree = checkoutOf(url, [dir, cwd])
+    if (!tree) noCheckout.push(url)
+    else if (!optedOut(tree) && schedule({ url, tree, transcriptPath, calledAtMs })) scheduled.push(url)
+  }
+  const lines = [
+    scheduled.length && `loop-review will start in Orca for ${scheduled.join(', ')} once this session has been quiet for 10 minutes. Cancel with: rm ${STATE_DIR}/<file>.json`,
+    noCheckout.length && `loop-review not scheduled for ${noCheckout.join(', ')}: no checkout of its repo where it was created.`
+  ].filter(Boolean)
+  if (lines.length) process.stdout.write(JSON.stringify({ systemMessage: lines.join('\n') }))
 }
 
 try {

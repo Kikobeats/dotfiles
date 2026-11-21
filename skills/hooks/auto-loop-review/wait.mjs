@@ -4,7 +4,7 @@ import { homedir } from 'node:os'
 import path from 'node:path'
 import { setTimeout as sleep } from 'node:timers/promises'
 
-import { isQuiet, reviewPrompt, startedByHand } from './lib.mjs'
+import { createdByCall, isQuiet, reviewPrompt, startedByHand } from './lib.mjs'
 
 const QUIET_MS = 10 * 60 * 1000
 const POLL_MS = 30 * 1000
@@ -19,13 +19,15 @@ const writeState = patch => writeFileSync(stateFile, JSON.stringify({ ...readSta
 
 const run = (cmd, args) => execFileSync(cmd, args, { encoding: 'utf8', timeout: 60_000 })
 
-const isOpen = url => {
+const pullRequest = url => {
   const gitlab = url.match(/^https:\/\/gitlab\.com\/(.+)\/-\/merge_requests\/(\d+)$/)
   if (gitlab) {
     const project = encodeURIComponent(gitlab[1])
-    return JSON.parse(run('glab', ['api', `projects/${project}/merge_requests/${gitlab[2]}`])).state === 'opened'
+    const mr = JSON.parse(run('glab', ['api', `projects/${project}/merge_requests/${gitlab[2]}`]))
+    return { open: mr.state === 'opened', createdAtMs: Date.parse(mr.created_at) }
   }
-  return JSON.parse(run('gh', ['pr', 'view', url, '--json', 'state'])).state === 'OPEN'
+  const pr = JSON.parse(run('gh', ['pr', 'view', url, '--json', 'state,createdAt']))
+  return { open: pr.state === 'OPEN', createdAtMs: Date.parse(pr.createdAt) }
 }
 
 const readJson = file => {
@@ -69,13 +71,16 @@ const notify = message => {
 }
 
 const main = async () => {
-  const { scheduledAtMs } = readState()
+  const { url, calledAtMs, scheduledAtMs } = readState()
+  if (calledAtMs && !createdByCall({ createdAtMs: pullRequest(url).createdAtMs, calledAtMs })) {
+    return writeState({ skipped: 'created before the session printed it' }), log('skipped: created before the session printed it')
+  }
   while (Date.now() - scheduledAtMs < MAX_WAIT_MS) {
     await sleep(POLL_MS)
     const state = readState()
     if (!state) return log('cancelled')
     if (!isQuiet({ lastWriteMs: statSync(state.transcriptPath).mtimeMs, nowMs: Date.now(), quietMs: QUIET_MS })) continue
-    if (!isOpen(state.url)) return writeState({ skipped: 'not open' }), log('skipped: not open')
+    if (!pullRequest(state.url).open) return writeState({ skipped: 'not open' }), log('skipped: not open')
     if (startedByHand({ chats: cursorChats(), url: state.url, sinceMs: scheduledAtMs })) {
       return writeState({ skipped: 'started by hand' }), log('skipped: started by hand')
     }
