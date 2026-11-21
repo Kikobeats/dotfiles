@@ -107,17 +107,33 @@ test('a host that fails is asked again, and a deleted file stops the retries', a
 
   const writes = []
   let reads = 0
-  await launch({
+  let loads = 0
+  const stopped = await launch({
     readState: () => {
       reads++
       return reads === 1 ? state() : null
     },
     writeState: patch => writes.push(patch),
     load: () => {
+      loads++
       throw new Error('down')
     }
   })
   assert.deepEqual(writes, [])
+  assert.equal(stopped.paused, 0)
+  assert.equal(loads, 0)
+
+  let late = 0
+  const after = await launch({
+    readState: () => {
+      late++
+      return late < 5 ? state() : null
+    },
+    load: () => {
+      throw new Error('down')
+    }
+  })
+  assert.deepEqual(after.writes, [])
 })
 
 test('a host that stays down records the failure', async () => {

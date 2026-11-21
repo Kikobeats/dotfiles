@@ -71,6 +71,7 @@ test('a create call is found after a push, an env prefix or inside $(...)', () =
 test('a cd inside quotes or a finished subshell does not move the checkout, and a quoted create is not a create', () => {
   assert.equal(createCommandDir('echo "x && cd /wrong" && gh pr create', '/repo'), '/repo')
   assert.equal(createCommandDir('(cd /wrong) && gh pr create', '/repo'), '/repo')
+  assert.equal(createCommandDir(') && gh pr create', '/repo'), '/repo')
   assert.equal(createCommandDir('(cd /wrong && gh pr create)', '/repo'), '/wrong')
   assert.equal(createCommandDir('echo "gh pr create"', '/repo'), null)
 })
