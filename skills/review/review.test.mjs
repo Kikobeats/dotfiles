@@ -1,4 +1,8 @@
 import assert from 'node:assert/strict'
+import { spawnSync } from 'node:child_process'
+import { mkdtempSync, rmSync, symlinkSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import test from 'node:test'
 
 import { launchArgs } from './lib.mjs'
@@ -17,6 +21,22 @@ const review = (over = {}) =>
     launch: () => ({ ok: true }),
     ...over
   })
+
+test('the script runs from its real path and from the skill symlink', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'review-link-'))
+  const link = join(dir, 'review.mjs')
+  symlinkSync(join(import.meta.dirname, 'review.mjs'), link)
+  for (const file of [join(import.meta.dirname, 'review.mjs'), link]) {
+    const result = spawnSync(process.execPath, [file], {
+      encoding: 'utf8',
+      cwd: dir,
+      env: { ...process.env, GIT_CEILING_DIRECTORIES: dir }
+    })
+    assert.notEqual(result.status, 0, file)
+    assert.match(result.stdout, /^review: not in a git checkout/, file)
+  }
+  rmSync(dir, { recursive: true })
+})
 
 test('one argument is the target, and a second is refused', () => {
   assert.deepEqual(targetOf(['node', 'review.mjs']), { ok: true, target: null })

@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process'
-import path from 'node:path'
+import { realpathSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 
 import { forgeOf, isPullRequestUrl, launchArgs, pullRequestRepo, remoteRepo, reviewPrompt } from './lib.mjs'
@@ -89,5 +89,5 @@ const main = () => {
   console.log(result.message)
 }
 
-const direct = process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href
-if (direct) main()
+const invoked = process.argv[1] && import.meta.url === pathToFileURL(realpathSync(process.argv[1])).href
+if (invoked) main()
