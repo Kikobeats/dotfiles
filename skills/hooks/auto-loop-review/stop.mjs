@@ -29,6 +29,19 @@ const checkoutOf = (url, dirs) =>
     .map(dir => git(dir, ['rev-parse', '--show-toplevel']))
     .find(tree => tree && remoteRepo(git(tree, ['remote', 'get-url', 'origin']) ?? '') === pullRequestRepo(url)) ?? null
 
+const openInOrca = tree => {
+  try {
+    const reply = execFileSync('orca', ['worktree', 'show', '--worktree', `path:${tree}`, '--json'], {
+      encoding: 'utf8',
+      timeout: 5_000,
+      stdio: ['ignore', 'pipe', 'ignore']
+    })
+    return JSON.parse(reply).ok === true
+  } catch {
+    return false
+  }
+}
+
 const optedOut = tree => git(tree, ['config', 'claude.autoLoopReview']) === 'false'
 
 const schedule = ({ url, tree, transcriptPath, calledAtMs }) => {
@@ -48,15 +61,17 @@ const main = () => {
   if (created.length === 0) return
   mkdirSync(STATE_DIR, { recursive: true })
   const scheduled = []
-  const noCheckout = []
+  const notScheduled = []
   for (const { url, dir, calledAtMs } of created) {
     const tree = checkoutOf(url, [dir, cwd])
-    if (!tree) noCheckout.push(url)
-    else if (!optedOut(tree) && schedule({ url, tree, transcriptPath, calledAtMs })) scheduled.push(url)
+    if (!tree) notScheduled.push(`${url}: no checkout of its repo where it was created`)
+    else if (optedOut(tree)) continue
+    else if (!openInOrca(tree)) notScheduled.push(`${url}: ${tree} is not open in Orca`)
+    else if (schedule({ url, tree, transcriptPath, calledAtMs })) scheduled.push(url)
   }
   const lines = [
     scheduled.length && `loop-review will start in Orca for ${scheduled.join(', ')} once this session has been quiet for 10 minutes. Cancel with: rm ${STATE_DIR}/<file>.json`,
-    noCheckout.length && `loop-review not scheduled for ${noCheckout.join(', ')}: no checkout of its repo where it was created.`
+    ...notScheduled.map(reason => `loop-review not scheduled for ${reason}.`)
   ].filter(Boolean)
   if (lines.length) process.stdout.write(JSON.stringify({ systemMessage: lines.join('\n') }))
 }

@@ -9,7 +9,8 @@ between 2026-11-08 and 2026-11-21).
   `glab mr create` / `gh pr create` calls that printed a URL. The review runs
   in the checkout the call ran in (its last `cd`, else the session's
   directory), and only if that checkout's `origin` is the pull request's
-  repo; otherwise it says so and schedules nothing. It writes
+  repo and that checkout is open in Orca (`orca worktree show`); otherwise it
+  says so and schedules nothing. It writes
   `~/.cache/auto-loop-review/<url>.json` (one per pull request, so it never
   schedules one twice) and starts `wait.mjs` detached.
 - `wait.mjs` first asks GitHub or GitLab when the pull request was created
