@@ -45,6 +45,24 @@ the tree, since removing it loses nothing. Cached
 clones (`_clone`) are kept for the next review. Run
 `./test/loop-review-prune.sh` to verify.
 
+## Review command
+
+`/review` in Claude Code starts `/loop-review` in a Cursor `agent` tab in Orca,
+the way it is typed by hand, and switches to that tab:
+
+```
+/review                  # the pull request of this branch
+/review 2097             # a pull request of this repo by number
+/review <pr url>         # a pull request of this repo by URL
+```
+
+`skills/review/review.mjs` does the work and the model only repeats its one
+line of output. It reads the pull request with `gh` or `glab`, and stops with one
+line saying why when the checkout is not the pull request's repo, the pull
+request is not open, or the checkout is not open in Orca. `node
+skills/index.mjs` links it into `~/.claude/skills/review`. Run `cd skills &&
+node --test hooks.test.mjs linked-skills.test.mjs review/lib.test.mjs review/review.test.mjs` to verify.
+
 ## Contribution stats
 
 How many commits, pull requests and projects you touched in a period,

@@ -2,7 +2,7 @@ import task from 'tasuku'
 import $ from 'tinyspawn'
 import * as os from 'os'
 import { installClaudeMd } from './claude-md.mjs'
-import { installCursorSkills } from './cursor-skills.mjs'
+import { installLinkedSkills } from './linked-skills.mjs'
 import { installHooks } from './hooks.mjs'
 import { installPstackPlugin } from './pstack.mjs'
 
@@ -49,7 +49,7 @@ await task('Removing all existing skills', async () => {
   await $('npx -y skills remove --all --global --yes')
 })
 
-await task('Linking Cursor skills', installCursorSkills)
+await task('Linking local skills', installLinkedSkills)
 
 const results = await task.group(
   task =>

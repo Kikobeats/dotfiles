@@ -4,13 +4,15 @@ import { join } from 'path'
 
 const HOME = os.homedir()
 const SETTINGS = join(HOME, '.claude', 'settings.json')
-const HOOKS_DIR = join(import.meta.dirname, 'hooks')
+export const HOOKS_DIR = join(import.meta.dirname, 'hooks')
 
-const HOOKS = {
+const nodeCommand = file => `node ${JSON.stringify(join(HOOKS_DIR, file))}`
+
+export const HOOKS = {
   PostToolUse: [
     {
       matcher: 'Edit|Write|MultiEdit',
-      hooks: [{ type: 'command', command: `node ${join(HOOKS_DIR, 'no-comments.mjs')}` }]
+      hooks: [{ type: 'command', command: nodeCommand('no-comments.mjs') }]
     }
   ]
 }
@@ -25,8 +27,31 @@ const readSettings = async () => {
   }
 }
 
-const isOurs = entry =>
-  entry.hooks?.some(hook => hook.command?.includes(HOOKS_DIR))
+const isOurs = hook => hook.command?.includes(HOOKS_DIR)
+
+const withoutOurs = entries =>
+  entries.flatMap(entry => {
+    if (!entry.hooks?.some(isOurs)) return [entry]
+    const hooks = entry.hooks.filter(hook => !isOurs(hook))
+    return hooks.length ? [{ ...entry, hooks }] : []
+  })
+
+export const mergeHooks = (existing = {}, ours = HOOKS) => {
+  const merged = {}
+  for (const event of new Set([...Object.keys(existing), ...Object.keys(ours)])) {
+    const entries = [...withoutOurs(existing[event] ?? []), ...(ours[event] ?? [])]
+    if (entries.length) merged[event] = entries
+  }
+  return merged
+}
+
+const scriptOf = command => command.replace(/^node\s+/, '').replace(/^"(.*)"$/, '$1')
+
+export const hookNames = () =>
+  Object.entries(HOOKS).map(([event, entries]) => {
+    const names = entries.flatMap(entry => entry.hooks.map(hook => scriptOf(hook.command).slice(HOOKS_DIR.length + 1)))
+    return `${event}: ${names.join(', ')}`
+  })
 
 export const installHooks = async ({ task: nest } = {}) => {
   const step = nest
@@ -38,14 +63,8 @@ export const installHooks = async ({ task: nest } = {}) => {
 
   await step(`Link hooks into ${homePath(SETTINGS)}`, async ({ setOutput }) => {
     const settings = await readSettings()
-    const existing = settings.hooks ?? {}
-
-    for (const [event, entries] of Object.entries(HOOKS)) {
-      const theirs = (existing[event] ?? []).filter(entry => !isOurs(entry))
-      existing[event] = [...theirs, ...entries]
-    }
-
-    await fs.writeFile(SETTINGS, `${JSON.stringify({ ...settings, hooks: existing }, null, 2)}\n`)
-    setOutput(Object.keys(HOOKS).map(event => `${event}: no-comments`).join(', '))
+    const hooks = mergeHooks(settings.hooks)
+    await fs.writeFile(SETTINGS, `${JSON.stringify({ ...settings, hooks }, null, 2)}\n`)
+    setOutput(hookNames().join('; '))
   })
 }
